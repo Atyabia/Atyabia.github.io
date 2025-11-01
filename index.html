@@ -1,0 +1,1347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Ali Atyabi - Mechanical Engineer | R&D Researcher | Electrochemical Systems Specialist">
+    <meta name="keywords" content="Ali Atyabi, CFD, PEM fuel cell, Alkaline electrolyzer, COMSOL, ANSYS, Mechanical Engineering">
+    <meta name="author" content="Ali Atyabi">
+    <title>Ali Atyabi, Ph.D. - Mechanical Engineering Researcher</title>
+    
+    <!-- Font Awesome for Professional Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary-color: #2C5F7C;
+            --secondary-color: #4A7C9B;
+            --accent-color: #E8F1F5;
+            --success-color: #28a745;
+            --info-color: #17a2b8;
+            --warning-color: #ffc107;
+            --danger-color: #dc3545;
+            --text-dark: #333;
+            --text-light: #666;
+            --border-color: #ddd;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background: #f8f9fa;
+        }
+        
+        /* Navigation */
+        nav {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        
+        nav .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        nav .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+        
+        nav a {
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s;
+            padding: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+        
+        nav a:hover {
+            color: var(--accent-color);
+            transform: translateY(-2px);
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+        
+        .hero-content {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .hero-image {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            margin: 0 auto 1.5rem;
+            border: 4px solid white;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            overflow: hidden;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .hero-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+        }
+        
+        .hero h1 {
+            font-size: 2.8rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .hero .subtitle {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            opacity: 0.95;
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        
+        .social-links a {
+            color: white;
+            font-size: 1.5rem;
+            transition: transform 0.3s;
+            text-decoration: none;
+            padding: 0.5rem;
+            background: rgba(255,255,255,0.15);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .social-links a:hover {
+            transform: scale(1.2);
+            background: rgba(255,255,255,0.25);
+        }
+        
+        /* Container */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        
+        /* Sections */
+        section {
+            padding: 4rem 2rem;
+        }
+        
+        section:nth-child(even) {
+            background: white;
+        }
+        
+        h2 {
+            font-size: 2.2rem;
+            margin-bottom: 2rem;
+            color: var(--primary-color);
+            border-bottom: 3px solid var(--primary-color);
+            padding-bottom: 0.5rem;
+            display: inline-block;
+        }
+        
+        h3 {
+            color: var(--primary-color);
+            margin-top: 1.5rem;
+            margin-bottom: 1rem;
+            font-size: 1.4rem;
+        }
+        
+        /* Professional Button Styles */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.6rem 1.2rem;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+            cursor: pointer;
+        }
+        
+        .btn-primary {
+            background: var(--primary-color);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(44, 95, 124, 0.4);
+        }
+        
+        .btn-success {
+            background: var(--success-color);
+            color: white;
+        }
+        
+        .btn-success:hover {
+            background: #218838;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(40, 167, 69, 0.4);
+        }
+        
+        .btn-info {
+            background: var(--info-color);
+            color: white;
+        }
+        
+        .btn-info:hover {
+            background: #138496;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(23, 162, 184, 0.4);
+        }
+        
+        .btn-warning {
+            background: var(--warning-color);
+            color: #333;
+        }
+        
+        .btn-warning:hover {
+            background: #e0a800;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255, 193, 7, 0.4);
+        }
+        
+        .btn-danger {
+            background: var(--danger-color);
+            color: white;
+        }
+        
+        .btn-danger:hover {
+            background: #c82333;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(220, 53, 69, 0.4);
+        }
+        
+        .btn-outline {
+            background: transparent;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+        }
+        
+        .btn-outline:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+        
+        .btn-group {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        /* Info Boxes */
+        .info-box {
+            background: linear-gradient(135deg, var(--accent-color) 0%, #f0f7fa 100%);
+            padding: 2rem;
+            border-radius: 10px;
+            border-left: 5px solid var(--primary-color);
+            margin: 2rem 0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .info-box ul {
+            list-style-type: none;
+            padding-left: 0;
+            margin-top: 1rem;
+        }
+        
+        .info-box ul li {
+            padding: 0.5rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+        }
+        
+        .info-box ul li i {
+            color: var(--primary-color);
+            font-size: 1rem;
+        }
+        
+        /* Publications Section */
+        .publication {
+            background: white;
+            padding: 1.8rem;
+            margin-bottom: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            border-left: 5px solid var(--primary-color);
+            transition: all 0.3s;
+            display: flex;
+            gap: 1.5rem;
+        }
+        
+        .publication:hover {
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            transform: translateY(-4px);
+        }
+        
+        .publication-image {
+            width: 180px;
+            height: 180px;
+            min-width: 180px;
+            border-radius: 8px;
+            overflow: hidden;
+            background: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid var(--border-color);
+        }
+        
+        .publication-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+        }
+        
+        .publication-image i {
+            font-size: 3rem;
+            color: var(--text-light);
+        }
+        
+        .publication-content {
+            flex: 1;
+        }
+        
+        .publication-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 0.8rem;
+            line-height: 1.4;
+        }
+        
+        .publication-authors {
+            color: var(--text-dark);
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+        }
+        
+        .publication-journal {
+            color: var(--text-light);
+            font-style: italic;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+        
+        .publication-meta {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            margin-top: 0.8rem;
+            padding-top: 0.8rem;
+            border-top: 1px solid var(--border-color);
+        }
+        
+        .publication-meta span {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.85rem;
+            color: var(--text-light);
+        }
+        
+        .publication-meta span i {
+            color: var(--primary-color);
+        }
+        
+        /* Projects Grid */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .project-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            transition: all 0.3s;
+            border-top: 4px solid var(--primary-color);
+        }
+        
+        .project-card:hover {
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            transform: translateY(-5px);
+        }
+        
+        .project-icon {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+        
+        .project-card h3 {
+            margin-top: 0;
+            margin-bottom: 1rem;
+        }
+        
+        .project-card ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        
+        .project-card ul li {
+            padding: 0.4rem 0;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.6rem;
+        }
+        
+        .project-card ul li i {
+            color: var(--success-color);
+            font-size: 0.8rem;
+            margin-top: 0.3rem;
+        }
+        
+        /* Experience Timeline */
+        .experience-item {
+            background: white;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            border-left: 5px solid var(--primary-color);
+            transition: all 0.3s;
+        }
+        
+        .experience-item:hover {
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            transform: translateX(5px);
+        }
+        
+        .experience-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        .experience-title h3 {
+            margin: 0 0 0.5rem 0;
+        }
+        
+        .experience-company {
+            color: var(--text-light);
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .experience-date {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            white-space: nowrap;
+        }
+        
+        .experience-item ul {
+            margin-top: 1rem;
+            padding-left: 1.5rem;
+        }
+        
+        .experience-item ul li {
+            margin-bottom: 0.6rem;
+            line-height: 1.6;
+        }
+        
+        /* Skills Grid */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .skill-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            transition: all 0.3s;
+        }
+        
+        .skill-card:hover {
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            transform: translateY(-5px);
+        }
+        
+        .skill-card h3 {
+            margin-top: 0;
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .skill-card ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        
+        .skill-card ul li {
+            padding: 0.6rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .skill-card ul li:last-child {
+            border-bottom: none;
+        }
+        
+        .skill-card ul li i {
+            color: var(--success-color);
+            font-size: 0.9rem;
+        }
+        
+        /* Contact Grid */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .contact-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            text-align: center;
+            transition: all 0.3s;
+        }
+        
+        .contact-card:hover {
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            transform: translateY(-5px);
+        }
+        
+        .contact-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            margin: 0 auto 1rem;
+        }
+        
+        .contact-card h3 {
+            margin: 1rem 0 0.5rem 0;
+            font-size: 1.2rem;
+        }
+        
+        .contact-card p {
+            color: var(--text-light);
+            margin-top: 0.5rem;
+        }
+        
+        .contact-card a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        .contact-card a:hover {
+            color: var(--secondary-color);
+            text-decoration: underline;
+        }
+        
+        /* Footer */
+        footer {
+            background: linear-gradient(135deg, var(--primary-color) 0%, #1a3d4f 100%);
+            color: white;
+            text-align: center;
+            padding: 3rem 2rem;
+        }
+        
+        footer a {
+            color: white;
+            text-decoration: none;
+            margin: 0 0.5rem;
+            transition: color 0.3s;
+        }
+        
+        footer a:hover {
+            color: var(--accent-color);
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .hero .subtitle {
+                font-size: 1.1rem;
+            }
+            
+            h2 {
+                font-size: 1.8rem;
+            }
+            
+            .experience-header {
+                flex-direction: column;
+            }
+            
+            .projects-grid,
+            .skills-grid,
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .publication {
+                flex-direction: column;
+            }
+            
+            .publication-image {
+                width: 100%;
+                height: 220px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="container">
+            <div class="logo">
+                <i class="fas fa-atom"></i> Ali Atyabi, Ph.D.
+            </div>
+            <ul>
+                <li><a href="#about"><i class="fas fa-user"></i> About</a></li>
+                <li><a href="#publications"><i class="fas fa-book"></i> Publications</a></li>
+                <li><a href="#projects"><i class="fas fa-flask"></i> Research</a></li>
+                <li><a href="#experience"><i class="fas fa-briefcase"></i> Experience</a></li>
+                <li><a href="#skills"><i class="fas fa-code"></i> Skills</a></li>
+                <li><a href="#education"><i class="fas fa-graduation-cap"></i> Education</a></li>
+                <li><a href="#contact"><i class="fas fa-envelope"></i> Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-image">
+                <img src="https://via.placeholder.com/180" alt="Ali Atyabi">
+            </div>
+            <h1>Ali Atyabi, Ph.D.</h1>
+            <p class="subtitle">Post-Doctoral Researcher | Mechanical Engineering</p>
+            <p>CFD Simulation Expert | Electrochemical Systems | Sustainable Energy Technologies</p>
+            
+            <div class="social-links">
+                <a href="https://scholar.google.com/citations?user=MytiTgsAAAAJ" target="_blank" title="Google Scholar">
+                    <i class="fas fa-graduation-cap"></i>
+                </a>
+                <a href="https://www.researchgate.net/profile/Ali-Atyabi" target="_blank" title="ResearchGate">
+                    <i class="fab fa-researchgate"></i>
+                </a>
+                <a href="https://linkedin.com/in/s-ali-atyabi" target="_blank" title="LinkedIn">
+                    <i class="fab fa-linkedin-in"></i>
+                </a>
+                <a href="mailto:atyabi902@gmail.com" title="Email">
+                    <i class="far fa-envelope"></i>
+                </a>
+                <a href="https://sites.google.com/view/ali-atyabi" target="_blank" title="Personal Website">
+                    <i class="fas fa-globe"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about">
+        <div class="container">
+            <h2><i class="fas fa-user-circle"></i> About Me</h2>
+            
+            <div class="info-box">
+                <p style="font-size: 1.1rem; line-height: 1.8;">
+                    I am a <strong>Post-Doctoral Researcher</strong> specializing in <strong>Computational Fluid Dynamics (CFD)</strong> 
+                    and <strong>electrochemical systems</strong> with over <strong>9 years</strong> of hands-on research experience. 
+                    My expertise lies in numerical modeling, simulation, and optimization of sustainable energy technologies including 
+                    <strong>PEM fuel cells</strong>, <strong>alkaline water electrolyzers</strong>, and <strong>Li-ion batteries</strong>.
+                </p>
+            </div>
+
+            <div class="info-box">
+                <h3><i class="fas fa-trophy"></i> Key Highlights</h3>
+                <ul>
+                    <li><i class="fas fa-check-circle"></i> <strong>594 Citations</strong> on Google Scholar</li>
+                    <li><i class="fas fa-check-circle"></i> <strong>9+ peer-reviewed publications</strong> in high-impact journals (Q1 & Q2)</li>
+                    <li><i class="fas fa-check-circle"></i> <strong>Expert in COMSOL, ANSYS Fluent, and MATLAB</strong></li>
+                    <li><i class="fas fa-check-circle"></i> <strong>Ph.D. in Energy Conversion</strong> with focus on PEM fuel cell optimization</li>
+                    <li><i class="fas fa-check-circle"></i> <strong>Current role:</strong> Postdoc at VITO, Belgium (Energy Technology)</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Publications Section -->
+    <section id="publications" style="background: white;">
+        <div class="container">
+            <h2><i class="fas fa-book-open"></i> Selected Publications</h2>
+            <p style="margin-bottom: 2rem; color: var(--text-light);">
+                <i class="fas fa-graduation-cap"></i> Total Citations: <strong>594</strong> | 
+                <i class="fas fa-chart-line"></i> h-index: <strong>9</strong> |
+                <a href="https://scholar.google.com/citations?user=MytiTgsAAAAJ" target="_blank" class="btn btn-success" style="margin-left: 1rem;">
+                    <i class="fas fa-external-link-alt"></i> View All on Google Scholar
+                </a>
+            </p>
+
+            <!-- Publication 1 -->
+            <div class="publication">
+                <div class="publication-image">
+                    <img src="https://via.placeholder.com/180x180/2C5F7C/ffffff?text=Paper+1" alt="Honeycomb Flow Field Study">
+                </div>
+                <div class="publication-content">
+                    <div class="publication-title">
+                        Three-dimensional multiphase model of proton exchange membrane fuel cell with Honeycomb flow field at the cathode side
+                    </div>
+                    <div class="publication-authors">
+                        <strong>Ali Atyabi</strong>, Ebrahim Afshari
+                    </div>
+                    <div class="publication-journal">
+                        Journal of Cleaner Production, 2019
+                    </div>
+                    <div class="publication-meta">
+                        <span><i class="fas fa-quote-left"></i> 135+ Citations</span>
+                        <span><i class="fas fa-star"></i> Q1 Journal</span>
+                        <span><i class="fas fa-calendar"></i> 2019</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Publication 2 -->
+            <div class="publication">
+                <div class="publication-image">
+                    <img src="https://via.placeholder.com/180x180/4A7C9B/ffffff?text=Paper+2" alt="Membrane Humidifier Study">
+                </div>
+                <div class="publication-content">
+                    <div class="publication-title">
+                        Three-dimensional multiphase flow modeling of membrane humidifier for PEM fuel cell application
+                    </div>
+                    <div class="publication-authors">
+                        <strong>Seyed Ali Atyabi</strong>, Ebrahim Afshari, Mohammad Yaghoub Abdollahzadeh Jamalabadi
+                    </div>
+                    <div class="publication-journal">
+                        International Journal of Numerical Methods for Heat & Fluid Flow, 2020
+                    </div>
+                    <div class="publication-meta">
+                        <span><i class="fas fa-quote-left"></i> 85+ Citations</span>
+                        <span><i class="fas fa-star"></i> Q1 Journal</span>
+                        <span><i class="fas fa-calendar"></i> 2020</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Publication 3 -->
+            <div class="publication">
+                <div class="publication-image">
+                    <img src="https://via.placeholder.com/180x180/5A8CAC/ffffff?text=Paper+3" alt="Air-Cooled PEM Study">
+                </div>
+                <div class="publication-content">
+                    <div class="publication-title">
+                        Modeling of the air-cooled PEM fuel cell: Comparison of active and passive cooling methods
+                    </div>
+                    <div class="publication-authors">
+                        <strong>Ali Atyabi</strong>, Ebrahim Afshari, Chinonyelum Udemu
+                    </div>
+                    <div class="publication-journal">
+                        Energy Research Journal, 2019
+                    </div>
+                    <div class="publication-meta">
+                        <span><i class="fas fa-quote-left"></i> 45+ Citations</span>
+                        <span><i class="fas fa-star"></i> Q2 Journal</span>
+                        <span><i class="fas fa-calendar"></i> 2019</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Publication 4 -->
+            <div class="publication">
+                <div class="publication-image">
+                    <img src="https://via.placeholder.com/180x180/6A9CBC/ffffff?text=Paper+4" alt="UAV Fuel Cell Study">
+                </div>
+                <div class="publication-content">
+                    <div class="publication-title">
+                        Enhancing the Specific Power of a PEM Fuel Cell Powered UAV with a Novel Bean-Shaped Flow Field
+                    </div>
+                    <div class="publication-authors">
+                        Somayeh Toghyani, <strong>Seyed Ali Atyabi</strong>, Xin Gao
+                    </div>
+                    <div class="publication-journal">
+                        Energies, 2021
+                    </div>
+                    <div class="publication-meta">
+                        <span><i class="fas fa-quote-left"></i> 62+ Citations</span>
+                        <span><i class="fas fa-star"></i> Q1 Journal</span>
+                        <span><i class="fas fa-calendar"></i> 2021</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Publication 5 -->
+            <div class="publication">
+                <div class="publication-image">
+                    <img src="https://via.placeholder.com/180x180/7AACCC/ffffff?text=Paper+5" alt="Book Chapter">
+                </div>
+                <div class="publication-content">
+                    <div class="publication-title">
+                        Configuration of proton exchange membrane fuel cell gas and cooling flow fields
+                    </div>
+                    <div class="publication-authors">
+                        Ebrahim Afshari, Nabi Jahantigh, <strong>Seyed Ali Atyabi</strong>
+                    </div>
+                    <div class="publication-journal">
+                        Book Chapter in "PEM Fuel Cells: Fundamentals, Advanced Technologies, and Practical Application", Elsevier, 2021
+                    </div>
+                    <div class="publication-meta">
+                        <span><i class="fas fa-book"></i> Book Chapter</span>
+                        <span><i class="fas fa-building"></i> Elsevier</span>
+                        <span><i class="fas fa-calendar"></i> 2021</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Publication 6 -->
+            <div class="publication">
+                <div class="publication-image">
+                    <img src="https://via.placeholder.com/180x180/8ABCDC/ffffff?text=Paper+6" alt="Heat Pipe Study">
+                </div>
+                <div class="publication-content">
+                    <div class="publication-title">
+                        Numerical Modeling of Heat Pipe for Use in PEM Fuel Cell Cooling
+                    </div>
+                    <div class="publication-authors">
+                        Negar Shakarami, Ebrahim Afshari, Ehsan Baniasadi, Saeed Asghari, <strong>Seyed Ali Atyabi</strong>
+                    </div>
+                    <div class="publication-journal">
+                        Journal of Mechanical Engineering, 2022
+                    </div>
+                    <div class="publication-meta">
+                        <span><i class="fas fa-quote-left"></i> 28+ Citations</span>
+                        <span><i class="fas fa-star"></i> Q2 Journal</span>
+                        <span><i class="fas fa-calendar"></i> 2022</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-box" style="margin-top: 3rem;">
+                <h3><i class="fas fa-lightbulb"></i> Research Impact</h3>
+                <p style="margin-top: 1rem; line-height: 1.8;">
+                    My research has contributed significantly to advancing the understanding of electrochemical systems through 
+                    innovative CFD modeling approaches. Key contributions include novel flow field designs for fuel cells, 
+                    comprehensive thermal management strategies, and optimization methodologies that have been widely cited 
+                    by researchers worldwide.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Research Projects Section -->
+    <section id="projects">
+        <div class="container">
+            <h2><i class="fas fa-flask"></i> Research Projects & Expertise</h2>
+            
+            <div class="projects-grid">
+                <div class="project-card">
+                    <div class="project-icon"><i class="fas fa-battery-full"></i></div>
+                    <h3>PEM Fuel Cell Modeling</h3>
+                    <ul>
+                        <li><i class="fas fa-check"></i> 3D multiphase CFD modeling</li>
+                        <li><i class="fas fa-check"></i> Novel flow field designs (Honeycomb, Bean-shaped)</li>
+                        <li><i class="fas fa-check"></i> Thermal management optimization</li>
+                        <li><i class="fas fa-check"></i> Water and heat distribution analysis</li>
+                        <li><i class="fas fa-check"></i> Performance optimization using genetic algorithms</li>
+                    </ul>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-icon"><i class="fas fa-tint"></i></div>
+                    <h3>Alkaline Water Electrolyzer</h3>
+                    <ul>
+                        <li><i class="fas fa-check"></i> Hydrogen production modeling</li>
+                        <li><i class="fas fa-check"></i> Operating parameter optimization</li>
+                        <li><i class="fas fa-check"></i> Energy and exergy analysis</li>
+                        <li><i class="fas fa-check"></i> Solar-powered system integration</li>
+                        <li><i class="fas fa-check"></i> Taguchi method optimization</li>
+                    </ul>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-icon"><i class="fas fa-car-battery"></i></div>
+                    <h3>Li-ion Battery Systems</h3>
+                    <ul>
+                        <li><i class="fas fa-check"></i> Thermal modeling and management</li>
+                        <li><i class="fas fa-check"></i> Performance simulation</li>
+                        <li><i class="fas fa-check"></i> Safety analysis</li>
+                        <li><i class="fas fa-check"></i> Multi-physics coupling</li>
+                        <li><i class="fas fa-check"></i> Cooling system design</li>
+                    </ul>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-icon"><i class="fas fa-wind"></i></div>
+                    <h3>Membrane Humidifiers</h3>
+                    <ul>
+                        <li><i class="fas fa-check"></i> Gas-to-gas heat & mass transfer</li>
+                        <li><i class="fas fa-check"></i> Cross-flow & counter-flow designs</li>
+                        <li><i class="fas fa-check"></i> Water recovery optimization</li>
+                        <li><i class="fas fa-check"></i> Automotive applications</li>
+                        <li><i class="fas fa-check"></i> Experimental validation</li>
+                    </ul>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-icon"><i class="fas fa-sun"></i></div>
+                    <h3>Renewable Energy Systems</h3>
+                    <ul>
+                        <li><i class="fas fa-check"></i> Solar parabolic trough collectors</li>
+                        <li><i class="fas fa-check"></i> Hybrid energy systems</li>
+                        <li><i class="fas fa-check"></i> Energy storage integration</li>
+                        <li><i class="fas fa-check"></i> Combined cooling & power</li>
+                        <li><i class="fas fa-check"></i> Techno-economic analysis</li>
+                    </ul>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-icon"><i class="fas fa-brain"></i></div>
+                    <h3>Optimization & AI</h3>
+                    <ul>
+                        <li><i class="fas fa-check"></i> Genetic algorithms</li>
+                        <li><i class="fas fa-check"></i> Multi-objective optimization</li>
+                        <li><i class="fas fa-check"></i> Artificial neural networks</li>
+                        <li><i class="fas fa-check"></i> Taguchi method</li>
+                        <li><i class="fas fa-check"></i> Response surface methodology</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section id="experience" style="background: white;">
+        <div class="container">
+            <h2><i class="fas fa-briefcase"></i> Professional Experience</h2>
+            
+            <div class="experience-item">
+                <div class="experience-header">
+                    <div class="experience-title">
+                        <h3>Post-Doctoral Researcher</h3>
+                        <div class="experience-company">
+                            <i class="fas fa-building"></i> VITO (Flemish Institute for Technological Research), Belgium
+                        </div>
+                    </div>
+                    <div class="experience-date">
+                        <i class="far fa-calendar-alt"></i> October 2022 – Present
+                    </div>
+                </div>
+                <ul>
+                    <li>Conducting advanced research on alkaline water electrolyzers for hydrogen production</li>
+                    <li>Developing comprehensive CFD models using COMSOL Multiphysics</li>
+                    <li>Optimizing electrochemical system performance through multi-physics simulation</li>
+                    <li>Collaborating with international research teams on sustainable energy projects</li>
+                    <li>Publishing research findings in high-impact scientific journals</li>
+                </ul>
+            </div>
+
+            <div class="experience-item">
+                <div class="experience-header">
+                    <div class="experience-title">
+                        <h3>Post-Doctoral Researcher</h3>
+                        <div class="experience-company">
+                            <i class="fas fa-university"></i> KU Leuven, Belgium
+                        </div>
+                    </div>
+                    <div class="experience-date">
+                        <i class="far fa-calendar-alt"></i> December 2019 – September 2022
+                    </div>
+                </div>
+                <ul>
+                    <li>Led research on Li-ion battery thermal management and safety</li>
+                    <li>Developed advanced numerical models for electrochemical systems</li>
+                    <li>Performed sensitivity analysis and multi-objective optimization</li>
+                    <li>Supervised master's students on battery modeling projects</li>
+                    <li>Contributed to EU-funded research projects on sustainable energy</li>
+                </ul>
+            </div>
+
+            <div class="experience-item">
+                <div class="experience-header">
+                    <div class="experience-title">
+                        <h3>Research Associate & Ph.D. Candidate</h3>
+                        <div class="experience-company">
+                            <i class="fas fa-university"></i> University of Isfahan, Iran
+                        </div>
+                    </div>
+                    <div class="experience-date">
+                        <i class="far fa-calendar-alt"></i> 2014 – 2019
+                    </div>
+                </div>
+                <ul>
+                    <li>Completed Ph.D. dissertation on PEM fuel cell modeling and optimization</li>
+                    <li>Published 8 peer-reviewed journal papers (135+ total citations)</li>
+                    <li>Developed novel honeycomb flow field design for improved fuel cell performance</li>
+                    <li>Implemented genetic algorithm optimization for fuel cell vehicles</li>
+                    <li>Mastered ANSYS Fluent, MATLAB, and advanced CFD techniques</li>
+                </ul>
+            </div>
+
+            <div class="experience-item">
+                <div class="experience-header">
+                    <div class="experience-title">
+                        <h3>Teaching & Research Assistant</h3>
+                        <div class="experience-company">
+                            <i class="fas fa-university"></i> Isfahan University of Technology, Iran
+                        </div>
+                    </div>
+                    <div class="experience-date">
+                        <i class="far fa-calendar-alt"></i> 2010 – 2013
+                    </div>
+                </div>
+                <ul>
+                    <li>Conducted M.Sc. research on PEM fuel cell stack modeling</li>
+                    <li>Assisted in teaching thermodynamics and heat transfer courses</li>
+                    <li>Mentored undergraduate students in laboratory experiments</li>
+                    <li>Developed CFD models for honeycomb flow field validation</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills">
+        <div class="container">
+            <h2><i class="fas fa-tools"></i> Technical Skills & Competencies</h2>
+            
+            <div class="skills-grid">
+                <div class="skill-card">
+                    <h3><i class="fas fa-laptop-code"></i> Simulation Software</h3>
+                    <ul>
+                        <li><i class="fas fa-check-circle"></i> COMSOL Multiphysics (Expert)</li>
+                        <li><i class="fas fa-check-circle"></i> ANSYS Fluent (Expert)</li>
+                        <li><i class="fas fa-check-circle"></i> ANSYS CFD-Post</li>
+                        <li><i class="fas fa-check-circle"></i> MATLAB & Simulink</li>
+                        <li><i class="fas fa-check-circle"></i> Tecplot</li>
+                        <li><i class="fas fa-check-circle"></i> ParaView</li>
+                    </ul>
+                </div>
+
+                <div class="skill-card">
+                    <h3><i class="fas fa-microscope"></i> Research Areas</h3>
+                    <ul>
+                        <li><i class="fas fa-check-circle"></i> Computational Fluid Dynamics (CFD)</li>
+                        <li><i class="fas fa-check-circle"></i> Electrochemical Systems</li>
+                        <li><i class="fas fa-check-circle"></i> Multiphase Flow</li>
+                        <li><i class="fas fa-check-circle"></i> Heat & Mass Transfer</li>
+                        <li><i class="fas fa-check-circle"></i> Thermodynamic Analysis</li>
+                        <li><i class="fas fa-check-circle"></i> Energy Conversion</li>
+                    </ul>
+                </div>
+
+                <div class="skill-card">
+                    <h3><i class="fas fa-code"></i> Programming & Scripting</h3>
+                    <ul>
+                        <li><i class="fas fa-check-circle"></i> MATLAB (Advanced)</li>
+                        <li><i class="fas fa-check-circle"></i> Python (Intermediate)</li>
+                        <li><i class="fas fa-check-circle"></i> UDF in ANSYS Fluent</li>
+                        <li><i class="fas fa-check-circle"></i> COMSOL Scripting</li>
+                        <li><i class="fas fa-check-circle"></i> Data Analysis & Visualization</li>
+                        <li><i class="fas fa-check-circle"></i> LaTeX for Scientific Writing</li>
+                    </ul>
+                </div>
+
+                <div class="skill-card">
+                    <h3><i class="fas fa-project-diagram"></i> Optimization Methods</h3>
+                    <ul>
+                        <li><i class="fas fa-check-circle"></i> Genetic Algorithms</li>
+                        <li><i class="fas fa-check-circle"></i> Multi-Objective Optimization</li>
+                        <li><i class="fas fa-check-circle"></i> Taguchi Method</li>
+                        <li><i class="fas fa-check-circle"></i> Response Surface Methodology</li>
+                        <li><i class="fas fa-check-circle"></i> Sensitivity Analysis</li>
+                        <li><i class="fas fa-check-circle"></i> Artificial Neural Networks</li>
+                    </ul>
+                </div>
+
+                <div class="skill-card">
+                    <h3><i class="fas fa-atom"></i> Energy Technologies</h3>
+                    <ul>
+                        <li><i class="fas fa-check-circle"></i> PEM Fuel Cells</li>
+                        <li><i class="fas fa-check-circle"></i> Alkaline Water Electrolyzers</li>
+                        <li><i class="fas fa-check-circle"></i> Li-ion Batteries</li>
+                        <li><i class="fas fa-check-circle"></i> Membrane Humidifiers</li>
+                        <li><i class="fas fa-check-circle"></i> Solar Thermal Systems</li>
+                        <li><i class="fas fa-check-circle"></i> Hydrogen Production & Storage</li>
+                    </ul>
+                </div>
+
+                <div class="skill-card">
+                    <h3><i class="fas fa-certificate"></i> Additional Skills</h3>
+                    <ul>
+                        <li><i class="fas fa-check-circle"></i> Technical Presentation</li>
+                        <li><i class="fas fa-check-circle"></i> Project Management</li>
+                        <li><i class="fas fa-check-circle"></i> Academic Writing</li>
+                        <li><i class="fas fa-check-circle"></i> Peer Review</li>
+                        <li><i class="fas fa-check-circle"></i> Team Collaboration</li>
+                        <li><i class="fas fa-check-circle"></i> Literature Review</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Education Section -->
+    <section id="education" style="background: white;">
+        <div class="container">
+            <h2><i class="fas fa-user-graduate"></i> Education</h2>
+            
+            <div class="experience-item">
+                <div class="experience-header">
+                    <div class="experience-title">
+                        <h3>Ph.D. in Mechanical Engineering (Energy Conversion)</h3>
+                        <div class="experience-company">
+                            <i class="fas fa-university"></i> University of Isfahan, Isfahan, Iran
+                        </div>
+                    </div>
+                    <div class="experience-date">
+                        <i class="far fa-calendar-alt"></i> 2014 – 2019
+                    </div>
+                </div>
+                <p style="margin-top: 1rem;"><strong><i class="fas fa-book"></i> Dissertation:</strong> Numerical and thermodynamic modeling and optimization of power generation system in a PEM fuel cell vehicle using multi-objective optimization with genetic algorithms.</p>
+                <p style="margin-top: 0.5rem;"><strong><i class="fas fa-tools"></i> Tools:</strong> ANSYS Fluent, MATLAB, Genetic Algorithms</p>
+                <p style="margin-top: 0.5rem;"><strong><i class="fas fa-trophy"></i> Achievement:</strong> Published 8 journal papers, 135+ citations</p>
+            </div>
+
+            <div class="experience-item">
+                <div class="experience-header">
+                    <div class="experience-title">
+                        <h3>M.Sc. in Mechanical Engineering (Energy Conversion)</h3>
+                        <div class="experience-company">
+                            <i class="fas fa-university"></i> Isfahan University of Technology, Isfahan, Iran
+                        </div>
+                    </div>
+                    <div class="experience-date">
+                        <i class="far fa-calendar-alt"></i> 2010 – 2013
+                    </div>
+                </div>
+                <p style="margin-top: 1rem;"><strong><i class="fas fa-book"></i> Thesis:</strong> Numerical modeling of honeycomb flow field for PEM fuel cell stack</p>
+                <p style="margin-top: 0.5rem;"><strong><i class="fas fa-tools"></i> Tools:</strong> ANSYS Fluent, CFD-Post</p>
+                <p style="margin-top: 0.5rem;"><strong><i class="fas fa-trophy"></i> Achievement:</strong> 40+ citations, Novel flow field design</p>
+            </div>
+
+            <div class="experience-item">
+                <div class="experience-header">
+                    <div class="experience-title">
+                        <h3>B.Sc. in Mechanical Engineering (Solid Mechanics)</h3>
+                        <div class="experience-company">
+                            <i class="fas fa-university"></i> Isfahan University of Technology, Isfahan, Iran
+                        </div>
+                    </div>
+                    <div class="experience-date">
+                        <i class="far fa-calendar-alt"></i> 2005 – 2009
+                    </div>
+                </div>
+                <p style="margin-top: 1rem;"><strong><i class="fas fa-cogs"></i> Foundation:</strong> Strong fundamentals in mechanics, thermodynamics, and engineering mathematics</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact">
+        <div class="container">
+            <h2><i class="far fa-address-card"></i> Contact Information</h2>
+            
+            <div class="contact-grid">
+                <div class="contact-card">
+                    <div class="contact-icon"><i class="far fa-envelope"></i></div>
+                    <h3>Email</h3>
+                    <p><a href="mailto:atyabi902@gmail.com">atyabi902@gmail.com</a></p>
+                </div>
+                
+                <div class="contact-card">
+                    <div class="contact-icon"><i class="fas fa-mobile-alt"></i></div>
+                    <h3>Phone</h3>
+                    <p><a href="tel:+32484645223">+32 484 645 223</a></p>
+                </div>
+                
+                <div class="contact-card">
+                    <div class="contact-icon"><i class="fab fa-linkedin-in"></i></div>
+                    <h3>LinkedIn</h3>
+                    <p><a href="https://linkedin.com/in/s-ali-atyabi" target="_blank">s-ali-atyabi</a></p>
+                </div>
+                
+                <div class="contact-card">
+                    <div class="contact-icon"><i class="fas fa-graduation-cap"></i></div>
+                    <h3>Google Scholar</h3>
+                    <p><a href="https://scholar.google.com/citations?user=MytiTgsAAAAJ" target="_blank">594 Citations</a></p>
+                </div>
+                
+                <div class="contact-card">
+                    <div class="contact-icon"><i class="fas fa-globe"></i></div>
+                    <h3>Personal Website</h3>
+                    <p><a href="https://sites.google.com/view/ali-atyabi" target="_blank">View Portfolio</a></p>
+                </div>
+                
+                <div class="contact-card">
+                    <div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div>
+                    <h3>Location</h3>
+                    <p>Leuven, Belgium</p>
+                    <p style="font-size: 0.9rem; margin-top: 0.5rem;">
+                        <i class="fas fa-car"></i> Driver's License: B
+                    </p>
+                </div>
+            </div>
+
+            <div class="info-box" style="margin-top: 3rem;">
+                <h3><i class="fas fa-handshake"></i> Open to Collaboration</h3>
+                <p style="margin-top: 1rem; line-height: 1.8;">
+                    Interested in research collaborations, consulting opportunities, and postdoctoral positions in CFD modeling, 
+                    electrochemical systems, and sustainable energy technologies. Let's connect and discuss potential projects!
+                </p>
+                <div class="btn-group" style="margin-top: 1.5rem;">
+                    <a href="mailto:atyabi902@gmail.com" class="btn btn-primary">
+                        <i class="far fa-envelope"></i> Get in Touch
+                    </a>
+                    <a href="https://linkedin.com/in/s-ali-atyabi" target="_blank" class="btn btn-info">
+                        <i class="fab fa-linkedin-in"></i> Connect on LinkedIn
+                    </a>
+                    <a href="https://scholar.google.com/citations?user=MytiTgsAAAAJ" target="_blank" class="btn btn-success">
+                        <i class="fas fa-graduation-cap"></i> View Publications
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <h3 style="margin-bottom: 1rem; color: white;">
+                <i class="fas fa-atom"></i> Ali Atyabi, Ph.D.
+            </h3>
+            <p>Mechanical Engineer | R&D Researcher | CFD Simulation Expert</p>
+            <p style="margin-top: 0.5rem;">594 Citations | 9+ Years Experience | Sustainable Energy Technologies</p>
+            
+            <div style="margin-top: 2rem;">
+                <a href="https://scholar.google.com/citations?user=MytiTgsAAAAJ" target="_blank">
+                    <i class="fas fa-graduation-cap"></i> Google Scholar
+                </a> | 
+                <a href="https://www.researchgate.net/profile/Ali-Atyabi" target="_blank">
+                    <i class="fab fa-researchgate"></i> ResearchGate
+                </a> | 
+                <a href="https://linkedin.com/in/s-ali-atyabi" target="_blank">
+                    <i class="fab fa-linkedin-in"></i> LinkedIn
+                </a> | 
+                <a href="mailto:atyabi902@gmail.com">
+                    <i class="far fa-envelope"></i> Email
+                </a>
+            </div>
+            
+            <p style="margin-top: 2rem; font-size: 0.9rem; opacity: 0.8;">
+                © 2024 Ali Atyabi. All rights reserved.
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe elements
+        document.querySelectorAll('.publication, .project-card, .experience-item, .skill-card, .contact-card').forEach(element => {
+            element.style.opacity = '0';
+            element.style.transform = 'translateY(20px)';
+            element.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(element);
+        });
+    </script>
+</body>
+</html>
