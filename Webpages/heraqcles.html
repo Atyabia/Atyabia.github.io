@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Alkaline Electrolyzer Optimization - Advanced 3D Multiphysics Modeling for Green Hydrogen Production">
+    <meta name="author" content="Ali Atyabi">
+    <title>Alkaline Electrolyzer Optimization | Ali Atyabi, Ph.D.</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary-color: #2C5F7C;
+            --secondary-color: #4A7C9B;
+            --accent-color: #E8F1F5;
+            --success-color: #28a745;
+            --text-dark: #333;
+            --text-light: #666;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background: #f8f9fa;
+        }
+        
+        /* Navigation */
+        nav {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        
+        nav .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        nav .logo {
+            font-size: 1.3rem;
+            font-weight: bold;
+        }
+        
+        nav a {
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s;
+            padding: 0.5rem;
+        }
+        
+        nav a:hover {
+            color: var(--accent-color);
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+        
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            opacity: 0.95;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        
+        /* Main Content */
+        .content {
+            background: white;
+            margin: -2rem auto 3rem;
+            padding: 3rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            max-width: 1200px;
+        }
+        
+        section {
+            margin-bottom: 3rem;
+        }
+        
+        h2 {
+            color: var(--primary-color);
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 3px solid var(--primary-color);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        h3 {
+            color: var(--primary-color);
+            font-size: 1.4rem;
+            margin: 2rem 0 1rem;
+        }
+        
+        p {
+            margin-bottom: 1rem;
+            line-height: 1.8;
+            color: var(--text-light);
+        }
+        
+        /* Image Cards Grid */
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .image-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .image-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+        
+        .image-placeholder {
+            width: 100%;
+            height: 250px;
+            background: linear-gradient(135deg, var(--accent-color) 0%, #d4e8f0 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-color);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .image-placeholder img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            display: block;
+        }
+        
+        .image-placeholder i {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+            opacity: 0.6;
+        }
+        
+        .image-card-content {
+            padding: 1.5rem;
+        }
+        
+        .image-card-content h4 {
+            color: var(--primary-color);
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .image-card-content p {
+            font-size: 0.95rem;
+            margin: 0;
+        }
+        
+        /* Info Box */
+        .info-box {
+            background: var(--accent-color);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-left: 5px solid var(--primary-color);
+            margin: 1.5rem 0;
+        }
+        
+        .success-box {
+            background: #d4edda;
+            border-left-color: var(--success-color);
+        }
+        
+        /* Lists */
+        ul {
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        li {
+            margin-bottom: 0.5rem;
+            line-height: 1.6;
+        }
+        
+        /* Buttons */
+        .btn-group {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-top: 1.5rem;
+        }
+        
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.8rem 1.5rem;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+        
+        .btn-primary {
+            background: var(--primary-color);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+        
+        .btn-success {
+            background: var(--success-color);
+            color: white;
+        }
+        
+        .btn-success:hover {
+            background: #218838;
+            transform: translateY(-2px);
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--primary-color);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+        
+        footer a {
+            color: white;
+            text-decoration: none;
+            margin: 0 0.5rem;
+        }
+        
+        footer a:hover {
+            color: var(--accent-color);
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .content {
+                padding: 2rem 1.5rem;
+            }
+            
+            .image-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="container">
+            <div class="logo">
+                <i class="fas fa-atom"></i> Ali Atyabi, Ph.D.
+            </div>
+            <a href="https://atyabia.github.io/index.html">
+                <i class="fas fa-home"></i> Back to Portfolio
+            </a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="hero">
+        <h1>Alkaline Electrolyzer Optimization</h1>
+        <p>Advanced 3D multiphysics modeling for enhanced green hydrogen production efficiency</p>
+    </div>
+
+    <!-- Main Content -->
+    <div class="content container">
+
+        <!-- Overview Section -->
+        <section id="overview">
+            <h2><i class="fas fa-info-circle"></i> Project Overview</h2>
+            
+            <p>
+                This research focuses on developing comprehensive 3D multiphysics models for alkaline water electrolyzers 
+                using COMSOL Multiphysics. The project integrates electrochemistry, fluid dynamics, heat transfer, and 
+                species transport to optimize hydrogen production efficiency. Through systematic parametric studies, 
+                the work identifies optimal operating conditions and design configurations that enhance performance 
+                by up to 15% compared to conventional systems.
+            </p>
+
+            <div class="success-box info-box">
+                <h4><i class="fas fa-star"></i> Key Achievement</h4>
+                <p style="margin: 0;">
+                    Developed novel flow field designs and electrode configurations that significantly improve current 
+                    distribution uniformity, reduce ohmic losses, and enhance overall system efficiency while maintaining 
+                    cost-effectiveness for industrial applications.
+                </p>
+            </div>
+        </section>
+
+        <!-- Visual Results Section with Image Cards -->
+        <section id="results">
+            <h2><i class="fas fa-images"></i> Visual Results & Analysis</h2>
+            
+            <div class="image-grid">
+                <!-- Image Card 1 -->
+                <div class="image-card">
+                    <div class="image-placeholder">
+                        <img src="/Webpages/photos/heraqcles.jpeg" alt="Electrolyzer Schematic">
+                        <!-- If no image, show placeholder icon -->
+                        <!-- <i class="fas fa-project-diagram"></i> -->
+                    </div>
+                    <div class="image-card-content">
+                        <h4>Figure 1: 3D Geometry & Physics Domains</h4>
+                        <p>Schematic representation of the alkaline electrolyzer model showing coupled multiphysics domains including electrochemistry, CFD, and heat transfer.</p>
+                    </div>
+                </div>
+
+                <!-- Image Card 2 -->
+                <div class="image-card">
+                    <div class="image-placeholder">
+                        <img src="/Webpages/photos/heraqcles.jpeg" alt="Current Density Distribution">
+                        <!-- <i class="fas fa-bolt"></i> -->
+                    </div>
+                    <div class="image-card-content">
+                        <h4>Figure 2: Current Density Distribution</h4>
+                        <p>3D visualization of current density distribution across electrode surfaces, demonstrating improved uniformity in optimized designs.</p>
+                    </div>
+                </div>
+
+                <!-- Image Card 3 -->
+                <div class="image-card">
+                    <div class="image-placeholder">
+                        <img src="/Webpages/photos/heraqcles.jpeg" alt="Temperature Field">
+                        <!-- <i class="fas fa-temperature-high"></i> -->
+                    </div>
+                    <div class="image-card-content">
+                        <h4>Figure 3: Temperature Field Analysis</h4>
+                        <p>Thermal distribution within the electrolyzer showing optimal temperature ranges (60-80°C) for enhanced electrochemical kinetics.</p>
+                    </div>
+                </div>
+
+                <!-- Image Card 4 -->
+                <div class="image-card">
+                    <div class="image-placeholder">
+                        <img src="/Webpages/photos/heraqcles.jpeg" alt="Bubble Flow Patterns">
+                        <!-- <i class="fas fa-water"></i> -->
+                    </div>
+                    <div class="image-card-content">
+                        <h4>Figure 4: Bubble Flow Dynamics</h4>
+                        <p>Two-phase flow visualization showing gas bubble evolution and transport, critical for understanding electrode coverage and mass transport effects.</p>
+                    </div>
+                </div>
+
+                <!-- Image Card 5 -->
+                <div class="image-card">
+                    <div class="image-placeholder">
+                        <img src="/Webpages/photos/heraqcles.jpeg" alt="Velocity Profiles">
+                        <!-- <i class="fas fa-wind"></i> -->
+                    </div>
+                    <div class="image-card-content">
+                        <h4>Figure 5: Electrolyte Velocity Field</h4>
+                        <p>Electrolyte flow patterns and velocity profiles, illustrating the impact of flow field design on bubble removal and concentration uniformity.</p>
+                    </div>
+                </div>
+
+                <!-- Image Card 6 -->
+                <div class="image-card">
+                    <div class="image-placeholder">
+                        <img src="/Webpages/photos/heraqcles.jpeg" alt="Performance Comparison">
+                        <!-- <i class="fas fa-chart-line"></i> -->
+                    </div>
+                    <div class="image-card-content">
+                        <h4>Figure 6: Performance Optimization Results</h4>
+                        <p>Comparative analysis of different design configurations showing efficiency improvements and validation against experimental data.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Key Findings Section -->
+        <section id="findings">
+            <h2><i class="fas fa-chart-line"></i> Key Findings</h2>
+            
+            <h3>Operating Conditions</h3>
+            <ul>
+                <li><strong>Temperature:</strong> Optimal range of 60-80°C provides 15% efficiency gain compared to 40°C operation</li>
+                <li><strong>Pressure:</strong> Elevated pressure (5-10 bar) reduces bubble size and improves current distribution uniformity</li>
+                <li><strong>Electrolyte Flow:</strong> Optimized flow rates enhance bubble removal without excessive pumping costs</li>
+            </ul>
+
+            <h3>Design Optimization</h3>
+            <ul>
+                <li><strong>Electrode Porosity:</strong> 70-80% porosity balances active surface area with electrolyte access</li>
+                <li><strong>Flow Field Geometry:</strong> Novel serpentine designs improve uniformity and reduce dead zones</li>
+                <li><strong>Inter-Electrode Gap:</strong> Optimized spacing minimizes ohmic losses while maintaining flow stability</li>
+            </ul>
+        </section>
+
+        <!-- Technical Implementation Section -->
+        <section id="technical">
+            <h2><i class="fas fa-wrench"></i> Technical Tools</h2>
+            
+            <div class="info-box">
+                <p><strong><i class="fas fa-cube"></i> COMSOL Multiphysics:</strong> Primary simulation platform for 3D multiphysics modeling (electrochemistry, CFD, heat transfer, species transport)</p>
+                <p><strong><i class="fas fa-code"></i> MATLAB:</strong> Post-processing, statistical analysis, and parameter optimization</p>
+                <p><strong><i class="fab fa-python"></i> Python:</strong> Automation, data processing, and machine learning integration</p>
+            </div>
+        </section>
+
+        <!-- Impact Section -->
+        <section id="impact">
+            <h2><i class="fas fa-lightbulb"></i> Impact & Future Work</h2>
+            
+            <h3>Scientific Contributions</h3>
+            <ul>
+                <li>First comprehensive 3D model with full coupling of electrochemical, thermal, and hydrodynamic phenomena</li>
+                <li>Novel flow field designs achieving 15-18% efficiency improvements</li>
+                <li>Design guidelines for manufacturers to reduce development time and costs</li>
+            </ul>
+
+            <h3>Industrial Applications</h3>
+            <ul>
+                <li><strong>Scale-Up:</strong> Guidelines for transitioning from lab-scale to industrial MW-scale systems</li>
+                <li><strong>Cost Reduction:</strong> Optimized designs reduce material costs while improving performance</li>
+                <li><strong>Sustainability:</strong> Enhanced efficiency directly lowers energy consumption per kg of H₂ produced</li>
+            </ul>
+
+            <h3>Future Directions</h3>
+            <ul>
+                <li>Integration with renewable energy sources for dynamic operation modeling</li>
+                <li>Development of degradation models for long-term performance prediction</li>
+                <li>Machine learning for real-time optimization and control strategies</li>
+                <li>Experimental validation with industrial partners</li>
+            </ul>
+        </section>
+
+        <!-- Collaboration Section -->
+        <section id="collaboration">
+            <h2><i class="fas fa-handshake"></i> Collaboration</h2>
+            
+            <p>
+                I am actively seeking collaboration opportunities in academic research, industry partnerships, 
+                and international projects related to electrolyzer optimization, green hydrogen production, 
+                and multiphysics modeling.
+            </p>
+
+            <div class="success-box info-box">
+                <h4><i class="fas fa-envelope"></i> Get in Touch</h4>
+                <p>
+                    Interested in collaborating? I'd love to hear from you!
+                </p>
+                <div class="btn-group">
+                    <a href="mailto:atyabi902@gmail.com" class="btn btn-primary">
+                        <i class="far fa-envelope"></i> Email Me
+                    </a>
+                    <a href="https://linkedin.com/in/s-ali-atyabi" target="_blank" class="btn btn-success">
+                        <i class="fab fa-linkedin-in"></i> LinkedIn
+                    </a>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p><strong>Ali Atyabi, Ph.D.</strong> | Mechanical Engineer | CFD Expert</p>
+            <p style="margin-top: 0.5rem;">
+                <a href="mailto:atyabi902@gmail.com"><i class="far fa-envelope"></i> Email</a> | 
+                <a href="https://linkedin.com/in/s-ali-atyabi" target="_blank"><i class="fab fa-linkedin-in"></i> LinkedIn</a> | 
+                <a href="https://scholar.google.com/citations?user=MytiTgsAAAAJ" target="_blank"><i class="fas fa-graduation-cap"></i> Google Scholar</a>
+            </p>
+            <p style="margin-top: 1rem; font-size: 0.9rem; opacity: 0.8;">© 2024 Ali Atyabi. All rights reserved.</p>
+        </div>
+    </footer>
+
+</body>
+</html>
