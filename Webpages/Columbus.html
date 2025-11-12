@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="H2_MHYTIC (Alkaline water electrolyzer)">
+    <meta name="description" content="Electrolysis with Cogeneration of Ca(OH)2 - CFD Analysis">
     <meta name="author" content="Ali Atyabi">
-    <title>Alkaline Water Electrolyzer | Ali Atyabi, Ph.D.</title>
+    <title>Ca(OH)₂ Electrolysis Project | Ali Atyabi, Ph.D.</title>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -133,96 +133,38 @@
             text-align: justify;
         }
         
-        /* Image Cards Grid */
-        .image-grid {
+        /* Overview Card Layout */
+        .overview-card {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 2rem;
-            margin: 2rem 0;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 2.5rem;
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
         }
         
-        .image-card {
+        .overview-text {
+            text-align: justify;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .schema-container {
+            position: relative;
+            width: 100%;
             background: white;
             border-radius: 10px;
             overflow: hidden;
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            transition: transform 0.3s, box-shadow 0.3s;
         }
         
-        .image-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-        }
-        
-        .image-placeholder {
+        .schema-container img {
             width: 100%;
-            height: 250px;
-            background: linear-gradient(135deg, var(--accent-color) 0%, #d4e8f0 100%);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            color: var(--primary-color);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .image-placeholder img {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            object-position: center;
+            height: auto;
             display: block;
-        }
-        
-        .image-placeholder i {
-            font-size: 3rem;
-            margin-bottom: 0.5rem;
-            opacity: 0.6;
-        }
-        
-        .image-card-content {
-            padding: 1.5rem;
-        }
-        
-        .image-card-content h4 {
-            color: var(--primary-color);
-            font-size: 1.1rem;
-            margin-bottom: 0.5rem;
-        }
-        
-        .image-card-content p {
-            font-size: 0.95rem;
-            margin: 0 0 1rem 0;
-        }
-        
-        /* Download Button */
-        .download-btn {
-            display: inline-block;
-            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
-            color: white;
-            padding: 0.6rem 1.2rem;
-            border-radius: 5px;
-            text-decoration: none;
-            font-size: 0.9rem;
-            font-weight: 500;
-            transition: all 0.3s;
-            border: none;
-            cursor: pointer;
-            width: 100%;
-            text-align: center;
-        }
-        
-        .download-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(44, 95, 124, 0.3);
-        }
-        
-        .download-btn i {
-            margin-right: 0.5rem;
         }
         
         /* Info Box */
@@ -242,15 +184,6 @@
             gap: 0.5rem;
         }
         
-        .success-box {
-            background: #d4edda;
-            border-left-color: var(--success-color);
-        }
-        
-        .success-box h4 {
-            color: var(--success-color);
-        }
-        
         ul {
             margin-left: 2rem;
             color: var(--text-light);
@@ -258,33 +191,6 @@
         
         li {
             margin-bottom: 0.8rem;
-        }
-        
-        /* Buttons */
-        .btn {
-            display: inline-block;
-            padding: 0.8rem 1.5rem;
-            border-radius: 5px;
-            text-decoration: none;
-            transition: all 0.3s;
-            font-weight: 500;
-        }
-        
-        .btn-primary {
-            background: var(--primary-color);
-            color: white;
-        }
-        
-        .btn-primary:hover {
-            background: var(--secondary-color);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-        }
-        
-        .btn-group {
-            display: flex;
-            gap: 1rem;
-            margin-top: 1rem;
         }
         
         /* Footer */
@@ -306,231 +212,12 @@
             color: var(--accent-color);
         }
         
-        /* Modal Styles */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 2000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.6);
-            animation: fadeIn 0.3s;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        
-        .modal-content {
-            background-color: white;
-            margin: 10% auto;
-            padding: 2rem;
-            border-radius: 10px;
-            width: 90%;
-            max-width: 450px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
-            animation: slideDown 0.3s;
-        }
-        
-        @keyframes slideDown {
-            from {
-                transform: translateY(-50px);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
-        
-        .modal-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 1.5rem;
-            padding-bottom: 1rem;
-            border-bottom: 2px solid var(--accent-color);
-        }
-        
-        .modal-header h3 {
-            margin: 0;
-            color: var(--primary-color);
-            font-size: 1.3rem;
-        }
-        
-        .close {
-            color: #aaa;
-            font-size: 2rem;
-            font-weight: bold;
-            cursor: pointer;
-            line-height: 1;
-            transition: color 0.3s;
-        }
-        
-        .close:hover {
-            color: var(--primary-color);
-        }
-        
-        .modal-body {
-            margin-bottom: 1.5rem;
-        }
-        
-        .modal-body label {
-            display: block;
-            margin-bottom: 0.5rem;
-            color: var(--text-dark);
-            font-weight: 500;
-        }
-        
-        .modal-body input {
-            width: 100%;
-            padding: 0.8rem;
-            border: 2px solid #ddd;
-            border-radius: 5px;
-            font-size: 1rem;
-            transition: border-color 0.3s;
-        }
-        
-        .modal-body input:focus {
-            outline: none;
-            border-color: var(--primary-color);
-        }
-        
-        .modal-footer {
-            display: flex;
-            gap: 1rem;
-            justify-content: flex-end;
-        }
-        
-        .modal-btn {
-            padding: 0.7rem 1.5rem;
-            border: none;
-            border-radius: 5px;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-weight: 500;
-        }
-        
-        .modal-btn-primary {
-            background: var(--primary-color);
-            color: white;
-        }
-        
-        .modal-btn-primary:hover {
-            background: var(--secondary-color);
-        }
-        
-        .modal-btn-secondary {
-            background: #6c757d;
-            color: white;
-        }
-        
-        .modal-btn-secondary:hover {
-            background: #5a6268;
-        }
-        
-        .error-message {
-            color: #dc3545;
-            font-size: 0.9rem;
-            margin-top: 0.5rem;
-            display: none;
-        }
-        
-        .success-message {
-            color: var(--success-color);
-            font-size: 0.9rem;
-            margin-top: 0.5rem;
-            display: none;
-        }
-        
-        /* Overview Card Layout */
-        .overview-card {
-            display: grid;
-            grid-template-columns: 0.8fr 1fr;
-            gap: 2.5rem;
-            background: white;
-            padding: 2rem;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            margin-bottom: 2rem;
-        }
-        
-        .overview-text {
-            text-align: justify;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-        
-        .overview-text p {
-            margin-bottom: 0;
-            flex: 1;
-            display: flex;
-            align-items: center;
-        }
-        
-        .video-container {
-            position: relative;
-            width: 100%;
-            padding-bottom: 100%; /* Square aspect ratio (1:1) */
-            background: white;
-            border-radius: 10px;
-            overflow: hidden;
-            cursor: pointer;
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-        
-        .video-container:hover {
-            transform: scale(1.02);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-        }
-        
-        .video-placeholder {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            color: var(--primary-color);
-        }
-        
-        .video-placeholder i {
-            font-size: 4rem;
-            margin-bottom: 1rem;
-            opacity: 0.7;
-        }
-        
-        .video-placeholder span {
-            font-size: 1.1rem;
-            font-weight: 500;
-        }
-        
-        .video-container iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-        
-        .video-container.loaded .video-placeholder {
-            display: none;
-        }
-        
         /* Responsive Design */
         @media (max-width: 768px) {
             .overview-card {
                 grid-template-columns: 1fr;
             }
+            
             .hero h1 {
                 font-size: 2rem;
             }
@@ -542,15 +229,6 @@
             .content {
                 padding: 2rem 1.5rem;
             }
-            
-            .image-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .modal-content {
-                margin: 20% auto;
-                width: 95%;
-            }
         }
     </style>
 </head>
@@ -560,7 +238,7 @@
     <nav>
         <div class="container">
             <div class="logo">
-                <i class="fas fa-atom"></i> Ali Atyabi, Ph.D.
+                <i class="fas fa-flask"></i> Ali Atyabi, Ph.D.
             </div>
             <a href="https://atyabia.github.io/index.html">
                 <i class="fas fa-home"></i> Back to Portfolio
@@ -570,8 +248,8 @@
 
     <!-- Hero Section -->
     <div class="hero">
-        <h1>H2_MHYTIC - Advanced Multiphysics simulation of Alkaline water electrolyzer</h1>
-        <p>Advanced Multiphysics simulation of Alkaline water electrolyzer</p>
+        <h1>Electrolysis with Cogeneration of Ca(OH)₂</h1>
+        <p>CFD Simulation and Membrane Selection for Decarbonization of Lime Manufacturing</p>
     </div>
 
     <!-- Main Content -->
@@ -584,208 +262,73 @@
             <div class="overview-card">
                 <div class="overview-text">
                     <p>
-                        • The H2-MHYTIC project addresses the critical economic barriers in green hydrogen production by developing 
-                        an innovative electrolysis cell based on hydroxyl exchange membrane (HEM) technology, combining Nanomesh electrodes
-                        with extremely high porosity and a novel ceramic membrane to eliminate the need for 
-                        precious metal catalysts while achieving high performance.
-                    </p>
-                    <p>
-                        • Led by imec, VITO, Blue Cluster, and Ghent University, the research integrates three breakthrough innovations: 
-                        optimized nanomesh electrode geometry, non-noble  material electrocatalysts, and advanced HEM technology 
-                        capable of operating at elevated pressures of 20 bar with efficiencies reaching 88% or higher.
-                    </p>
-                    <p>
-                        • The project aims to revolutionize the hydrogen production by combining the advantages of both 
-                        alkaline and PEM electrolysis while eliminating their respective limitations, paving the way for 
-                        cost-effective, megawatt-scale electrolysis plants using industrially scalable manufacturing techniques.
+                        Electrolysis with cogeneration of Ca(OH)₂ is considered as a possible option for the electrification 
+                        of the lime manufacturing process. This project covers the identification of suitable membranes through 
+                        process calculations and numerical simulation, combined with literature review to identify suitable 
+                        existing membrane materials for testing.
                     </p>
                 </div>
-                <div class="video-container" id="videoContainer" onclick="loadVideo()">
-                    <div class="video-placeholder">
-                        <img src="/Webpages/photos/Schem_AWE.jpg" alt="Video Thumbnail" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; object-position: center;">
-                        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 2; background: rgba(0,0,0,0.7); border-radius: 50%; width: 90px; height: 90px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 15px rgba(0,0,0,0.3);">
-                            <i class="fab fa-youtube" style="font-size: 3.5rem; color: #FF0000; margin-left: 5px;"></i>
-                        </div>
-                    </div>
+                <div class="schema-container">
+                    <img src="media/image3.png" alt="Electrolyzer Schematic">
                 </div>
             </div>
         </section>
 
-        <!-- Visual Results Section with Image Cards -->
-        <section id="results">
-            <h2><i class="fas fa-images"></i> Visual Results & Analysis</h2>
+        <!-- CFD Modeling Section -->
+        <section id="cfd-modeling">
+            <h2><i class="fas fa-calculator"></i> CFD Modeling</h2>
             
-            <div class="image-grid">
-                <!-- Image Card 1 -->
-                <div class="image-card">
-                    <div class="image-placeholder">
-                        <img src="/Webpages/photos/Bubble.gif" alt="Electrolyzer Schematic">
-                        <!-- If no image, show placeholder icon -->
-                        <!-- <i class="fas fa-project-diagram"></i> -->
-                    </div>
-                    <div class="image-card-content">
-                        <h4>Bubble detachment and movment</h4>
-                        <p>This study investigates bubble formation, growth, and detachment mechanisms in electrochemical systems through integrated CFD modeling and analytical frameworks.
-                            I analyzed the forces governing detachment—finding that intermediate bubble sizes (~1.0 mm) detach most readily and that contact angle critically influences adhesion time. 
-                             </p>
-                        <button class="download-btn" onclick="showPasswordModal('figure1', 'https://example.com/files/figure1_geometry.comsol', 'COMSOL Model')">
-                            <i class="fas fa-download"></i> File
-                        </button>
-                    </div>
-                </div>
+            <p>
+                Computational fluid dynamics simulations were performed using a 2D COMSOL Multiphysics® model to study 
+                mass transport, electric charge distribution, and electrochemical reactions within the electrolysis cell. 
+                The modeling successfully evaluated two process configurations: a two-compartment setup and a three-compartment 
+                e-bypass arrangement. These simulations revealed key design parameters affecting energy consumption and 
+                informed the recommendation to adopt the e-bypass configuration with a narrow central chamber for efficient 
+                removal of reacted material.
+            </p>
 
-                <!-- Image Card 2 -->
-                <div class="image-card">
-                    <div class="image-placeholder">
-                        <img src="/Webpages/photos/Multiphase_AWE.jpg" alt="Current Density Distribution">
-                        <!-- <i class="fas fa-bolt"></i> -->
-                    </div>
-                    <div class="image-card-content">
-                        <h4>A multiphase transport model for the evaluation of electrode and PTL bubble Coverage in a Zero-Gap AWE</h4>
-                        <p>This study presents modeling results for a hydroxide exchange membrane (HEM) electrolyzer comprising a HEM, nanostructured electrodes, porous transport layers (foam), and fluid flow channels. 
-                            The system is simulated using a multiphase COMSOL model validated by experimental data. The model represents a zero-gap HEM electrolyzer with an active area of 4 cm² and 11 parallel flow channels, evaluated across different flow rates to analyze fluid dynamics and electrochemical performance.</p>
-                        <button class="download-btn" onclick="showPasswordModal('figure2', 'https://example.com/files/figure2_current_density.py', 'Python Script')">
-                            <i class="fas fa-download"></i> File
-                        </button>
-                    </div>
-                </div>
-        <!-- Key Findings Section -->
-        <section id="findings">
-            <h2><i class="fas fa-award"></i> Achivments</h2>
-            <h3>Design Optimization</h3>
-            <ul>
-                <li><strong>Flow Field Geometry:</strong> Novel  designs improve uniformity and reduce dead zones</li>
-                <li><strong>Inter-Electrode Gap:</strong> Optimized spacing minimizes ohmic losses while maintaining flow stability</li>
-                <li><strong>Electrolyte Flow:</strong> Optimized flow rates enhance bubble removal without excessive pumping costs</li>
-            </ul>
+            <div class="info-box">
+                <h4><i class="fas fa-lightbulb"></i> Key Findings</h4>
+                <p>
+                    Modeling shows that thinner membranes with higher porosity and higher ion exchange capacity (IEC) are 
+                    preferred for their lower energy consumption. Thickness, porosity and IEC only have a minor effect on 
+                    precipitation of Ca(OH)₂ for a specific current density.
+                </p>
+            </div>
         </section>
 
-    <!-- Password Modal -->
-    <div id="passwordModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3><i class="fas fa-lock"></i> Secure Download</h3>
-                <span class="close" onclick="closePasswordModal()">&times;</span>
+        <!-- Membrane Selection Section -->
+        <section id="membranes">
+            <h2><i class="fas fa-layer-group"></i> Membrane Selection</h2>
+            
+            <p>
+                The membrane inventory search revealed several membranes considered suitable for the application, 
+                including porous membranes, anion exchange membranes (AEMs), and cation exchange membranes (CEMs).
+            </p>
+
+            <h3>Recommended Configuration</h3>
+            <p>
+                For enhanced energy efficiency and higher precipitation concentration, we suggest adopting a 
+                <strong>two-membrane/three-compartment e-bypass setup</strong> with a narrow central chamber. 
+                Considering both simulation and membrane inventory work, we propose using suitable commercial 
+                membranes for the cathode and anode in this configuration.
+            </p>
+
+            <div class="info-box">
+                <h4><i class="fas fa-check-circle"></i> Project Outcome</h4>
+                <p>
+                    The use of an e-bypass concept can be further beneficial as it allows casting of tailored membranes 
+                    (thickness, IEC, porosity) which can be explored in phase 2 of the current project.
+                </p>
             </div>
-            <div class="modal-body">
-                <label for="password">Enter password to download <span id="fileType"></span>:</label>
-                <input type="password" id="password" placeholder="Enter password">
-                <div class="error-message" id="errorMessage">Incorrect password. Please try again.</div>
-                <div class="success-message" id="successMessage">Password correct! Downloading file...</div>
-            </div>
-            <div class="modal-footer">
-                <button class="modal-btn modal-btn-secondary" onclick="closePasswordModal()">Cancel</button>
-                <button class="modal-btn modal-btn-primary" onclick="verifyPassword()">Download</button>
-            </div>
-        </div>
+        </section>
+
     </div>
 
-    <script>
-        // YOUTUBE VIDEO CONFIGURATION
-        // Video ID from: https://www.youtube.com/watch?v=JYqvPE6mIGo
-        const YOUTUBE_VIDEO_ID = 'JYqvPE6mIGo';  // <<< CHANGE THIS TO YOUR VIDEO ID
-        
-        // Function to load YouTube video when clicked
-        function loadVideo() {
-            const container = document.getElementById('videoContainer');
-            const iframe = document.createElement('iframe');
-            iframe.src = `https://www.youtube.com/embed/${YOUTUBE_VIDEO_ID}?autoplay=1&rel=0`;
-            iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
-            iframe.allowFullscreen = true;
-            iframe.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin');
-            container.appendChild(iframe);
-            container.classList.add('loaded');
-            container.onclick = null; // Remove click handler after loading
-        }
-        
-        // SINGLE GENERAL PASSWORD FOR ALL FILES
-        // IMPORTANT: Change this one password to protect all your files
-        const GENERAL_PASSWORD = 'ali';  // <<< CHANGE THIS PASSWORD
-        
-        // File configuration (URLs and file types only)
-        const fileConfig = {
-            figure1: {
-                url: 'https://example.com/files/figure1_geometry.comsol',  // Change this URL
-                fileType: 'COMSOL Model'
-            },
-            figure2: {
-                url: 'https://example.com/files/figure2_current_density.py',  // Change this URL
-                fileType: 'Python Script'
-            },
-            figure3: {
-                url: 'https://example.com/files/figure3_temperature.comsol',  // Change this URL
-                fileType: 'COMSOL Model'
-            },
-            figure4: {
-                url: 'https://example.com/files/figure4_bubble_flow.csv',  // Change this URL
-                fileType: 'Data File'
-            },
-            figure5: {
-                url: 'https://example.com/files/figure5_velocity.comsol',  // Change this URL
-                fileType: 'COMSOL Model'
-            },
-            figure6: {
-                url: 'https://example.com/files/figure6_optimization.xlsx',  // Change this URL
-                fileType: 'Excel File'
-            }
-        };
-
-        let currentFileId = null;
-
-        function showPasswordModal(fileId, url, fileType) {
-            currentFileId = fileId;
-            document.getElementById('passwordModal').style.display = 'block';
-            document.getElementById('fileType').textContent = fileConfig[fileId].fileType;
-            document.getElementById('password').value = '';
-            document.getElementById('errorMessage').style.display = 'none';
-            document.getElementById('successMessage').style.display = 'none';
-            document.getElementById('password').focus();
-        }
-
-        function closePasswordModal() {
-            document.getElementById('passwordModal').style.display = 'none';
-            currentFileId = null;
-        }
-
-        function verifyPassword() {
-            const enteredPassword = document.getElementById('password').value;
-            const config = fileConfig[currentFileId];
-            
-            // Check against the GENERAL_PASSWORD (same for all files)
-            if (enteredPassword === GENERAL_PASSWORD) {
-                // Password correct
-                document.getElementById('errorMessage').style.display = 'none';
-                document.getElementById('successMessage').style.display = 'block';
-                
-                // Wait a moment, then trigger download
-                setTimeout(() => {
-                    window.open(config.url, '_blank');
-                    closePasswordModal();
-                }, 1000);
-            } else {
-                // Password incorrect
-                document.getElementById('errorMessage').style.display = 'block';
-                document.getElementById('successMessage').style.display = 'none';
-                document.getElementById('password').value = '';
-                document.getElementById('password').focus();
-            }
-        }
-
-        // Allow Enter key to submit password
-        document.getElementById('password').addEventListener('keypress', function(event) {
-            if (event.key === 'Enter') {
-                verifyPassword();
-            }
-        });
-
-        // Close modal when clicking outside of it
-        window.onclick = function(event) {
-            const modal = document.getElementById('passwordModal');
-            if (event.target === modal) {
-                closePasswordModal();
-            }
-        }
-    </script>
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 Ali Atyabi, Ph.D. | <a href="mailto:aliatyabi@gmail.com">aliatyabi@gmail.com</a></p>
+    </footer>
 
 </body>
 </html>
