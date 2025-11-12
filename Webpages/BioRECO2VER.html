@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Alkaline Electrolyzer Optimization - Advanced 3D Multiphysics Modeling for Green Hydrogen Production">
+    <meta name="description" content="CO₂ Electrolyzer Optimization - Advanced 3D Multiphysics Modeling for Carbon Utilization">
     <meta name="author" content="Ali Atyabi">
-    <title>Alkaline Electrolyzer Optimization | Ali Atyabi, Ph.D.</title>
+    <title>CO₂ Electrolyzer Optimization | Ali Atyabi, Ph.D.</title>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -192,6 +192,16 @@
             color: var(--primary-color);
             font-size: 1.1rem;
             margin-bottom: 0.5rem;
+        }
+        
+        .image-card-content h4 a {
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .image-card-content h4 a:hover {
+            color: var(--secondary-color);
         }
         
         .image-card-content p {
@@ -447,11 +457,12 @@
             display: none;
         }
         
-        /* Overview Card Layout */
+        /* Overview Card Layout - New Improved Design */
         .overview-card {
             display: grid;
-            grid-template-columns: 0.8fr 1fr;
+            grid-template-columns: 1.2fr 1fr;
             gap: 2.5rem;
+            align-items: center;
             background: white;
             padding: 2rem;
             border-radius: 10px;
@@ -461,76 +472,40 @@
         
         .overview-text {
             text-align: justify;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
         }
         
         .overview-text p {
             margin-bottom: 0;
-            flex: 1;
-            display: flex;
-            align-items: center;
+            font-size: 1.05rem;
         }
         
-        .video-container {
-            position: relative;
+        .image-container {
             width: 100%;
-            padding-bottom: 100%; /* Square aspect ratio (1:1) */
-            background: white;
-            border-radius: 10px;
+            border-radius: 8px;
             overflow: hidden;
-            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
             transition: transform 0.3s, box-shadow 0.3s;
         }
         
-        .video-container:hover {
+        .image-container:hover {
             transform: scale(1.02);
             box-shadow: 0 8px 25px rgba(0,0,0,0.15);
         }
         
-        .video-placeholder {
-            position: absolute;
-            top: 0;
-            left: 0;
+        .image-container img {
             width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            color: var(--primary-color);
-        }
-        
-        .video-placeholder i {
-            font-size: 4rem;
-            margin-bottom: 1rem;
-            opacity: 0.7;
-        }
-        
-        .video-placeholder span {
-            font-size: 1.1rem;
-            font-weight: 500;
-        }
-        
-        .video-container iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-        
-        .video-container.loaded .video-placeholder {
-            display: none;
+            height: auto;
+            display: block;
         }
         
         /* Responsive Design */
-        @media (max-width: 768px) {
+        @media (max-width: 968px) {
             .overview-card {
                 grid-template-columns: 1fr;
             }
+        }
+        
+        @media (max-width: 768px) {
             .hero h1 {
                 font-size: 2rem;
             }
@@ -570,8 +545,8 @@
 
     <!-- Hero Section -->
     <div class="hero">
-        <h1>Alkaline Electrolyzer Optimization</h1>
-        <p>Advanced 3D multiphysics modeling for enhanced green hydrogen production efficiency</p>
+        <h1>CO₂ Electrolyzer Optimization</h1>
+        <p>Advanced 3D multiphysics modeling for enhanced carbon utilization and sustainable chemical production</p>
     </div>
 
     <!-- Main Content -->
@@ -584,39 +559,37 @@
             <div class="overview-card">
                 <div class="overview-text">
                     <p>
-                        This research focuses on developing comprehensive 3D multiphysics models for electrochemical systems 
-                        using COMSOL Multiphysics. The work encompasses  Co2 electrolyzers s for carbon utilization, integrating electrochemistry, fluid dynamics, and 
-                        species transport to optimize efficiency and scalability.
+                        This research focuses on developing comprehensive 3D multiphysics models for CO₂ electrolyzers 
+                        using COMSOL Multiphysics. The work integrates electrochemistry, fluid dynamics, and 
+                        species transport to optimize carbon utilization efficiency and scalability toward industrial-scale 
+                        systems for sustainable chemical production.
                     </p>
                 </div>
                 
                 <div class="image-container">
-                    <img src="/Webpages/photos/co2_flow_field.jpg" alt="Electrolyzer System Schematic" style="width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+                    <img src="/Webpages/photos/co2_flow_field.jpg" alt="CO₂ Electrolyzer System Schematic">
                 </div>
             </div>
-        </div>
         </section>
 
         <!-- Visual Results Section with Image Cards -->
         <section id="results">
-            <h2><i class="fas fa-images"></i> Modeling activities</h2>
+            <h2><i class="fas fa-images"></i> Modeling Activities</h2>
             
             <div class="image-grid">
                 <!-- Image Card 1 -->
                 <div class="image-card">
-                <div class="image-placeholder">
-                    <img src="/Webpages/photos/BioRECO2VER.jpg" alt="Electrolyzer Schematic">
-                    <!-- If no image, show placeholder icon -->
-                    <!-- <i class="fas fa-project-diagram"></i> -->
-                </div>
-                <div class="image-card-content">
-                    <h4><a href="https://www.mpi-magdeburg.mpg.de/gde2022" target="_blank" rel="noopener noreferrer">Optimization of GDL Microstructures</a></h4>
-                    <p>A 3D finite element simulation approach was developed to characterize gas diffusion electrode (GDE) microstructures for CO₂ electrolyzers. 
-                        Coupled fluid dynamics and electrical current models were used to compute effective properties including electrical conductivity, permeability, and specific active area across different carbon particle volume fractions. 
-                        Results were validated against nickel foam experimental data and provide insights for optimizing GDE performance in high-current-density applications.
-                    </p>
+                    <div class="image-placeholder">
+                        <img src="/Webpages/photos/BioRECO2VER.jpg" alt="GDL Microstructure Optimization">
+                    </div>
+                    <div class="image-card-content">
+                        <h4><a href="https://www.mpi-magdeburg.mpg.de/gde2022" target="_blank" rel="noopener noreferrer">Optimization of GDL Microstructures</a></h4>
+                        <p>A 3D finite element simulation approach was developed to characterize gas diffusion electrode (GDE) microstructures for CO₂ electrolyzers. 
+                            Coupled fluid dynamics and electrical current models were used to compute effective properties including electrical conductivity, permeability, and specific active area across different carbon particle volume fractions. 
+                            Results were validated against nickel foam experimental data and provide insights for optimizing GDE performance in high-current-density applications.
+                        </p>
                         <button class="download-btn" onclick="showPasswordModal('figure1', 'https://example.com/files/figure1_geometry.comsol', 'more_info')">
-                            <i class="fas fa-download"></i> More info.
+                            <i class="fas fa-info-circle"></i> More Info
                         </button>
                     </div>
                 </div>
@@ -624,8 +597,7 @@
                 <!-- Image Card 2 -->
                 <div class="image-card">
                     <div class="image-placeholder">
-                        <img src="/Webpages/photos/co2_flow_field.jpg" alt="Current Density Distribution">
-                        <!-- <i class="fas fa-bolt"></i> -->
+                        <img src="/Webpages/photos/co2_flow_field.jpg" alt="Flow Field Optimization">
                     </div>
                     <div class="image-card-content">
                         <h4><a href="https://eco2fuel-project.eu/2024/09/09/eco2fuel-achieves-major-milestone-with-scaled-up-50kw-stack-design/" target="_blank" rel="noopener noreferrer">Flow Field Optimization for CO₂ Electrolyzer Cell</a></h4>
@@ -634,7 +606,7 @@
                             The optimized design enhances gas–liquid management, cell efficiency, and scalability toward the 1 MW system planned for 2026.
                         </p>
                         <button class="download-btn" onclick="showPasswordModal('figure2', 'https://example.com/files/figure2_current_density.py', 'more_info')">
-                            <i class="fas fa-download"></i> More info.
+                            <i class="fas fa-info-circle"></i> More Info
                         </button>
                     </div>
                 </div>
@@ -643,10 +615,11 @@
 
         <!-- Key Findings Section -->
         <section id="findings">
-            <h2><i class="fas fa-award"></i> Achivments</h2>
+            <h2><i class="fas fa-award"></i> Key Achievements</h2>
+            
             <h3>Design Optimization</h3>
             <ul>
-                <li><strong>3D CFD simulation:</strong> New rectangular design improved flow uniformity and energy efficiency by x%</li>
+                <li><strong>3D CFD Simulation:</strong> New flow field design improved flow uniformity and mass transport efficiency, reducing pressure drop and enhancing gas–liquid management in the electrolyzer cell.</li>
                                                         
                 <li><strong>FEM-Based GDE Property Prediction:</strong> Developed finite element models to predict effective electrical conductivity, permeability, porosity, and specific active area of gas diffusion electrode microstructures with varying carbon particle volume fractions.</li>
                 
@@ -655,7 +628,9 @@
                 <li><strong>Microstructure Transport Analysis:</strong> Demonstrated that cubic matrix models with spherical particles reliably predict GDE effective properties, revealing trade-offs between enhanced electrical conductivity and reduced permeability at higher solid volume fractions.</li>
                 
                 <li><strong>Multiphysics GDE Simulation:</strong> Coupled fluid dynamics and electric current simulations to characterize mass transport limitations and electrical performance in porous electrode structures for CO₂ electrolyzer applications.</li>
-                </ul>
+                
+                <li><strong>Scalability Analysis:</strong> Contributed to the development of a 50 kW stack design with insights applicable to the planned 1 MW industrial-scale system, advancing carbon utilization technology toward commercial deployment.</li>
+            </ul>
         </section>
 
         <!-- Collaboration Section -->
@@ -664,8 +639,8 @@
             
             <p>
                 I am actively seeking collaboration opportunities in academic research, industry partnerships, 
-                and international projects related to electrolyzer optimization, green hydrogen production, 
-                and multiphysics modeling.
+                and international projects related to CO₂ electrolyzer optimization, carbon utilization technologies, 
+                and multiphysics modeling for sustainable energy systems.
             </p>
 
             <div class="success-box info-box">
@@ -687,18 +662,18 @@
     <div id="passwordModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h3><i class="fas fa-lock"></i> Secure Download</h3>
+                <h3><i class="fas fa-lock"></i> Secure Access</h3>
                 <span class="close" onclick="closePasswordModal()">&times;</span>
             </div>
             <div class="modal-body">
-                <label for="password">Enter password to download <span id="fileType"></span>:</label>
+                <label for="password">Enter password to access <span id="fileType"></span>:</label>
                 <input type="password" id="password" placeholder="Enter password">
                 <div class="error-message" id="errorMessage">Incorrect password. Please try again.</div>
-                <div class="success-message" id="successMessage">Password correct! Downloading file...</div>
+                <div class="success-message" id="successMessage">Password correct! Accessing content...</div>
             </div>
             <div class="modal-footer">
                 <button class="modal-btn modal-btn-secondary" onclick="closePasswordModal()">Cancel</button>
-                <button class="modal-btn modal-btn-primary" onclick="verifyPassword()">Download</button>
+                <button class="modal-btn modal-btn-primary" onclick="verifyPassword()">Access</button>
             </div>
         </div>
     </div>
@@ -717,52 +692,18 @@
     </footer>
 
     <script>
-        // YOUTUBE VIDEO CONFIGURATION
-        // Video ID from: https://www.youtube.com/watch?v=JYqvPE6mIGo
-        const YOUTUBE_VIDEO_ID = 'JYqvPE6mIGo';  // <<< CHANGE THIS TO YOUR VIDEO ID
-        
-        // Function to load YouTube video when clicked
-        function loadVideo() {
-            const container = document.getElementById('videoContainer');
-            const iframe = document.createElement('iframe');
-            iframe.src = `https://www.youtube.com/embed/${YOUTUBE_VIDEO_ID}?autoplay=1&rel=0`;
-            iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
-            iframe.allowFullscreen = true;
-            iframe.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin');
-            container.appendChild(iframe);
-            container.classList.add('loaded');
-            container.onclick = null; // Remove click handler after loading
-        }
-        
         // SINGLE GENERAL PASSWORD FOR ALL FILES
-        // IMPORTANT: Change this one password to protect all your files
         const GENERAL_PASSWORD = 'ali';  // <<< CHANGE THIS PASSWORD
         
         // File configuration (URLs and file types only)
         const fileConfig = {
             figure1: {
-                url: 'https://example.com/files/figure1_geometry.comsol',  // Change this URL
-                fileType: 'COMSOL Model'
+                url: 'https://example.com/files/figure1_geometry.comsol',
+                fileType: 'Additional Information'
             },
             figure2: {
-                url: 'https://example.com/files/figure2_current_density.py',  // Change this URL
-                fileType: 'Python Script'
-            },
-            figure3: {
-                url: 'https://example.com/files/figure3_temperature.comsol',  // Change this URL
-                fileType: 'COMSOL Model'
-            },
-            figure4: {
-                url: 'https://example.com/files/figure4_bubble_flow.csv',  // Change this URL
-                fileType: 'Data File'
-            },
-            figure5: {
-                url: 'https://example.com/files/figure5_velocity.comsol',  // Change this URL
-                fileType: 'COMSOL Model'
-            },
-            figure6: {
-                url: 'https://example.com/files/figure6_optimization.xlsx',  // Change this URL
-                fileType: 'Excel File'
+                url: 'https://example.com/files/figure2_current_density.py',
+                fileType: 'Additional Information'
             }
         };
 
@@ -787,19 +728,15 @@
             const enteredPassword = document.getElementById('password').value;
             const config = fileConfig[currentFileId];
             
-            // Check against the GENERAL_PASSWORD (same for all files)
             if (enteredPassword === GENERAL_PASSWORD) {
-                // Password correct
                 document.getElementById('errorMessage').style.display = 'none';
                 document.getElementById('successMessage').style.display = 'block';
                 
-                // Wait a moment, then trigger download
                 setTimeout(() => {
                     window.open(config.url, '_blank');
                     closePasswordModal();
                 }, 1000);
             } else {
-                // Password incorrect
                 document.getElementById('errorMessage').style.display = 'block';
                 document.getElementById('successMessage').style.display = 'none';
                 document.getElementById('password').value = '';
@@ -807,14 +744,12 @@
             }
         }
 
-        // Allow Enter key to submit password
         document.getElementById('password').addEventListener('keypress', function(event) {
             if (event.key === 'Enter') {
                 verifyPassword();
             }
         });
 
-        // Close modal when clicking outside of it
         window.onclick = function(event) {
             const modal = document.getElementById('passwordModal');
             if (event.target === modal) {
