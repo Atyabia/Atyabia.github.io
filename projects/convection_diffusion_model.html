@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Convection-Diffusion Visualizer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+        }
+        .slider {
+            -webkit-appearance: none;
+            appearance: none;
+            height: 12px;
+            border-radius: 6px;
+            outline: none;
+        }
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: #3b82f6;
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        .slider::-moz-range-thumb {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: #3b82f6;
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        .scenario-card {
+            transition: all 0.2s;
+        }
+        .scenario-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <div class="w-full max-w-6xl mx-auto p-6 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl shadow-lg my-8">
+        <!-- Header -->
+        <div class="bg-white rounded-lg p-6 shadow-md mb-6">
+            <h1 class="text-3xl font-bold text-gray-800 mb-2">
+                Convection-Diffusion Transport
+            </h1>
+            <p class="text-gray-600">
+                Interactive visualization of mass transport with flow (convection) and spreading (diffusion)
+            </p>
+        </div>
+
+        <!-- Info Panel -->
+        <div id="infoPanel" class="bg-blue-50 border-2 border-blue-300 rounded-lg p-4 mb-6">
+            <div class="flex justify-between items-start mb-2">
+                <h3 class="font-bold text-blue-900 flex items-center gap-2">
+                    ℹ️ Understanding the Physics
+                </h3>
+                <button onclick="toggleInfo()" class="text-blue-600 hover:text-blue-800 font-bold text-xl">
+                    ✕
+                </button>
+            </div>
+            <div class="grid md:grid-cols-2 gap-4 text-sm">
+                <div class="bg-white p-3 rounded">
+                    <p class="font-bold text-red-600 mb-1">🔴 Convection (Transport)</p>
+                    <p class="text-gray-700">
+                        Flow carries material along. Like pollution moving downstream in a river. 
+                        The red arrows show the direction material is being transported.
+                    </p>
+                </div>
+                <div class="bg-white p-3 rounded">
+                    <p class="font-bold text-green-600 mb-1">🟢 Diffusion (Spreading)</p>
+                    <p class="text-gray-700">
+                        Material spreads from high to low concentration. Like a drop of dye spreading in water.
+                        The green arrows show material spreading outward.
+                    </p>
+                </div>
+            </div>
+            <div class="mt-3 bg-white p-3 rounded">
+                <p class="font-bold text-indigo-600 mb-1">📐 The Equation</p>
+                <p class="text-gray-700 font-mono text-xs bg-gray-100 p-2 rounded">
+                    ∂u/∂t + v(∂u/∂x) = ν(∂²u/∂x²)
+                </p>
+                <p class="text-gray-600 text-xs mt-1">
+                    Change in time = Transport by flow + Spreading by diffusion
+                </p>
+            </div>
+        </div>
+
+        <!-- Canvas -->
+        <div class="bg-white rounded-lg p-6 shadow-md mb-6">
+            <canvas id="mainCanvas" width="800" height="400" class="w-full border-2 border-gray-200 rounded"></canvas>
+            <div class="text-center mt-2 text-sm text-gray-600">
+                Time: <span id="timeDisplay">0.00</span>s
+            </div>
+        </div>
+
+        <!-- Controls -->
+        <div class="bg-white rounded-lg p-6 shadow-md space-y-6">
+            <!-- Play/Pause/Reset Buttons -->
+            <div class="flex gap-4 justify-center">
+                <button id="playBtn" onclick="togglePlay()" class="px-6 py-3 rounded-lg font-bold text-white bg-green-500 hover:bg-green-600 transition-all">
+                    ▶ Play
+                </button>
+                <button onclick="reset()" class="px-6 py-3 rounded-lg font-bold bg-blue-500 hover:bg-blue-600 text-white transition-all">
+                    ↻ Reset
+                </button>
+            </div>
+
+            <!-- Sliders -->
+            <div class="grid md:grid-cols-2 gap-6">
+                <div>
+                    <div class="flex justify-between items-center mb-2">
+                        <label class="font-bold text-red-600">🔴 Convection Strength</label>
+                        <span id="convectionValue" class="text-sm bg-red-100 px-3 py-1 rounded-full font-mono">0.50</span>
+                    </div>
+                    <input type="range" id="convectionSlider" class="slider w-full" min="0" max="1" step="0.01" value="0.5">
+                    <p class="text-xs text-gray-600 mt-1">How fast the flow transports material →</p>
+                </div>
+
+                <div>
+                    <div class="flex justify-between items-center mb-2">
+                        <label class="font-bold text-green-600">🟢 Diffusion Strength</label>
+                        <span id="diffusionValue" class="text-sm bg-green-100 px-3 py-1 rounded-full font-mono">0.30</span>
+                    </div>
+                    <input type="range" id="diffusionSlider" class="slider w-full" min="0" max="1" step="0.01" value="0.3">
+                    <p class="text-xs text-gray-600 mt-1">How fast material spreads out ←→</p>
+                </div>
+            </div>
+
+            <!-- Preset Scenarios -->
+            <div class="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg p-4 mt-4">
+                <h3 class="font-bold text-gray-800 mb-3">🧪 Try These Scenarios:</h3>
+                <div class="grid md:grid-cols-3 gap-3 text-sm">
+                    <div onclick="setScenario(0.8, 0.1)" class="scenario-card bg-white p-3 rounded cursor-pointer">
+                        <p class="font-bold text-red-600">Fast Flow, Low Diffusion</p>
+                        <p class="text-gray-600 text-xs mt-1">Like pollution in fast river - stays concentrated</p>
+                    </div>
+                    <div onclick="setScenario(0.2, 0.8)" class="scenario-card bg-white p-3 rounded cursor-pointer">
+                        <p class="font-bold text-green-600">Slow Flow, High Diffusion</p>
+                        <p class="text-gray-600 text-xs mt-1">Like dye in still water - spreads widely</p>
+                    </div>
+                    <div onclick="setScenario(0.5, 0.5)" class="scenario-card bg-white p-3 rounded cursor-pointer">
+                        <p class="font-bold text-indigo-600">Balanced Transport</p>
+                        <p class="text-gray-600 text-xs mt-1">Equal convection and diffusion effects</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Applications -->
+        <div class="bg-gray-50 rounded-lg p-4 mt-6 text-xs text-gray-600">
+            <p class="font-bold mb-2">Real-World Applications:</p>
+            <ul class="list-disc list-inside space-y-1">
+                <li><strong>Environmental:</strong> Pollutant transport in rivers and oceans</li>
+                <li><strong>Medical:</strong> Drug delivery through bloodstream</li>
+                <li><strong>Chemical Engineering:</strong> Reactor design and mixing</li>
+                <li><strong>Atmospheric:</strong> Smoke and gas dispersion</li>
+                <li><strong>Oceanography:</strong> Salt and heat transport in ocean currents</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        // State variables
+        let isPlaying = false;
+        let time = 0;
+        let convectionStrength = 0.5;
+        let diffusionStrength = 0.3;
+        let animationInterval = null;
+        const nx = 100;
+        let u = new Array(nx).fill(0);
+
+        // Get elements
+        const canvas = document.getElementById('mainCanvas');
+        const ctx = canvas.getContext('2d');
+        const playBtn = document.getElementById('playBtn');
+        const timeDisplay = document.getElementById('timeDisplay');
+        const convectionSlider = document.getElementById('convectionSlider');
+        const diffusionSlider = document.getElementById('diffusionSlider');
+        const convectionValue = document.getElementById('convectionValue');
+        const diffusionValue = document.getElementById('diffusionValue');
+
+        // Initialize
+        function initialize() {
+            for (let i = 0; i < nx; i++) {
+                const x = (i / nx) * 2 * Math.PI;
+                u[i] = Math.exp(-Math.pow(x - Math.PI, 2) / 0.5) * 0.8 + 0.1;
+            }
+        }
+
+        // Update simulation
+        function updateField() {
+            const dx = 0.01;
+            const dt = 0.001;
+            const nu = diffusionStrength * 0.1;
+            const velocity = convectionStrength * 2;
+
+            const newU = [...u];
+            const un = [...u];
+
+            for (let i = 1; i < nx - 1; i++) {
+                const convection = velocity * dt / dx * (un[i] - un[i - 1]);
+                const diffusion = nu * dt / (dx * dx) * (un[i + 1] - 2 * un[i] + un[i - 1]);
+                newU[i] = un[i] - convection + diffusion;
+            }
+
+            newU[0] = newU[nx - 2];
+            newU[nx - 1] = newU[1];
+
+            u = newU;
+            time += dt;
+            timeDisplay.textContent = time.toFixed(2);
+        }
+
+        // Draw canvas
+        function draw() {
+            const width = canvas.width;
+            const height = canvas.height;
+
+            // Clear
+            ctx.fillStyle = '#f8fafc';
+            ctx.fillRect(0, 0, width, height);
+
+            // Grid
+            ctx.strokeStyle = '#e2e8f0';
+            ctx.lineWidth = 1;
+            for (let i = 0; i <= 10; i++) {
+                const y = (height * i) / 10;
+                ctx.beginPath();
+                ctx.moveTo(0, y);
+                ctx.lineTo(width, y);
+                ctx.stroke();
+            }
+
+            // Concentration curve
+            ctx.strokeStyle = '#3b82f6';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            for (let i = 0; i < nx; i++) {
+                const x = (width * i) / (nx - 1);
+                const y = height - u[i] * height;
+                if (i === 0) ctx.moveTo(x, y);
+                else ctx.lineTo(x, y);
+            }
+            ctx.stroke();
+
+            // Fill under curve
+            ctx.lineTo(width, height);
+            ctx.lineTo(0, height);
+            ctx.closePath();
+            ctx.fillStyle = 'rgba(59, 130, 246, 0.1)';
+            ctx.fill();
+
+            // Convection arrows
+            if (convectionStrength > 0.1) {
+                ctx.strokeStyle = '#ef4444';
+                ctx.fillStyle = '#ef4444';
+                ctx.lineWidth = 2;
+                for (let i = 0; i < 8; i++) {
+                    const x = (width * i) / 8 + 50;
+                    const y = height / 4;
+                    const arrowLen = 20 + convectionStrength * 20;
+                    
+                    ctx.beginPath();
+                    ctx.moveTo(x, y);
+                    ctx.lineTo(x + arrowLen, y);
+                    ctx.stroke();
+                    
+                    ctx.beginPath();
+                    ctx.moveTo(x + arrowLen, y);
+                    ctx.lineTo(x + arrowLen - 5, y - 3);
+                    ctx.lineTo(x + arrowLen - 5, y + 3);
+                    ctx.closePath();
+                    ctx.fill();
+                }
+                
+                ctx.font = 'bold 14px system-ui';
+                ctx.fillText('Convection →', 10, height / 4 - 10);
+            }
+
+            // Diffusion arrows
+            if (diffusionStrength > 0.1) {
+                ctx.strokeStyle = '#10b981';
+                ctx.lineWidth = 2;
+                const peakIdx = u.indexOf(Math.max(...u));
+                const peakX = (width * peakIdx) / (nx - 1);
+                const spread = 30 + diffusionStrength * 40;
+                
+                for (let dir of [-1, 1]) {
+                    ctx.beginPath();
+                    ctx.moveTo(peakX, height / 2);
+                    ctx.lineTo(peakX + dir * spread, height / 2);
+                    ctx.stroke();
+                    
+                    ctx.fillStyle = '#10b981';
+                    ctx.beginPath();
+                    ctx.moveTo(peakX + dir * spread, height / 2);
+                    ctx.lineTo(peakX + dir * spread - dir * 5, height / 2 - 3);
+                    ctx.lineTo(peakX + dir * spread - dir * 5, height / 2 + 3);
+                    ctx.closePath();
+                    ctx.fill();
+                }
+                
+                ctx.font = 'bold 14px system-ui';
+                ctx.fillText('← Diffusion →', peakX - 50, height / 2 - 10);
+            }
+
+            // Axes labels
+            ctx.fillStyle = '#475569';
+            ctx.font = '12px system-ui';
+            ctx.fillText('Space (x)', width / 2 - 30, height - 5);
+            ctx.save();
+            ctx.translate(10, height / 2);
+            ctx.rotate(-Math.PI / 2);
+            ctx.fillText('Concentration', -50, 0);
+            ctx.restore();
+        }
+
+        // Controls
+        function togglePlay() {
+            isPlaying = !isPlaying;
+            if (isPlaying) {
+                playBtn.textContent = '⏸ Pause';
+                playBtn.className = 'px-6 py-3 rounded-lg font-bold text-white bg-orange-500 hover:bg-orange-600 transition-all';
+                animationInterval = setInterval(() => {
+                    updateField();
+                    draw();
+                }, 30);
+            } else {
+                playBtn.textContent = '▶ Play';
+                playBtn.className = 'px-6 py-3 rounded-lg font-bold text-white bg-green-500 hover:bg-green-600 transition-all';
+                clearInterval(animationInterval);
+            }
+        }
+
+        function reset() {
+            if (isPlaying) togglePlay();
+            time = 0;
+            timeDisplay.textContent = '0.00';
+            initialize();
+            draw();
+        }
+
+        function setScenario(conv, diff) {
+            convectionSlider.value = conv;
+            diffusionSlider.value = diff;
+            convectionStrength = conv;
+            diffusionStrength = diff;
+            convectionValue.textContent = conv.toFixed(2);
+            diffusionValue.textContent = diff.toFixed(2);
+            updateSliderStyle(convectionSlider, conv);
+            updateSliderStyle(diffusionSlider, diff);
+        }
+
+        function toggleInfo() {
+            const panel = document.getElementById('infoPanel');
+            panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+        }
+
+        function updateSliderStyle(slider, value) {
+            const percent = value * 100;
+            const color = slider.id === 'convectionSlider' ? '#ef4444' : '#10b981';
+            const lightColor = slider.id === 'convectionSlider' ? '#fee2e2' : '#d1fae5';
+            slider.style.background = `linear-gradient(to right, ${lightColor} 0%, ${color} ${percent}%, #e5e7eb ${percent}%, #e5e7eb 100%)`;
+        }
+
+        // Event listeners
+        convectionSlider.addEventListener('input', (e) => {
+            convectionStrength = parseFloat(e.target.value);
+            convectionValue.textContent = convectionStrength.toFixed(2);
+            updateSliderStyle(e.target, convectionStrength);
+        });
+
+        diffusionSlider.addEventListener('input', (e) => {
+            diffusionStrength = parseFloat(e.target.value);
+            diffusionValue.textContent = diffusionStrength.toFixed(2);
+            updateSliderStyle(e.target, diffusionStrength);
+        });
+
+        // Initialize on load
+        initialize();
+        draw();
+        updateSliderStyle(convectionSlider, convectionStrength);
+        updateSliderStyle(diffusionSlider, diffusionStrength);
+    </script>
+</body>
+</html>
