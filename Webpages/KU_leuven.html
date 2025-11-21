@@ -615,60 +615,64 @@
             <h2><i class="fas fa-images"></i> Modeling activities</h2>
             
             <div class="image-grid">
-                <!-- Image Card 1 -->
-                <div class="image-card">
-                    <div class="image-placeholder">
-                        <img src="/Webpages/photos/NM_PTL.jpg" alt="Electrolyzer Schematic">
-                        <!-- If no image, show placeholder icon -->
-                        <!-- <i class="fas fa-project-diagram"></i> -->
-                    </div>
-                    <div class="image-card-content">
-                        <h4>CFD Modeling of a Nanomesh Integrated with a Substrate</h4>
-                        <p>This study uses 3D CFD modeling to analyze the flow behavior within nanomesh structures integrated onto porous substrates.
-                            The simulations explore various geometric configurations to optimize fluid transport.
-                            The model incorporates detailed meshing of nanoscale pores and interconnecting channel.
-                            Boundary conditions are carefully defined to simulate realistic inlet velocities, pressure gradients, and fluid properties. 
-                            Parametric analyses are conducted to assess the influence of pore size distribution, mesh thickness, and substrate porosity on flow uniformity.
-                        </p>
-                        <button class="download-btn" onclick="showPasswordModal('figure1', 'https://example.com/files/figure1_geometry.comsol', 'more_info')">
-                            <i class="fas fa-download"></i> More info.
-                        </button>
-                    </div>
+            <!-- Image Card 1 -->
+            <div class="image-card">
+                <div class="image-placeholder">
+                    <img src="/Webpages/photos/ED_system.jpg" alt="Electrodialysis CFD Simulation">
+                    <!-- <i class="fas fa-project-diagram"></i> -->
                 </div>
-
-                <!-- Image Card 2 -->
-                <div class="image-card">
-                    <div class="image-placeholder">
-                        <img src="/Webpages/photos/BOP_post_AWE.jpg" alt="Current Density Distribution">
-                        <!-- <i class="fas fa-bolt"></i> -->
-                    </div>
-                    <div class="image-card-content">
-                        <h4>Data post processing of BOP</h4>
-                        <p>Stable operation of industrial AWE hydrogen production systems depends on liquid level and pressure balance for efficient gas–liquid separation and high-purity hydrogen generation.
-                            Python supports data processing, mass balance modeling, prediction, and optimization to improve stability, degradation monitoring, and safety. Key parameters: HTO, OTH, I, V, L%, T, ∆P.
-                        </p>
-                        <button class="download-btn" onclick="showPasswordModal('figure2', 'https://example.com/files/figure2_current_density.py', 'more_info')">
-                            <i class="fas fa-download"></i> More info.
-                        </button>
-                    </div>
+                <div class="image-card-content">
+                    <h4>CFD Modeling of Electrodialysis System for Lithium-ion Recovery</h4>
+                    <p>This project focuses on CFD modeling of an electrodialysis (ED) system integrated with a Selective Cation Exchange Membrane (SCEM) for recovering lithium ions from black mass leachate. 
+                        The simulations predict ion transport behavior, concentration gradients, and process efficiency under varying operational conditions. 
+                        The model validates the selective extraction of Li⁺ ions while minimizing interference from competing ions. 
+                        Key findings support the development of scalable ED systems for circular battery material recovery, with applications in lithium-ion battery recycling and sustainable resource management.
+                    </p>
+                    <button class="download-btn" onclick="showPasswordModal('figure1', 'https://example.com/files/ED_CFD_model.comsol', 'more_info')">
+                        <i class="fas fa-download"></i> More info.
+                    </button>
                 </div>
-
-                <!-- Image Card 3 -->
-                <div class="image-card">
-                    <div class="image-placeholder">
-                        <img src="/Webpages/photos/CFD_3d_cell.jpg" alt="Temperature Field">
-                        <!-- <i class="fas fa-temperature-high"></i> -->
-                    </div>
-                    <div class="image-card-content">
-                        <h4>Innovative Flow Field Design</h4>
-                        <p>A novel 3D flow field design specifically engineered (driven by CFD simulation) to enhance fluid distribution and gas removal within alkaline water electrolyzers. 
-                            This design ensures uniform flow velocity, minimizes bubble accumulation and detachment issues, and significantly improves mass transport efficiency at the electrode–electrolyte interface.
-                            It demonstrates up to 30% improvement in overall energy efficiency.</p>
-                        <button class="download-btn" onclick="showPasswordModal('figure3', 'https://example.com/files/figure3_temperature.comsol', 'more_info')">
-                            <i class="fas fa-download"></i> More info.
-                        </button>
-                    </div>
+            </div>
+            
+            <!-- Image Card 2 -->
+            <div class="image-card">
+                <div class="image-placeholder">
+                    <img src="/Webpages/photos/membrane_chromatography.jpg" alt="Membrane Chromatography Module Design">
+                    <!-- <i class="fas fa-filter"></i> -->
                 </div>
+                <div class="image-card-content">
+                    <h4>CFD-Optimized Membrane Chromatography for Protein Separation</h4>
+                    <p>Comprehensive CFD modeling of membrane chromatography systems using both spiral and conical membrane module geometries for protein separation applications. 
+                        The simulations optimize flow distribution, residence time, and mass transfer efficiency within the membranes. 
+                        Advanced CFD insights led to improved module designs that were validated through 3D printing and experimental testing. 
+                        A leak-free opening design was engineered specifically for conical modules to enable scalable implementation. 
+                        The work demonstrates how computational fluid dynamics can accelerate the design-to-prototype cycle for bioprocess separation systems.
+                    </p>
+                    <button class="download-btn" onclick="showPasswordModal('figure2', 'https://example.com/files/membrane_chromatography_CFD.comsol', 'more_info')">
+                        <i class="fas fa-download"></i> More info.
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Image Card 3 -->
+            <div class="image-card">
+                <div class="image-placeholder">
+                    <img src="/Webpages/photos/osmotic_pump.jpg" alt="osmotic_pump Mass Transport Simulation">
+                    <!-- <i class="fas fa-exchange-alt"></i> -->
+                </div>
+                <div class="image-card-content">
+                    <h4>2D/3D CFD Analysis of Mass Transport in an osmotic pump device</h4>
+                    <p>Detailed computational study of mass transfer phenomena in the  osmotic pump device through coupled 2D and 3D CFD simulations in COMSOL. 
+                        An analytical 0D model was developed and rigorously compared with 2D CFD predictions to validate transport mechanisms. 
+                        Multiple CFD configurations were created to isolate and examine different aspects of transport behavior including diffusion, convection, and reaction kinetics. 
+                        The analysis identified critical performance bottlenecks and proposed model improvements based on comprehensive data evaluation. 
+                        This multi-scale modeling approach provides detailed insight into device performance and informs optimization strategies.
+                    </p>
+                    <button class="download-btn" onclick="showPasswordModal('figure3', 'https://example.com/files/TAR200_mass_transport.comsol', 'more_info')">
+                        <i class="fas fa-download"></i> More info.
+                    </button>
+                </div>
+            </div>
             </div>
         </section>
 
