@@ -13,176 +13,71 @@
     
     <style>
         :root {
-            --primary: #1a365d; /* Deep Navy */
-            --secondary: #2c5282; /* Mid Blue */
-            --accent: #3182ce; /* Bright Blue */
-            --bg-light: #f7fafc;
+            --primary: #2C5F7C;
+            --secondary: #4A7C9B;
+            --accent: #3182ce;
+            --bg-light: #f8f9fa;
             --card-bg: #ffffff;
-            --text-main: #2d3748;
-            --text-muted: #718096;
-            --white: #ffffff;
+            --text-main: #333;
+            --text-muted: #666;
+            --border: #e2e8f0;
             --radius: 12px;
-            --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --shadow: 0 4px 20px rgba(0,0,0,0.08);
+            --transition: all 0.3s ease;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; line-height: 1.6; color: var(--text-main); background: var(--bg-light); scroll-behavior: smooth; }
 
-        body {
-            font-family: 'Inter', system-ui, -apple-system, sans-serif;
-            line-height: 1.6;
-            color: var(--text-main);
-            background-color: var(--bg-light);
-            scroll-behavior: smooth;
-        }
+        /* Navigation */
+        nav { background: var(--primary); color: white; padding: 1rem 0; position: sticky; top: 0; z-index: 1000; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .nav-container { max-width: 1400px; margin: 0 auto; padding: 0 2rem; display: flex; justify-content: space-between; align-items: center; }
+        nav ul { list-style: none; display: flex; gap: 1.5rem; }
+        nav a { color: white; text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: var(--transition); display: flex; align-items: center; gap: 0.5rem; }
+        nav a:hover { color: #d9e9f2; transform: translateY(-2px); }
 
-        /* --- Scroll Progress Bar --- */
-        #scroll-progress {
-            position: fixed; top: 0; left: 0; width: 0%; height: 4px;
-            background: var(--accent); z-index: 2000; transition: width 0.1s;
-        }
+        /* Hero */
+        .hero { background: linear-gradient(135deg, #326a82 0%, #244d5e 100%); color: white; padding: 60px 2rem; text-align: center; }
+        .hero-image { width: 180px; height: 180px; border-radius: 50%; border: 4px solid white; box-shadow: 0 10px 30px rgba(0,0,0,0.3); margin-bottom: 20px; object-fit: cover; }
+        .hero h1 { font-size: 2.8rem; margin-bottom: 0.5rem; }
+        .hero .subtitle { font-size: 1.3rem; opacity: 0.9; margin-bottom: 1.5rem; }
+        .social-links { display: flex; justify-content: center; gap: 1.5rem; }
+        .social-links a { color: white; font-size: 1.4rem; transition: var(--transition); background: rgba(255,255,255,0.1); width: 45px; height: 45px; display: flex; align-items: center; justify-content: center; border-radius: 50%; text-decoration: none; }
+        .social-links a:hover { background: rgba(255,255,255,0.25); transform: scale(1.15); }
 
-        /* --- Navigation --- */
-        nav {
-            background: rgba(26, 54, 93, 0.95);
-            backdrop-filter: blur(10px);
-            color: white;
-            padding: 1rem 0;
-            position: sticky; top: 0; z-index: 1000;
-            box-shadow: var(--shadow);
-        }
-
-        .nav-container {
-            max-width: 1200px; margin: 0 auto; padding: 0 2rem;
-            display: flex; justify-content: space-between; align-items: center;
-        }
-
-        .logo { font-weight: 700; font-size: 1.25rem; letter-spacing: -0.5px; }
+        /* Sections */
+        section { padding: 5rem 2rem; max-width: 1400px; margin: 0 auto; }
+        h2 { font-size: 2.2rem; margin-bottom: 2rem; color: var(--primary); border-bottom: 3px solid var(--primary); padding-bottom: 0.5rem; display: inline-block; }
         
-        nav ul { display: flex; gap: 1.5rem; list-style: none; }
+        /* Layout Grids */
+        .grid { display: grid; gap: 2rem; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); }
+        .card { background: white; padding: 2rem; border-radius: var(--radius); box-shadow: var(--shadow); transition: var(--transition); border: 1px solid #eee; }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 10px 30px rgba(0,0,0,0.12); }
+
+        /* Publication Specifics */
+        .publication { display: flex; gap: 2rem; margin-bottom: 2rem; align-items: flex-start; }
+        .pub-img { width: 180px; height: 120px; object-fit: contain; border: 1px solid #ddd; border-radius: 8px; flex-shrink: 0; }
         
-        nav a {
-            color: rgba(255,255,255,0.8); text-decoration: none;
-            font-size: 0.9rem; font-weight: 500; transition: var(--transition);
-        }
+        /* Buttons */
+        .btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.6rem 1.2rem; border-radius: 6px; text-decoration: none; font-weight: 500; transition: var(--transition); cursor: pointer; border: none; }
+        .btn-primary { background: var(--primary); color: white; }
+        .btn-primary:hover { opacity: 0.9; }
 
-        nav a:hover { color: var(--white); }
+        /* Filter Search */
+        .search-bar { width: 100%; padding: 1rem; border-radius: 8px; border: 1px solid #ddd; margin-bottom: 2rem; font-size: 1rem; }
 
-        /* --- Hero Section --- */
-        .hero {
-            background: radial-gradient(circle at top right, var(--secondary), var(--primary));
-            color: white; padding: 6rem 2rem; text-align: center;
-            clip-path: polygon(0 0, 100% 0, 100% 90%, 0% 100%);
-        }
-
-        .hero-image {
-            width: 180px; height: 180px; border-radius: 50%;
-            border: 4px solid rgba(255,255,255,0.2);
-            margin: 0 auto 2rem; object-fit: cover;
-            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.3);
-        }
-
-        .hero h1 { font-size: 3rem; margin-bottom: 0.5rem; letter-spacing: -1px; }
-        
-        .hero .subtitle { 
-            font-size: 1.25rem; opacity: 0.9; font-weight: 300; 
-            max-width: 700px; margin: 0 auto 2rem;
-        }
-
-        .stats-grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            max-width: 800px; margin: 2rem auto 0; gap: 1rem;
-        }
-
-        .stat-item { background: rgba(255,255,255,0.1); padding: 1rem; border-radius: var(--radius); }
-        .stat-number { display: block; font-size: 1.5rem; font-weight: 700; }
-        .stat-label { font-size: 0.8rem; text-transform: uppercase; opacity: 0.8; }
-
-        /* --- Sections --- */
-        section { padding: 5rem 2rem; max-width: 1200px; margin: 0 auto; }
-        
-        .section-title {
-            font-size: 2rem; color: var(--primary); margin-bottom: 3rem;
-            display: flex; align-items: center; gap: 10px;
-        }
-        
-        .section-title::after {
-            content: ""; flex: 1; height: 1px; background: #e2e8f0; margin-left: 20px;
-        }
-
-        /* --- Cards Global --- */
-        .card {
-            background: var(--card-bg); border-radius: var(--radius);
-            padding: 2rem; box-shadow: var(--shadow); transition: var(--transition);
-            border: 1px solid #edf2f7;
-        }
-        .card:hover { transform: translateY(-5px); box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); }
-
-        /* --- Experience Timeline --- */
-        .timeline { position: relative; border-left: 3px solid #e2e8f0; padding-left: 2rem; }
-        
-        .experience-item { position: relative; margin-bottom: 3rem; }
-        
-        .experience-item::before {
-            content: ""; position: absolute; left: calc(-2rem - 9px); top: 5px;
-            width: 15px; height: 15px; border-radius: 50%;
-            background: var(--accent); border: 3px solid var(--white);
-        }
-
-        /* --- Publications Search --- */
-        .search-container { margin-bottom: 2rem; position: relative; }
-        
-        #pubSearch {
-            width: 100%; padding: 1rem 1rem 1rem 3rem; border-radius: var(--radius);
-            border: 1px solid #e2e8f0; outline: none; font-size: 1rem;
-        }
-
-        .search-icon { position: absolute; left: 1.2rem; top: 1.1rem; color: var(--text-muted); }
-
-        /* --- Tags --- */
-        .tag {
-            display: inline-block; padding: 0.25rem 0.75rem; border-radius: 20px;
-            font-size: 0.75rem; font-weight: 600; margin-right: 0.5rem; margin-top: 0.5rem;
-            background: #ebf8ff; color: #2b6cb0;
-        }
-
-        /* --- Projects Grid --- */
-        .projects-grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 2rem;
-        }
-
-        .project-img-wrapper {
-            height: 200px; border-radius: var(--radius); overflow: hidden;
-            margin-bottom: 1.5rem; background: #f1f5f9;
-        }
-
-        .project-img-wrapper img { width: 100%; height: 100%; object-fit: cover; transition: var(--transition); }
-        .card:hover .project-img-wrapper img { transform: scale(1.05); }
-
-        /* --- Floating Action Button --- */
-        #backToTop {
-            position: fixed; bottom: 30px; right: 30px;
-            background: var(--primary); color: white; width: 50px; height: 50px;
-            border-radius: 50%; display: none; align-items: center; justify-content: center;
-            cursor: pointer; box-shadow: var(--shadow); transition: var(--transition); z-index: 1000;
-        }
-
-        /* --- Mobile Responsiveness --- */
         @media (max-width: 768px) {
-            .hero h1 { font-size: 2rem; }
+            .publication { flex-direction: column; }
+            .pub-img { width: 100%; height: auto; }
             nav ul { display: none; }
-            section { padding: 3rem 1.5rem; }
-            .projects-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
 
-    <div id="scroll-progress"></div>
-    
     <nav>
         <div class="nav-container">
-            <div class="logo"><i class="fas fa-microchip"></i> ALI ATYABI, Ph.D.</div>
+            <div class="logo"><i class="fas fa-cogs"></i> Ali Atyabi, Ph.D.</div>
             <ul>
                 <li><a href="#about">About</a></li>
                 <li><a href="#experience">Experience</a></li>
@@ -194,245 +89,195 @@
     </nav>
 
     <header class="hero">
-        <div class="container">
-            <img src="photos/ali_atyabi.jpg" alt="Ali Atyabi" class="hero-image" onerror="this.src='https://via.placeholder.com/180'">
-            <h1>Ali Atyabi, Ph.D.</h1>
-            <p class="subtitle">Mechanical Engineer | CFD Simulation Expert | R&D Researcher specializing in Electrochemical Systems & Hydrogen Production</p>
-            
-            <div class="stats-grid">
-                <div class="stat-item">
-                    <span class="stat-number">1126+</span>
-                    <span class="stat-label">Citations</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-number">10+</span>
-                    <span class="stat-label">Years R&D</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-number">12+</span>
-                    <span class="stat-label">Publications</span>
-                </div>
-            </div>
-
-            <div style="margin-top: 3rem; display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap;">
-                <a href="mailto:atyabi902@gmail.com" class="stat-item" style="text-decoration: none; color: white; background: var(--accent);">
-                    <i class="fas fa-envelope"></i> Contact Me
-                </a>
-                <a href="https://linkedin.com/in/s-ali-atyabi" target="_blank" class="stat-item" style="text-decoration: none; color: white;">
-                    <i class="fab fa-linkedin"></i> LinkedIn
-                </a>
-            </div>
+        <img src="photos/ali_atyabi.jpg" alt="Ali Atyabi" class="hero-image" onerror="this.src='https://via.placeholder.com/180'">
+        <h1>Ali Atyabi, Ph.D.</h1>
+        <p class="subtitle">Mechanical Engineer | CFD Simulation Expert | R&D Researcher</p>
+        <div class="social-links">
+            <a href="https://scholar.google.com/citations?user=MytiTgsAAAAJ" target="_blank"><i class="fas fa-graduation-cap"></i></a>
+            <a href="https://www.researchgate.net/profile/Ali-Atyabi" target="_blank"><i class="fab fa-researchgate"></i></a>
+            <a href="https://linkedin.com/in/s-ali-atyabi" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+            <a href="mailto:atyabi902@gmail.com"><i class="far fa-envelope"></i></a>
         </div>
     </header>
 
     <section id="about">
-        <h2 class="section-title"><i class="fas fa-user-circle"></i> At A Glance</h2>
+        <h2>Professional Summary</h2>
         <div class="card">
-            <p style="font-size: 1.1rem; color: var(--text-main);">
-                Ph.D. in Mechanical Engineering with a decade of specialized experience in <strong>CFD/FE modeling</strong>, <strong>Energy conversion systems</strong>, and <strong>Heat and mass transfer</strong>. 
-                Currently a Researcher at <strong>KU Leuven</strong>, driving innovation in advanced modeling of mass transport phenomena for membrane technologies and medical drug delivery devices.
+            <p style="font-size: 1.15rem;">
+                Ph.D. in Mechanical Engineering with 10 years of specialized experience in CFD/FE modeling, Energy conversion systems, and Heat and mass transfer. 
+                Currently a Researcher at KU Leuven, focusing on advanced modeling of mass transport phenomena in different types of membrane and drug delivery device.
             </p>
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; margin-top: 2rem;">
-                <div>
-                    <h4 style="color: var(--secondary); margin-bottom: 1rem;"><i class="fas fa-bolt"></i> Core Expertise</h4>
-                    <ul style="list-style: none; font-size: 0.95rem;">
-                        <li><i class="fas fa-check text-accent"></i> Multiphysics Modeling</li>
-                        <li><i class="fas fa-check text-accent"></i> Flow Field Optimization</li>
-                        <li><i class="fas fa-check text-accent"></i> Hydrogen Production</li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 style="color: var(--secondary); margin-bottom: 1rem;"><i class="fas fa-code"></i> Tool Stack</h4>
-                    <div class="tags">
-                        <span class="tag">COMSOL</span><span class="tag">ANSYS Fluent</span>
-                        <span class="tag">Python</span><span class="tag">MATLAB</span>
-                    </div>
-                </div>
-            </div>
         </div>
     </section>
 
-    <section id="experience" style="background: #fcfcfc;">
-        <h2 class="section-title"><i class="fas fa-briefcase"></i> Professional Journey</h2>
-        <div class="timeline">
-            <div class="experience-item card">
-                <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; margin-bottom: 1rem;">
-                    <div>
-                        <h3 style="color: var(--primary);">Researcher</h3>
-                        <p style="font-weight: 600; color: var(--accent);">KU Leuven, Dept. of Mechanical Engineering</p>
-                    </div>
-                    <span class="tag" style="background: var(--primary); color: white;">2024 – Present</span>
+    <section id="experience">
+        <h2>Professional Experience</h2>
+        
+        <div class="card" style="margin-bottom: 2rem;">
+            <div style="display: flex; justify-content: space-between; align-items: start; flex-wrap: wrap;">
+                <div>
+                    <h3>Researcher</h3>
+                    <p style="color: var(--secondary); font-weight: 600;">KU Leuven, Department of Mechanical Engineering</p>
                 </div>
-                <ul style="padding-left: 1.2rem; font-size: 0.95rem; color: var(--text-main);">
-                    <li>Developed CFD models for electrodialysis membrane systems using COMSOL.</li>
-                    <li>Optimized osmotic pumps using RO membranes for medical applications.</li>
-                    <li>Mentored PhD students on transport phenomena and simulation best practices.</li>
-                </ul>
+                <span style="font-weight: bold; color: var(--text-muted);">2024 – Present</span>
             </div>
+            <ul style="margin-top: 1rem; padding-left: 1.5rem;">
+                <li>Developed comprehensive CFD models for electrodialysis membrane systems using COMSOL Multiphysics.</li>
+                <li>Optimized membrane-based separation processes analyzing flow distribution and concentration polarization.</li>
+                <li>Developed CFD models for osmotic pumps using RO membranes for medical applications.</li>
+                <li>Mentored and trained PhD students on CFD modeling and transport phenomena theory.</li>
+            </ul>
+        </div>
 
-            <div class="experience-item card">
-                <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; margin-bottom: 1rem;">
-                    <div>
-                        <h3 style="color: var(--primary);">R&D Researcher</h3>
-                        <p style="font-weight: 600; color: var(--accent);">VITO (Flemish Institute for Technological Research)</p>
-                    </div>
-                    <span class="tag">2021 – 2024</span>
+        <div class="card" style="margin-bottom: 2rem;">
+            <div style="display: flex; justify-content: space-between; align-items: start; flex-wrap: wrap;">
+                <div>
+                    <h3>R&D Researcher</h3>
+                    <p style="color: var(--secondary); font-weight: 600;">VITO (Flemish Institute for Technological Research)</p>
                 </div>
-                <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1rem;"><i class="fas fa-map-marker-alt"></i> Mol, Belgium</p>
-                <ul style="padding-left: 1.2rem; font-size: 0.95rem;">
-                    <li>Optimized flow fields for alkaline electrolyzers, achieving **30% energy reduction**.</li>
-                    <li>Developed Python tools for dynamic process modeling and automated mass balance.</li>
-                    <li>Collaborated with John Cockerill on industrial-scale hydrogen system design.</li>
-                </ul>
+                <span style="font-weight: bold; color: var(--text-muted);">2021 – 2024</span>
             </div>
+            <ul style="margin-top: 1rem; padding-left: 1.5rem;">
+                <li>Optimized flow fields for alkaline water electrolyzers, achieving 30% energy reduction.</li>
+                <li>Developed detailed CFD models for porous transport layers and ion exchange membrane systems.</li>
+                <li>Created Python-based tools for dynamic process modeling and automated mass balance.</li>
+                <li>Managed collaborative projects with John Cockerill for industrial-scale system design.</li>
+            </ul>
+        </div>
+
+        <div class="card" style="margin-bottom: 2rem;">
+            <h3>Researcher | INSF - Iran National Science Foundation (2020–2021)</h3>
+            <p>Developed advanced CFD models for membrane electrode assemblies in PEM fuel cell systems. Collaborated with Braunschweig University (Germany).</p>
+        </div>
+
+        <div class="card" style="margin-bottom: 2rem;">
+            <h3>Researcher | Persian Gulf University (2019–2020)</h3>
+            <p>Developed CFD models for coke injection in furnaces and optimized pump designs improving efficiency by 12%.</p>
+        </div>
+        
+        <div class="card">
+            <h3>PhD Researcher | University of Isfahan (2014–2019)</h3>
+            <p>Conducted comprehensive CFD modeling of high-temperature membrane systems. Served as lecturer for Advanced CFD and Heat Transfer.</p>
         </div>
     </section>
 
     <section id="projects">
-        <h2 class="section-title"><i class="fas fa-project-diagram"></i> Featured Projects</h2>
-        <div class="projects-grid">
+        <h2>Research Projects</h2>
+        <div class="grid">
             <div class="card">
-                <div class="project-img-wrapper">
-                    <img src="projects/HERAQCLES.jpg" alt="HERAQCLES" onerror="this.src='https://via.placeholder.com/400x200?text=HERAQCLES+Project'">
-                </div>
+                <img src="projects/HERAQCLES.jpg" style="width:100%; border-radius:8px; margin-bottom:1rem;" onerror="this.style.display='none'">
                 <h3>HERAQCLES</h3>
-                <p style="font-size: 0.9rem; color: var(--text-muted); margin: 0.5rem 0 1rem;">VITO | 2021 - 2024</p>
-                <p style="font-size: 0.95rem; margin-bottom: 1.5rem;">Novel round-shaped cell design achieving 30% energy savings in water electrolysis through multiphase CFD transport modeling.</p>
-                <div class="tags">
-                    <span class="tag">Multiphase CFD</span><span class="tag">COMSOL</span><span class="tag">Energy Saving</span>
-                </div>
+                <p>Designed a novel round-shaped cell achieving 30% energy savings. 2021–2024.</p>
+                <a href="Webpages/heraqcles.html" class="btn btn-primary">Details</a>
             </div>
-
             <div class="card">
-                <div class="project-img-wrapper">
-                    <img src="projects/H2MHYTIC_COVER.jpg" alt="H2-MHYTIC" onerror="this.src='https://via.placeholder.com/400x200?text=H2-MHYTIC+Project'">
-                </div>
+                <img src="projects/H2MHYTIC_COVER.jpg" style="width:100%; border-radius:8px; margin-bottom:1rem;" onerror="this.style.display='none'">
                 <h3>H2-MHYTIC</h3>
-                <p style="font-size: 0.9rem; color: var(--text-muted); margin: 0.5rem 0 1rem;">Blue Cluster | 2021 - 2024</p>
-                <p style="font-size: 0.95rem; margin-bottom: 1.5rem;">Development of high-performance hydroxyl exchange membrane (HEM) electrolysis using ultra-porous Nanomesh electrodes.</p>
-                <div class="tags">
-                    <span class="tag">Green Hydrogen</span><span class="tag">Nanomesh</span><span class="tag">Electrolysis</span>
-                </div>
+                <p>Developing high-performance hydroxyl exchange membrane (HEM) electrolysis cells.</p>
+                <a href="Webpages/H2MHYTIC.html" class="btn btn-primary">Details</a>
             </div>
-
             <div class="card">
-                <div class="project-img-wrapper">
-                    <img src="projects/KU_Leuven.jpg" alt="KU Leuven ED" onerror="this.src='https://via.placeholder.com/400x200?text=Electrodialysis+Project'">
-                </div>
-                <h3>Lithium Recovery (ED)</h3>
-                <p style="font-size: 0.9rem; color: var(--text-muted); margin: 0.5rem 0 1rem;">KU Leuven | 2024 - Present</p>
-                <p style="font-size: 0.95rem; margin-bottom: 1.5rem;">CFD modeling of Selective Cation Exchange Membranes for recovering lithium from black mass leachate.</p>
-                <div class="tags">
-                    <span class="tag">Ion Exchange</span><span class="tag">Sustainability</span><span class="tag">Lithium</span>
-                </div>
+                <img src="projects/BioRECO2VER.jpg" style="width:100%; border-radius:8px; margin-bottom:1rem;" onerror="this.style.display='none'">
+                <h3>BioRECO2VER</h3>
+                <p>Developed models for 300 cm² CO₂ electrolyzer under assembly pressure conditions.</p>
+                <a href="Webpages/BioRECO2VER.html" class="btn btn-primary">Details</a>
+            </div>
+            <div class="card">
+                <img src="projects/Columbus.jpg" style="width:100%; border-radius:8px; margin-bottom:1rem;" onerror="this.style.display='none'">
+                <h3>COLUMBUS</h3>
+                <p>Membrane selection and process optimization for electrolysis with Ca(OH)₂ cogeneration.</p>
+                <a href="Webpages/Columbus.html" class="btn btn-primary">Details</a>
+            </div>
+            <div class="card">
+                <img src="projects/KU_Leuven.jpg" style="width:100%; border-radius:8px; margin-bottom:1rem;" onerror="this.style.display='none'">
+                <h3>Electrodialysis (ED)</h3>
+                <p>Recovering lithium ions from black mass leachate and osmotic pump models.</p>
+                <a href="Webpages/KU_leuven.html" class="btn btn-primary">Details</a>
+            </div>
+            <div class="card">
+                <img src="projects/Pump_petrochemical.gif" style="width:100%; border-radius:8px; margin-bottom:1rem;" onerror="this.style.display='none'">
+                <h3>Pump Optimization</h3>
+                <p>Redesigned impellers for 4 industrial pumps, increasing capacity by up to 59%.</p>
+                <a href="Webpages/Pump_petrochemical.html" class="btn btn-primary">Details</a>
             </div>
         </div>
     </section>
 
-    <section id="publications" style="background: white;">
-        <h2 class="section-title"><i class="fas fa-scroll"></i> Publications & Research</h2>
+    <section id="publications">
+        <h2>Publications</h2>
+        <input type="text" class="search-bar" id="pubSearch" placeholder="Search publications by title..." onkeyup="filterPubs()">
         
-        <div class="search-container">
-            <i class="fas fa-search search-icon"></i>
-            <input type="text" id="pubSearch" placeholder="Search by title, keyword, or journal..." onkeyup="filterPubs()">
-        </div>
-
-        <div id="pubList" style="display: grid; gap: 1.5rem;">
-            <div class="card pub-item">
-                <div style="display: flex; gap: 2rem; align-items: center; flex-wrap: wrap;">
-                    <img src="publications/Three-dimensional multiphase modeling of the performance of an open-cathode PEM fuel cell with additional cooling channels.jpg" 
-                         style="width: 120px; border-radius: 8px;" alt="Pub" onerror="this.style.display='none'">
-                    <div style="flex: 1;">
-                        <h4 class="pub-title" style="color: var(--primary); margin-bottom: 0.5rem;">Three-dimensional multiphase modeling of an open-cathode PEM fuel cell</h4>
-                        <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 0.5rem;"><strong>S.A. Atyabi</strong>, E. Afshari, N. Shakarami</p>
-                        <p style="font-size: 0.85rem; font-weight: 600;"><i class="fas fa-journal-whills"></i> Energy Journal (2023)</p>
-                        <a href="https://doi.org/10.1016/j.energy.2022.125507" target="_blank" style="color: var(--accent); text-decoration: none; font-size: 0.85rem; margin-top: 10px; display: inline-block;">View Paper <i class="fas fa-external-link-alt"></i></a>
-                    </div>
+        <div id="pubList">
+            <div class="card publication">
+                <img src="publications/Three-dimensional multiphase modeling of the performance of an open-cathode PEM fuel cell with additional cooling channels.jpg" class="pub-img" onerror="this.style.display='none'">
+                <div>
+                    <h4 class="pub-title">Three-dimensional multiphase modeling of an open-cathode PEM fuel cell</h4>
+                    <p><strong>Energy</strong>, Volume 263 (2023)</p>
+                    <p>S.A. Atyabi, E. Afshari, N. Shakarami</p>
+                    <a href="https://doi.org/10.1016/j.energy.2022.125507" target="_blank">View Paper</a>
                 </div>
             </div>
+
+            <div class="card publication">
+                <img src="publications/Comparison of active and passive cooling of proton exchange membrane fuel cell using a multiphase model.jpg" class="pub-img" onerror="this.style.display='none'">
+                <div>
+                    <h4 class="pub-title">Comparison of active and passive cooling of PEM fuel cell</h4>
+                    <p><strong>Energy Conversion and Management</strong>, Volume 268 (2022)</p>
+                    <p>S.A. Atyabi, E. Afshari, C. Udemu</p>
+                    <a href="https://doi.org/10.1016/j.enconman.2022.115970" target="_blank">View Paper</a>
+                </div>
+            </div>
+
+            <div class="card publication">
+                <img src="publications/Numerical simulation of membrane humidifier with different flow fields for medical application.jpg" class="pub-img" onerror="this.style.display='none'">
+                <div>
+                    <h4 class="pub-title">Numerical simulation of membrane humidifier for medical application</h4>
+                    <p><strong>Medicine in Novel Technology and Devices</strong> (2022)</p>
+                    <a href="https://doi.org/10.1016/j.medntd.2022.100124" target="_blank">View Paper</a>
+                </div>
+            </div>
+
+            <div class="card publication">
+                <img src="publications/Three-dimensional simulation of different flow fields of proton exchange membrane fuel cell...jpg" class="pub-img" onerror="this.style.display='none'">
+                <div>
+                    <h4 class="pub-title">Three-dimensional simulation of flow fields with cooling channel</h4>
+                    <p><strong>Energy</strong>, Vol 234 (2021)</p>
+                    <a href="https://doi.org/10.1016/j.energy.2021.121247" target="_blank">View Paper</a>
+                </div>
+            </div>
+
             </div>
     </section>
 
-    <section id="contact">
-        <h2 class="section-title"><i class="fas fa-envelope-open-text"></i> Let's Connect</h2>
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem;">
-            <div class="card" style="text-align: center;">
-                <i class="fas fa-paper-plane" style="font-size: 2rem; color: var(--accent); margin-bottom: 1rem;"></i>
-                <h4>Email</h4>
-                <p><a href="mailto:atyabi902@gmail.com" style="color: var(--text-main); text-decoration: none;">atyabi902@gmail.com</a></p>
-            </div>
-            <div class="card" style="text-align: center;">
-                <i class="fab fa-linkedin" style="font-size: 2rem; color: #0077b5; margin-bottom: 1rem;"></i>
-                <h4>LinkedIn</h4>
-                <p><a href="https://linkedin.com/in/s-ali-atyabi" target="_blank" style="color: var(--text-main); text-decoration: none;">Connect Professionally</a></p>
-            </div>
-            <div class="card" style="text-align: center;">
-                <i class="fas fa-graduation-cap" style="font-size: 2rem; color: #4285f4; margin-bottom: 1rem;"></i>
-                <h4>Google Scholar</h4>
-                <p>1126+ Citations | h-index: 18</p>
-            </div>
+    <section id="education">
+        <h2>Education</h2>
+        <div class="card" style="margin-bottom:1rem;">
+            <h3>Ph.D. Mechanical Engineering | University of Isfahan</h3>
+            <p>2014 – 2019</p>
+        </div>
+        <div class="card" style="margin-bottom:1rem;">
+            <h3>M.Sc. Mechanical Engineering | Isfahan University of Technology</h3>
+            <p>2010 – 2013</p>
         </div>
     </section>
 
-    <footer style="background: var(--primary); color: white; padding: 4rem 2rem; text-align: center;">
-        <div style="max-width: 1200px; margin: 0 auto;">
-            <h3 style="margin-bottom: 1rem;">Ali Atyabi, Ph.D.</h3>
-            <p style="opacity: 0.7; font-size: 0.9rem; margin-bottom: 2rem;">Mechanical Engineer & CFD Specialist focused on Sustainable Energy Technologies</p>
-            <div style="display: flex; justify-content: center; gap: 2rem; margin-bottom: 2rem;">
-                <a href="#" style="color: white; font-size: 1.2rem;"><i class="fab fa-researchgate"></i></a>
-                <a href="#" style="color: white; font-size: 1.2rem;"><i class="fab fa-linkedin"></i></a>
-                <a href="mailto:atyabi902@gmail.com" style="color: white; font-size: 1.2rem;"><i class="fas fa-envelope"></i></a>
-            </div>
-            <p style="font-size: 0.8rem; opacity: 0.5;">&copy; 2025 Ali Atyabi. Optimized for Professional Impact.</p>
+    <footer style="background: var(--primary); color: white; padding: 3rem; text-align: center;">
+        <p>© 2024 Ali Atyabi. All rights reserved.</p>
+        <div style="margin-top: 1rem;">
+            <a href="mailto:atyabi902@gmail.com" style="color: white; margin: 0 10px;">Email</a> |
+            <a href="https://linkedin.com/in/s-ali-atyabi" target="_blank" style="color: white; margin: 0 10px;">LinkedIn</a>
         </div>
     </footer>
 
-    <div id="backToTop" onclick="window.scrollTo(0,0)"><i class="fas fa-arrow-up"></i></div>
-
     <script>
-        // Scroll Progress
-        window.onscroll = function() {
-            let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
-            let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-            let scrolled = (winScroll / height) * 100;
-            document.getElementById("scroll-progress").style.width = scrolled + "%";
-            
-            // Back to Top visibility
-            let btt = document.getElementById("backToTop");
-            if (winScroll > 300) { btt.style.display = "flex"; } else { btt.style.display = "none"; }
-        };
-
-        // Publication Filter
         function filterPubs() {
             let input = document.getElementById('pubSearch').value.toLowerCase();
-            let items = document.getElementsByClassName('pub-item');
-            
-            for (let i = 0; i < items.length; i++) {
-                let title = items[i].getElementsByClassName('pub-title')[0].innerText.toLowerCase();
-                if (title.includes(input)) {
-                    items[i].style.display = "";
-                } else {
-                    items[i].style.display = "none";
-                }
+            let cards = document.getElementsByClassName('publication');
+            for (let i = 0; i < cards.length; i++) {
+                let title = cards[i].querySelector('.pub-title').innerText.toLowerCase();
+                cards[i].style.display = title.includes(input) ? "" : "none";
             }
         }
-
-        // Simple Fade-in Observer
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = 1;
-                    entry.target.style.transform = "translateY(0)";
-                }
-            });
-        }, { threshold: 0.1 });
-
-        document.querySelectorAll('.card').forEach(card => {
-            card.style.opacity = 0;
-            card.style.transform = "translateY(20px)";
-            card.style.transition = "all 0.6s ease-out";
-            observer.observe(card);
-        });
     </script>
 </body>
 </html>
