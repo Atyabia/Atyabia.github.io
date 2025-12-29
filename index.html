@@ -1,0 +1,1797 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Ali Atyabi - Mechanical Engineer | R&D Researcher | Electrochemical Systems Specialist">
+    <meta name="keywords" content="Ali Atyabi, CFD, PEM fuel cell, Alkaline electrolyzer, COMSOL, ANSYS">
+    <meta name="author" content="Ali Atyabi">
+    <title>Ali Atyabi, Ph.D. - Mechanical Engineering Researcher</title>
+    
+    <!-- Font Awesome for Professional Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary-color: #0066cc;
+            --primary-dark: #004d99;
+            --secondary-color: #00b4d8;
+            --accent-color: #90e0ef;
+            --accent-warm: #ff6b35;
+            --success-color: #06d6a0;
+            --info-color: #4cc9f0;
+            --warning-color: #ffd60a;
+            --danger-color: #ef476f;
+            --text-dark: #1a1a2e;
+            --text-medium: #16213e;
+            --text-light: #4a5568;
+            --border-color: #e2e8f0;
+            --bg-light: #f8fafc;
+            --bg-white: #ffffff;
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.08);
+            --shadow-md: 0 4px 16px rgba(0,0,0,0.12);
+            --shadow-lg: 0 8px 32px rgba(0,0,0,0.16);
+            --gradient-primary: linear-gradient(135deg, #0066cc 0%, #00b4d8 100%);
+            --gradient-accent: linear-gradient(135deg, #00b4d8 0%, #90e0ef 100%);
+            --gradient-warm: linear-gradient(135deg, #ff6b35 0%, #ff8c61 100%);
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.7;
+            color: var(--text-dark);
+            background: var(--bg-light);
+        }
+        
+        /* Navigation */
+        nav {
+            background: var(--gradient-primary);
+            color: white;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: var(--shadow-lg);
+            backdrop-filter: blur(10px);
+        }
+        
+        nav .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        nav .logo {
+            font-size: 1.6rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        nav .logo i {
+            font-size: 1.8rem;
+            color: var(--accent-color);
+        }
+        
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+        
+        nav a {
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            padding: 0.6rem 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            border-radius: 8px;
+            font-weight: 500;
+        }
+        
+        nav a:hover {
+            background: rgba(255,255,255,0.2);
+            transform: translateY(-2px);
+        }
+        
+        nav a i {
+            font-size: 1.1rem;
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: var(--gradient-primary);
+            color: white;
+            padding: 5rem 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 30% 50%, rgba(144, 224, 239, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 70% 50%, rgba(0, 180, 216, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+        }
+        
+        .hero-content {
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .hero-image {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            margin: 0 auto 2rem;
+            border: 6px solid rgba(255,255,255,0.3);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3),
+                        0 0 0 15px rgba(255,255,255,0.1);
+            overflow: hidden;
+            background: white;
+            position: relative;
+        }
+        
+        .hero-image::after {
+            content: '';
+            position: absolute;
+            inset: -6px;
+            border-radius: 50%;
+            padding: 6px;
+            background: linear-gradient(135deg, var(--accent-color), var(--secondary-color));
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+        }
+        
+        .hero-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .hero h1 {
+            font-size: 3.2rem;
+            margin-bottom: 0.8rem;
+            font-weight: 800;
+            letter-spacing: -1px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+        
+        .hero .subtitle {
+            font-size: 1.4rem;
+            margin-bottom: 0.5rem;
+            opacity: 0.95;
+            font-weight: 500;
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.2rem;
+            margin-top: 2rem;
+        }
+        
+        .social-links a {
+            color: white;
+            font-size: 1.4rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            padding: 0.8rem;
+            background: rgba(255,255,255,0.15);
+            border-radius: 50%;
+            width: 56px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255,255,255,0.2);
+        }
+        
+        .social-links a:hover {
+            transform: translateY(-5px) scale(1.1);
+            background: rgba(255,255,255,0.25);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+        
+        /* Container */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        
+        /* Sections */
+        section {
+            padding: 5rem 2rem;
+        }
+        
+        section:nth-child(even) {
+            background: white;
+        }
+        
+        h2 {
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: var(--primary-color);
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            position: relative;
+            padding-bottom: 1rem;
+        }
+        
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 80px;
+            height: 4px;
+            background: var(--gradient-primary);
+            border-radius: 2px;
+        }
+        
+        h2 i {
+            font-size: 2.2rem;
+            color: var(--secondary-color);
+        }
+        
+        h3 {
+            color: var(--primary-dark);
+            margin-top: 1.5rem;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+        
+        /* Professional Button Styles */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 0.75rem 1.5rem;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            cursor: pointer;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .btn-primary {
+            background: var(--gradient-primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            box-shadow: 0 6px 20px rgba(0, 102, 204, 0.4);
+        }
+        
+        .btn-success {
+            background: linear-gradient(135deg, var(--success-color) 0%, #05b896 100%);
+            color: white;
+        }
+        
+        .btn-success:hover {
+            box-shadow: 0 6px 20px rgba(6, 214, 160, 0.4);
+        }
+        
+        .btn-info {
+            background: linear-gradient(135deg, var(--info-color) 0%, #00b4d8 100%);
+            color: white;
+        }
+        
+        .btn-info:hover {
+            box-shadow: 0 6px 20px rgba(76, 201, 240, 0.4);
+        }
+        
+        .btn-outline {
+            background: transparent;
+            color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+        
+        .btn-outline:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+        
+        .btn-group {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        /* Skills Grid */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .skill-category {
+            background: var(--bg-white);
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: var(--shadow-md);
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        .skill-category:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--accent-color);
+        }
+        
+        .skill-icon {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 80px;
+            height: 80px;
+            border-radius: 16px;
+            background: var(--gradient-accent);
+            color: white;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .skill-category h3 {
+            margin-top: 0;
+            color: var(--primary-color);
+            font-size: 1.4rem;
+            margin-bottom: 1.2rem;
+        }
+        
+        .skill-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+        
+        .skill-list li {
+            padding: 0.6rem 1rem;
+            background: var(--bg-light);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            transition: all 0.2s ease;
+            font-weight: 500;
+        }
+        
+        .skill-list li:hover {
+            background: var(--accent-color);
+            transform: translateX(5px);
+        }
+        
+        .skill-list li i {
+            color: var(--secondary-color);
+            font-size: 1.1rem;
+        }
+        
+        /* Experience Items */
+        .experience-item {
+            background: var(--bg-white);
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            border-radius: 16px;
+            box-shadow: var(--shadow-md);
+            border-left: 5px solid var(--secondary-color);
+            transition: all 0.3s ease;
+        }
+        
+        .experience-item:hover {
+            transform: translateX(5px);
+            box-shadow: var(--shadow-lg);
+            border-left-color: var(--accent-warm);
+        }
+        
+        .experience-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+        
+        .experience-title h3 {
+            margin: 0 0 0.5rem 0;
+            color: var(--primary-dark);
+            font-size: 1.6rem;
+        }
+        
+        .experience-company {
+            color: var(--text-light);
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 500;
+        }
+        
+        .experience-company i {
+            color: var(--secondary-color);
+        }
+        
+        .experience-date {
+            background: var(--gradient-accent);
+            color: var(--primary-dark);
+            padding: 0.6rem 1.2rem;
+            border-radius: 25px;
+            font-weight: 600;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .experience-date i {
+            color: var(--primary-color);
+        }
+        
+        .experience-item ul {
+            list-style: none;
+            margin-top: 1rem;
+        }
+        
+        .experience-item li {
+            padding: 0.8rem 0;
+            padding-left: 2rem;
+            position: relative;
+            line-height: 1.7;
+        }
+        
+        .experience-item li::before {
+            content: "▸";
+            position: absolute;
+            left: 0;
+            color: var(--secondary-color);
+            font-size: 1.3rem;
+            font-weight: bold;
+        }
+        
+        /* Info Box */
+        .info-box {
+            background: linear-gradient(135deg, rgba(0, 180, 216, 0.1) 0%, rgba(144, 224, 239, 0.1) 100%);
+            padding: 2.5rem;
+            border-radius: 16px;
+            border: 2px solid var(--accent-color);
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .info-box h3 {
+            color: var(--primary-color);
+            margin-top: 0;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            font-size: 1.6rem;
+        }
+        
+        .info-box h3 i {
+            color: var(--secondary-color);
+            font-size: 1.8rem;
+        }
+        
+        /* Publications */
+        .publications-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 2.5rem;
+        }
+        
+        .publication {
+            background: var(--bg-white);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            border: 2px solid transparent;
+        }
+        
+        .publication:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--accent-color);
+        }
+        
+        .publication-image {
+            width: 100%;
+            height: 250px;
+            overflow: hidden;
+            background: var(--gradient-accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        
+        .publication-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+        
+        .publication:hover .publication-image img {
+            transform: scale(1.05);
+        }
+        
+        .publication-image .placeholder {
+            font-size: 4rem;
+            color: white;
+        }
+        
+        .publication-content {
+            padding: 2rem;
+        }
+        
+        .publication-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--primary-dark);
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+        
+        .publication-authors {
+            color: var(--text-light);
+            margin-bottom: 0.8rem;
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+        
+        .publication-authors strong {
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+        
+        .publication-journal {
+            color: var(--text-medium);
+            font-size: 0.95rem;
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.8rem;
+            background: var(--bg-light);
+            border-radius: 8px;
+            font-weight: 500;
+        }
+        
+        .publication-journal i {
+            color: var(--secondary-color);
+            font-size: 1.1rem;
+        }
+        
+        .publication-stats {
+            display: flex;
+            gap: 1.5rem;
+            margin: 1rem 0;
+            flex-wrap: wrap;
+        }
+        
+        .stat {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.6rem 1rem;
+            background: var(--bg-light);
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        
+        .stat i {
+            color: var(--secondary-color);
+        }
+        
+        .stat-citations {
+            background: linear-gradient(135deg, rgba(6, 214, 160, 0.15) 0%, rgba(5, 184, 150, 0.15) 100%);
+            color: var(--success-color);
+        }
+        
+        .stat-citations i {
+            color: var(--success-color);
+        }
+        
+        .publication-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+        
+        /* Contact Section */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .contact-card {
+            background: var(--bg-white);
+            padding: 2.5rem;
+            border-radius: 16px;
+            text-align: center;
+            box-shadow: var(--shadow-md);
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        .contact-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--accent-color);
+        }
+        
+        .contact-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 1.5rem;
+            background: var(--gradient-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: white;
+            box-shadow: var(--shadow-md);
+        }
+        
+        .contact-card h3 {
+            margin: 0 0 1rem 0;
+            color: var(--primary-color);
+            font-size: 1.3rem;
+        }
+        
+        .contact-card p {
+            margin: 0;
+        }
+        
+        .contact-card a {
+            color: var(--secondary-color);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+        
+        .contact-card a:hover {
+            color: var(--primary-color);
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--gradient-primary);
+            color: white;
+            padding: 4rem 2rem 2rem;
+            text-align: center;
+        }
+        
+        footer h3 {
+            color: white;
+            font-size: 1.8rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.8rem;
+        }
+        
+        footer h3 i {
+            font-size: 2rem;
+            color: var(--accent-color);
+        }
+        
+        footer a {
+            color: var(--accent-color);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            margin: 0 0.3rem;
+        }
+        
+        footer a:hover {
+            color: white;
+            text-shadow: 0 0 10px rgba(255,255,255,0.5);
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .hero .subtitle {
+                font-size: 1.1rem;
+            }
+            
+            h2 {
+                font-size: 2rem;
+            }
+            
+            .experience-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .skills-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .publication {
+                flex-direction: column;
+            }
+            
+            nav .container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            nav ul {
+                justify-content: center;
+            }
+        }
+        
+        /* Scroll Animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Loading Animation */
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.5;
+            }
+        }
+        
+        /* Badge Styles */
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.4rem 0.9rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin: 0.3rem 0.2rem;
+        }
+        
+        .badge-primary {
+            background: linear-gradient(135deg, rgba(0, 102, 204, 0.15) 0%, rgba(0, 180, 216, 0.15) 100%);
+            color: var(--primary-color);
+        }
+        
+        .badge-success {
+            background: linear-gradient(135deg, rgba(6, 214, 160, 0.15) 0%, rgba(5, 184, 150, 0.15) 100%);
+            color: var(--success-color);
+        }
+        
+        .badge-info {
+            background: linear-gradient(135deg, rgba(76, 201, 240, 0.15) 0%, rgba(0, 180, 216, 0.15) 100%);
+            color: var(--info-color);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="container">
+            <div class="logo">
+                <i class="fas fa-atom"></i>
+                Ali Atyabi, Ph.D.
+            </div>
+            <ul>
+                <li><a href="#about"><i class="fas fa-user"></i> About</a></li>
+                <li><a href="#skills"><i class="fas fa-tools"></i> Skills</a></li>
+                <li><a href="#experience"><i class="fas fa-briefcase"></i> Experience</a></li>
+                <li><a href="#publications"><i class="fas fa-file-alt"></i> Publications</a></li>
+                <li><a href="#education"><i class="fas fa-graduation-cap"></i> Education</a></li>
+                <li><a href="#contact"><i class="fas fa-envelope"></i> Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-image">
+                <img src="Atyabi.jpg" alt="Ali Atyabi, Ph.D." onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                <div style="display: none; width: 100%; height: 100%; align-items: center; justify-content: center; font-size: 4rem; color: var(--primary-color);">
+                    <i class="fas fa-user-circle"></i>
+                </div>
+            </div>
+            <h1>Ali Atyabi, Ph.D.</h1>
+            <p class="subtitle">Mechanical Engineer | R&D Researcher | CFD Simulation Expert</p>
+            <p style="font-size: 1.1rem; margin-top: 1rem; opacity: 0.9;">
+                <i class="fas fa-quote-left"></i> Specializing in Sustainable Energy Technologies & Electrochemical Systems <i class="fas fa-quote-right"></i>
+            </p>
+            
+            <div class="social-links">
+                <a href="https://scholar.google.com/citations?user=MytiTgsAAAAJ" target="_blank" title="Google Scholar">
+                    <i class="fas fa-graduation-cap"></i>
+                </a>
+                <a href="https://www.researchgate.net/profile/Ali-Atyabi" target="_blank" title="ResearchGate">
+                    <i class="fab fa-researchgate"></i>
+                </a>
+                <a href="https://linkedin.com/in/s-ali-atyabi" target="_blank" title="LinkedIn">
+                    <i class="fab fa-linkedin-in"></i>
+                </a>
+                <a href="mailto:atyabi@gmail.com" title="Email">
+                    <i class="far fa-envelope"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about">
+        <div class="container">
+            <h2><i class="fas fa-user-circle"></i> About Me</h2>
+            
+            <div class="info-box">
+                <p style="font-size: 1.15rem; line-height: 1.9; margin-bottom: 1.5rem;">
+                    Passionate <strong>Mechanical Engineer</strong> and <strong>R&D Researcher</strong> with over 10 years of experience in computational fluid dynamics (CFD), finite element modeling, and electrochemical system optimization. Specialized in sustainable energy technologies including PEM fuel cells, alkaline electrolyzers, bipolar membranes, and electrodialysis systems.
+                </p>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-top: 2rem;">
+                    <div class="badge badge-primary">
+                        <i class="fas fa-award"></i> 1126 Citations
+                    </div>
+                    <div class="badge badge-success">
+                        <i class="fas fa-file-alt"></i> 18 Publications
+                    </div>
+                    <div class="badge badge-info">
+                        <i class="fas fa-calendar-check"></i> 10+ Years Experience
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" style="background: white;">
+        <div class="container">
+            <h2><i class="fas fa-cogs"></i> Core Competencies</h2>
+            
+            <div class="skills-grid">
+                <div class="skill-category">
+                    <div class="skill-icon">
+                        <i class="fas fa-laptop-code"></i>
+                    </div>
+                    <h3>Simulation & Modeling</h3>
+                    <ul class="skill-list">
+                        <li><i class="fas fa-check-circle"></i> COMSOL Multiphysics</li>
+                        <li><i class="fas fa-check-circle"></i> ANSYS Fluent</li>
+                        <li><i class="fas fa-check-circle"></i> ANSYS CFX</li>
+                        <li><i class="fas fa-check-circle"></i> MATLAB</li>
+                        <li><i class="fas fa-check-circle"></i> Python (NumPy, SciPy, Pandas)</li>
+                    </ul>
+                </div>
+
+                <div class="skill-category">
+                    <div class="skill-icon">
+                        <i class="fas fa-battery-full"></i>
+                    </div>
+                    <h3>Energy Systems</h3>
+                    <ul class="skill-list">
+                        <li><i class="fas fa-bolt"></i> PEM Fuel Cells</li>
+                        <li><i class="fas fa-bolt"></i> Alkaline Electrolyzers</li>
+                        <li><i class="fas fa-bolt"></i> Bipolar Membranes</li>
+                        <li><i class="fas fa-bolt"></i> Electrodialysis</li>
+                        <li><i class="fas fa-bolt"></i> Water Electrolysis</li>
+                    </ul>
+                </div>
+
+                <div class="skill-category">
+                    <div class="skill-icon">
+                        <i class="fas fa-atom"></i>
+                    </div>
+                    <h3>Technical Expertise</h3>
+                    <ul class="skill-list">
+                        <li><i class="fas fa-flask"></i> Electrochemical Modeling</li>
+                        <li><i class="fas fa-flask"></i> Multiphysics Simulation</li>
+                        <li><i class="fas fa-flask"></i> Mass Transfer Analysis</li>
+                        <li><i class="fas fa-flask"></i> Heat Transfer Optimization</li>
+                        <li><i class="fas fa-flask"></i> CFD Analysis</li>
+                    </ul>
+                </div>
+
+                <div class="skill-category">
+                    <div class="skill-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Research & Analysis</h3>
+                    <ul class="skill-list">
+                        <li><i class="fas fa-search"></i> Experimental Design</li>
+                        <li><i class="fas fa-search"></i> Data Analysis</li>
+                        <li><i class="fas fa-search"></i> Optimization Algorithms</li>
+                        <li><i class="fas fa-search"></i> Technical Documentation</li>
+                        <li><i class="fas fa-search"></i> Scientific Writing</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section id="experience">
+        <div class="container">
+            <h2><i class="fas fa-briefcase"></i> Professional Experience</h2>
+            
+            <div class="experience-item">
+                <div class="experience-header">
+                    <div class="experience-title">
+                        <h3>CFD/FE Researcher in Electrochemical Process Engineering</h3>
+                        <div class="experience-company">
+                            <i class="fas fa-building"></i> Fraunhofer IKTS – Fraunhofer Institute for Ceramic Technologies and Systems
+                        </div>
+                    </div>
+                    <div class="experience-date">
+                        <i class="far fa-calendar-alt"></i> 2022 – Present
+                    </div>
+                </div>
+                <p style="margin-top: 1rem; font-size: 1.05rem; line-height: 1.8;">
+                    Leading advanced computational modeling projects for electrochemical systems with a focus on sustainable energy technologies and industrial applications.
+                </p>
+                <ul>
+                    <li><strong>Bipolar Membrane Modeling:</strong> Developed comprehensive COMSOL models for water electrodialysis and CO₂ electroreduction applications, implementing advanced electrochemical equations and validating against experimental data.</li>
+                    <li><strong>Electrodialysis Optimization:</strong> Created detailed 3D models for multi-channel systems incorporating ion transport, electroconvection, and pH variations, achieving improved process efficiency.</li>
+                    <li><strong>Gas Diffusion Electrode Analysis:</strong> Designed and simulated microstructure models to optimize porosity, permeability, and electrical conductivity for industrial-scale applications.</li>
+                    <li><strong>Alkaline Electrolyzer Development:</strong> Performed multiphysics simulations coupling fluid dynamics, electrochemistry, and heat transfer to enhance system performance and efficiency.</li>
+                    <li><strong>Process Optimization:</strong> Applied machine learning and optimization algorithms to improve electrochemical process parameters and system designs.</li>
+                </ul>
+                <div style="margin-top: 1.5rem;">
+                    <span class="badge badge-primary"><i class="fas fa-code"></i> COMSOL</span>
+                    <span class="badge badge-primary"><i class="fas fa-code"></i> MATLAB</span>
+                    <span class="badge badge-primary"><i class="fas fa-code"></i> Python</span>
+                    <span class="badge badge-success"><i class="fas fa-lightbulb"></i> Electrochemistry</span>
+                    <span class="badge badge-info"><i class="fas fa-flask"></i> Multiphysics</span>
+                </div>
+            </div>
+
+            <div class="experience-item">
+                <div class="experience-header">
+                    <div class="experience-title">
+                        <h3>R&D Engineer / Computational Scientist</h3>
+                        <div class="experience-company">
+                            <i class="fas fa-building"></i> Renewable Energy Organization of Iran (SUNA)
+                        </div>
+                    </div>
+                    <div class="experience-date">
+                        <i class="far fa-calendar-alt"></i> 2019 – 2022
+                    </div>
+                </div>
+                <p style="margin-top: 1rem; font-size: 1.05rem; line-height: 1.8;">
+                    Spearheaded research and development initiatives for renewable energy systems with emphasis on fuel cell and electrolyzer technologies.
+                </p>
+                <ul>
+                    <li><strong>PEM Fuel Cell Development:</strong> Led comprehensive CFD simulations and optimization of flow field designs, membrane electrode assemblies, and thermal management systems.</li>
+                    <li><strong>Alkaline Electrolyzer Research:</strong> Conducted detailed multiphysics modeling of water electrolysis systems, optimizing electrode configurations and operating parameters.</li>
+                    <li><strong>System Integration:</strong> Developed integrated models for fuel cell-battery hybrid systems in automotive applications, including thermal and power management.</li>
+                    <li><strong>Experimental Validation:</strong> Coordinated experimental testing programs to validate computational models and refine simulation parameters.</li>
+                    <li><strong>Technical Leadership:</strong> Managed research team and collaborated with international partners on advanced energy conversion projects.</li>
+                </ul>
+                <div style="margin-top: 1.5rem;">
+                    <span class="badge badge-primary"><i class="fas fa-desktop"></i> ANSYS Fluent</span>
+                    <span class="badge badge-success"><i class="fas fa-battery-full"></i> PEM Fuel Cells</span>
+                    <span class="badge badge-success"><i class="fas fa-water"></i> Electrolyzers</span>
+                    <span class="badge badge-info"><i class="fas fa-project-diagram"></i> System Design</span>
+                </div>
+            </div>
+
+            <div class="experience-item">
+                <div class="experience-header">
+                    <div class="experience-title">
+                        <h3>Research Assistant & Doctoral Researcher</h3>
+                        <div class="experience-company">
+                            <i class="fas fa-university"></i> University of Isfahan
+                        </div>
+                    </div>
+                    <div class="experience-date">
+                        <i class="far fa-calendar-alt"></i> 2014 – 2019
+                    </div>
+                </div>
+                <p style="margin-top: 1rem; font-size: 1.05rem; line-height: 1.8;">
+                    Conducted cutting-edge research in fuel cell optimization and automotive power systems during doctoral studies.
+                </p>
+                <ul>
+                    <li><strong>Doctoral Research:</strong> Developed comprehensive numerical models for PEM fuel cell systems in automotive applications, incorporating thermodynamic analysis and multi-objective optimization.</li>
+                    <li><strong>Genetic Algorithm Optimization:</strong> Implemented advanced optimization techniques using MATLAB to maximize fuel cell performance while minimizing system weight and cost.</li>
+                    <li><strong>Flow Field Innovation:</strong> Designed and validated novel flow field geometries using ANSYS Fluent, achieving significant improvements in current density distribution.</li>
+                    <li><strong>Publication Success:</strong> Published 8 peer-reviewed journal articles on fuel cell modeling, optimization, and thermal management.</li>
+                    <li><strong>Academic Collaboration:</strong> Collaborated with international researchers and presented findings at conferences.</li>
+                </ul>
+                <div style="margin-top: 1.5rem;">
+                    <span class="badge badge-primary"><i class="fas fa-graduation-cap"></i> Ph.D. Research</span>
+                    <span class="badge badge-success"><i class="fas fa-car"></i> Automotive Systems</span>
+                    <span class="badge badge-info"><i class="fas fa-chart-line"></i> Optimization</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Publications Section -->
+    <section id="publications" style="background: white;">
+        <div class="container">
+            <h2><i class="fas fa-book-open"></i> Selected Publications</h2>
+            
+            <div class="publications-grid">
+                <div class="publication">
+                    <div class="publication-image">
+                        <img src="publications/Bipolar membrane modelling.gif" alt="Bipolar Membrane" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <div class="placeholder" style="display: none;">
+                            <i class="fas fa-book"></i>
+                        </div>
+                    </div>
+                    <div class="publication-content">
+                        <div class="publication-title">
+                            Bipolar membrane model incorporating water splitting catalysis and electroconvection accounting for changes in ionic strength
+                        </div>
+                        <div class="publication-authors">
+                            <strong>S.A Atyabi</strong>, S. Hein, A. Farkhondehfal, K. Listewnik, Y. Mousazade, Y. Birdja, W.A. Mérida, W. De Malsche
+                        </div>
+                        <div class="publication-journal">
+                            <i class="fas fa-book"></i> Journal of Membrane Science | 2024
+                        </div>
+                        <div class="publication-stats">
+                            <span class="stat stat-citations">
+                                <i class="fas fa-quote-left"></i> 2 Citations
+                            </span>
+                        </div>
+                        <div class="publication-links">
+                            <a href="https://doi.org/10.1016/j.memsci.2024.123212" target="_blank" class="btn btn-primary">
+                                <i class="fas fa-external-link-alt"></i> View Article
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="publication">
+                    <div class="publication-image">
+                        <img src="publications/Comprehensive 3D CFD model of a multi-channel.gif" alt="CFD Model" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <div class="placeholder" style="display: none;">
+                            <i class="fas fa-book"></i>
+                        </div>
+                    </div>
+                    <div class="publication-content">
+                        <div class="publication-title">
+                            Comprehensive 3D CFD model of a multi-channel electrodialysis cell: Performance evaluation and optimization
+                        </div>
+                        <div class="publication-authors">
+                            <strong>S.A Atyabi</strong>, A. Farkhondehfal, Y. Mousazade, Y. Birdja, W. De Malsche
+                        </div>
+                        <div class="publication-journal">
+                            <i class="fas fa-book"></i> Separation and Purification Technology | 2024
+                        </div>
+                        <div class="publication-stats">
+                            <span class="stat stat-citations">
+                                <i class="fas fa-quote-left"></i> 9 Citations
+                            </span>
+                        </div>
+                        <div class="publication-links">
+                            <a href="https://doi.org/10.1016/j.seppur.2024.126853" target="_blank" class="btn btn-primary">
+                                <i class="fas fa-external-link-alt"></i> View Article
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="publication">
+                    <div class="publication-image">
+                        <img src="publications/Multi-objective optimization of a PEM fuel cell.gif" alt="Optimization" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <div class="placeholder" style="display: none;">
+                            <i class="fas fa-book"></i>
+                        </div>
+                    </div>
+                    <div class="publication-content">
+                        <div class="publication-title">
+                            Multi-objective optimization of a PEM fuel cell system control variables in real time based on a power management strategy
+                        </div>
+                        <div class="publication-authors">
+                            <strong>S.A Atyabi</strong>, E. Afshari, S.H. Hashemi, E. Zare
+                        </div>
+                        <div class="publication-journal">
+                            <i class="fas fa-book"></i> Energy | 2023
+                        </div>
+                        <div class="publication-stats">
+                            <span class="stat stat-citations">
+                                <i class="fas fa-quote-left"></i> 51 Citations
+                            </span>
+                        </div>
+                        <div class="publication-links">
+                            <a href="https://doi.org/10.1016/j.energy.2023.128098" target="_blank" class="btn btn-primary">
+                                <i class="fas fa-external-link-alt"></i> View Article
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="publication">
+                    <div class="publication-image">
+                        <img src="publications/Three-dimensional multiphase modeling.gif" alt="3D Modeling" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <div class="placeholder" style="display: none;">
+                            <i class="fas fa-book"></i>
+                        </div>
+                    </div>
+                    <div class="publication-content">
+                        <div class="publication-title">
+                            Three-dimensional multiphase modeling of the performance of intermediate temperature solid oxide fuel cells
+                        </div>
+                        <div class="publication-authors">
+                            <strong>S.A Atyabi</strong>, E. Afshari
+                        </div>
+                        <div class="publication-journal">
+                            <i class="fas fa-book"></i> Journal of Thermal Analysis and Calorimetry | 2020
+                        </div>
+                        <div class="publication-stats">
+                            <span class="stat stat-citations">
+                                <i class="fas fa-quote-left"></i> 28 Citations
+                            </span>
+                        </div>
+                        <div class="publication-links">
+                            <a href="https://doi.org/10.1007/s10973-019-08261-w" target="_blank" class="btn btn-primary">
+                                <i class="fas fa-external-link-alt"></i> View Article
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="publication">
+                    <div class="publication-image">
+                        <img src="publications/Effects of assembly pressure on PEM fuel cell.gif" alt="Assembly Pressure" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <div class="placeholder" style="display: none;">
+                            <i class="fas fa-book"></i>
+                        </div>
+                    </div>
+                    <div class="publication-content">
+                        <div class="publication-title">
+                            Effects of assembly pressure on PEM fuel cell performance by taking into accounts electrical and thermal contact resistances
+                        </div>
+                        <div class="publication-authors">
+                            <strong>S.A Atyabi</strong>, E. Afshari
+                        </div>
+                        <div class="publication-journal">
+                            <i class="fas fa-book"></i> Energy | 2019
+                        </div>
+                        <div class="publication-stats">
+                            <span class="stat stat-citations">
+                                <i class="fas fa-quote-left"></i> 119 Citations
+                            </span>
+                        </div>
+                        <div class="publication-links">
+                            <a href="https://doi.org/10.1016/j.energy.2019.116279" target="_blank" class="btn btn-primary">
+                                <i class="fas fa-external-link-alt"></i> View Article
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="publication">
+                    <div class="publication-image">
+                        <img src="publications/A numerical study of the effect of water inlet.gif" alt="Water Inlet Study" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <div class="placeholder" style="display: none;">
+                            <i class="fas fa-book"></i>
+                        </div>
+                    </div>
+                    <div class="publication-content">
+                        <div class="publication-title">
+                            A numerical study of the effect of water inlet location and direction on the performance of an alkaline electrolyzer
+                        </div>
+                        <div class="publication-authors">
+                            <strong>S.A Atyabi</strong>, E. Afshari, E. Zohravi, M. Udemu, A. Lee
+                        </div>
+                        <div class="publication-journal">
+                            <i class="fas fa-book"></i> Heliyon | 2024
+                        </div>
+                        <div class="publication-stats">
+                            <span class="stat stat-citations">
+                                <i class="fas fa-quote-left"></i> 3 Citations
+                            </span>
+                        </div>
+                        <div class="publication-links">
+                            <a href="https://doi.org/10.1016/j.heliyon.2024.e26983" target="_blank" class="btn btn-primary">
+                                <i class="fas fa-external-link-alt"></i> View Article
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="publication">
+                    <div class="publication-image">
+                        <img src="publications/Multi-objective optimization of serpentine.gif" alt="Serpentine Optimization" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <div class="placeholder" style="display: none;">
+                            <i class="fas fa-book"></i>
+                        </div>
+                    </div>
+                    <div class="publication-content">
+                        <div class="publication-title">
+                            Multi-objective optimization of serpentine flow field in a proton exchange membrane fuel cell
+                        </div>
+                        <div class="publication-authors">
+                            <strong>S.A Atyabi</strong>, E. Afshari
+                        </div>
+                        <div class="publication-journal">
+                            <i class="fas fa-book"></i> International Journal of Energy Research | 2019
+                        </div>
+                        <div class="publication-stats">
+                            <span class="stat stat-citations">
+                                <i class="fas fa-quote-left"></i> 32 Citations
+                            </span>
+                        </div>
+                        <div class="publication-links">
+                            <a href="https://doi.org/10.1002/er.4487" target="_blank" class="btn btn-primary">
+                                <i class="fas fa-external-link-alt"></i> View Article
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="publication">
+                    <div class="publication-image">
+                        <img src="publications/Enhancing the performance and durability.gif" alt="Performance Enhancement" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <div class="placeholder" style="display: none;">
+                            <i class="fas fa-book"></i>
+                        </div>
+                    </div>
+                    <div class="publication-content">
+                        <div class="publication-title">
+                            Enhancing the performance and durability of a PEM fuel cell through an optimal design of the cooling flow field
+                        </div>
+                        <div class="publication-authors">
+                            <strong>S.A Atyabi</strong>, E. Afshari
+                        </div>
+                        <div class="publication-journal">
+                            <i class="fas fa-book"></i> Journal of Renewable Energy and Environment | 2019
+                        </div>
+                        <div class="publication-stats">
+                            <span class="stat stat-citations">
+                                <i class="fas fa-quote-left"></i> 12 Citations
+                            </span>
+                        </div>
+                        <div class="publication-links">
+                            <a href="https://doi.org/10.30501/JREE.2019.90929" target="_blank" class="btn btn-primary">
+                                <i class="fas fa-external-link-alt"></i> View Article
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="publication">
+                    <div class="publication-image">
+                        <img src="publications/Performance analysis and optimization.gif" alt="Performance Analysis" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <div class="placeholder" style="display: none;">
+                            <i class="fas fa-book"></i>
+                        </div>
+                    </div>
+                    <div class="publication-content">
+                        <div class="publication-title">
+                            Performance analysis and optimization of a solid oxide fuel cell using a generalized numerical model
+                        </div>
+                        <div class="publication-authors">
+                            <strong>S.A Atyabi</strong>, E. Afshari, M. Wongwises, P. Yan, A. Hadjadj, S. Shadloo
+                        </div>
+                        <div class="publication-journal">
+                            <i class="fas fa-book"></i> Journal of Electrochemical Energy Conversion and Storage | 2017
+                        </div>
+                        <div class="publication-stats">
+                            <span class="stat stat-citations">
+                                <i class="fas fa-quote-left"></i> 28 Citations
+                            </span>
+                        </div>
+                        <div class="publication-links">
+                            <a href="https://doi.org/10.1115/1.4036203" target="_blank" class="btn btn-primary">
+                                <i class="fas fa-external-link-alt"></i> View Article
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="publication">
+                    <div class="publication-image">
+                        <img src="publications/3D numerical investigation of the effect.gif" alt="3D Investigation" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <div class="placeholder" style="display: none;">
+                            <i class="fas fa-book"></i>
+                        </div>
+                    </div>
+                    <div class="publication-content">
+                        <div class="publication-title">
+                            3D numerical investigation of the effect of curved gas flow channels on the performance of a PEM fuel cell
+                        </div>
+                        <div class="publication-authors">
+                            <strong>S.A Atyabi</strong>, E. Afshari, M. Zohravi, S. Udemu, A. Lee
+                        </div>
+                        <div class="publication-journal">
+                            <i class="fas fa-book"></i> Sustainability | 2021
+                        </div>
+                        <div class="publication-stats">
+                            <span class="stat stat-citations">
+                                <i class="fas fa-quote-left"></i> 19 Citations
+                            </span>
+                        </div>
+                        <div class="publication-links">
+                            <a href="https://doi.org/10.3390/su13094578" target="_blank" class="btn btn-primary">
+                                <i class="fas fa-external-link-alt"></i> View Article
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="publication">
+                    <div class="publication-image">
+                        <img src="publications/A parametric study of cathode catalyst layer.gif" alt="Catalyst Layer Study" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <div class="placeholder" style="display: none;">
+                            <i class="fas fa-book"></i>
+                        </div>
+                    </div>
+                    <div class="publication-content">
+                        <div class="publication-title">
+                            A parametric study of cathode catalyst layer structural parameters on the performance of a PEM fuel cell
+                        </div>
+                        <div class="publication-authors">
+                            <strong>S.A Atyabi</strong>, E. Afshari
+                        </div>
+                        <div class="publication-journal">
+                            <i class="fas fa-book"></i> International Journal of Hydrogen Energy | 2019
+                        </div>
+                        <div class="publication-stats">
+                            <span class="stat stat-citations">
+                                <i class="fas fa-quote-left"></i> 141 Citations
+                            </span>
+                        </div>
+                        <div class="publication-links">
+                            <a href="https://doi.org/10.1016/j.ijhydene.2018.11.082" target="_blank" class="btn btn-primary">
+                                <i class="fas fa-external-link-alt"></i> View Article
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="publication">
+                    <div class="publication-image">
+                        <img src="publications/Numerical Investigation of the Effects.gif" alt="Numerical Investigation" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <div class="placeholder" style="display: none;">
+                            <i class="fas fa-book"></i>
+                        </div>
+                    </div>
+                    <div class="publication-content">
+                        <div class="publication-title">
+                            Numerical investigation of the effects of gas diffusion layer properties and operating conditions on the performance of PEM fuel cells
+                        </div>
+                        <div class="publication-authors">
+                            <strong>S.A Atyabi</strong>, E. Afshari
+                        </div>
+                        <div class="publication-journal">
+                            <i class="fas fa-book"></i> Journal of Applied Fluid Mechanics | 2017
+                        </div>
+                        <div class="publication-stats">
+                            <span class="stat stat-citations">
+                                <i class="fas fa-quote-left"></i> 48 Citations
+                            </span>
+                        </div>
+                        <div class="publication-links">
+                            <a href="https://doi.org/10.18869/acadpub.jafm.73.238.26086" target="_blank" class="btn btn-primary">
+                                <i class="fas fa-external-link-alt"></i> View Article
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="publication">
+                    <div class="publication-image">
+                        <img src="publications/Thermodynamic and exergoeconomic analyses.gif" alt="Thermodynamic Analysis" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <div class="placeholder" style="display: none;">
+                            <i class="fas fa-book"></i>
+                        </div>
+                    </div>
+                    <div class="publication-content">
+                        <div class="publication-title">
+                            Thermodynamic and exergoeconomic analyses of a molten carbonate fuel cell-supercritical carbon dioxide power cycle integrated with combined heat and power generation
+                        </div>
+                        <div class="publication-authors">
+                            <strong>S.A Atyabi</strong>, E. Afshari
+                        </div>
+                        <div class="publication-journal">
+                            <i class="fas fa-book"></i> Energy Conversion and Management | 2018
+                        </div>
+                        <div class="publication-stats">
+                            <span class="stat stat-citations">
+                                <i class="fas fa-quote-left"></i> 82 Citations
+                            </span>
+                        </div>
+                        <div class="publication-links">
+                            <a href="https://doi.org/10.1016/j.enconman.2018.03.003" target="_blank" class="btn btn-primary">
+                                <i class="fas fa-external-link-alt"></i> View Article
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="publication">
+                    <div class="publication-image">
+                        <img src="publications/Exergy and exergoeconomic analyses.gif" alt="Exergy Analysis" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <div class="placeholder" style="display: none;">
+                            <i class="fas fa-book"></i>
+                        </div>
+                    </div>
+                    <div class="publication-content">
+                        <div class="publication-title">
+                            Exergy and exergoeconomic analyses of a combined power generation system consisting of fuel cell, gas turbine, and steam turbine
+                        </div>
+                        <div class="publication-authors">
+                            <strong>S.A Atyabi</strong>, E. Afshari
+                        </div>
+                        <div class="publication-journal">
+                            <i class="fas fa-book"></i> Journal of Renewable Energy and Environment | 2018
+                        </div>
+                        <div class="publication-stats">
+                            <span class="stat stat-citations">
+                                <i class="fas fa-quote-left"></i> 24 Citations
+                            </span>
+                        </div>
+                        <div class="publication-links">
+                            <a href="https://doi.org/10.30501/JREE.2018.88773" target="_blank" class="btn btn-primary">
+                                <i class="fas fa-external-link-alt"></i> View Article
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="publication">
+                    <div class="publication-image">
+                        <img src="publications/Exergoeconomic Analysis of Polymer Electrolyte.gif" alt="Exergoeconomic Analysis" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <div class="placeholder" style="display: none;">
+                            <i class="fas fa-book"></i>
+                        </div>
+                    </div>
+                    <div class="publication-content">
+                        <div class="publication-title">
+                            Exergoeconomic Analysis of Polymer Electrolyte Membrane Fuel Cell Power Generation System
+                        </div>
+                        <div class="publication-authors">
+                            <strong>S.A Atyabi</strong>, E. Afshari
+                        </div>
+                        <div class="publication-journal">
+                            <i class="fas fa-book"></i> Fuel Cell Seminar & Energy Exposition | 2017
+                        </div>
+                        <div class="publication-links">
+                            <a href="https://www.osti.gov/servlets/purl/1438094" target="_blank" class="btn btn-primary">
+                                <i class="fas fa-external-link-alt"></i> View Article
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="publication">
+                    <div class="publication-image">
+                        <img src="publications/Thermodynamic analysis of fuel cell.gif" alt="Thermodynamic Analysis" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <div class="placeholder" style="display: none;">
+                            <i class="fas fa-book"></i>
+                        </div>
+                    </div>
+                    <div class="publication-content">
+                        <div class="publication-title">
+                            Thermodynamic analysis of fuel cell and gas turbine hybrid system with carbon dioxide capturing process
+                        </div>
+                        <div class="publication-authors">
+                            <strong>S.A Atyabi</strong>, E. Afshari
+                        </div>
+                        <div class="publication-journal">
+                            <i class="fas fa-book"></i> Energy Science and Technology | 2016
+                        </div>
+                        <div class="publication-stats">
+                            <span class="stat stat-citations">
+                                <i class="fas fa-quote-left"></i> 8 Citations
+                            </span>
+                        </div>
+                        <div class="publication-links">
+                            <a href="https://doi.org/10.3968/8428" target="_blank" class="btn btn-primary">
+                                <i class="fas fa-external-link-alt"></i> View Article
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="publication">
+                    <div class="publication-image">
+                        <img src="publications/Thermodynamic assessment and multi.gif" alt="Thermodynamic Assessment" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <div class="placeholder" style="display: none;">
+                            <i class="fas fa-book"></i>
+                        </div>
+                    </div>
+                    <div class="publication-content">
+                        <div class="publication-title">
+                            Thermodynamic assessment and multi-objective optimization of performance of fuel cell-gas turbine hybrid system
+                        </div>
+                        <div class="publication-authors">
+                            <strong>S.A Atyabi</strong>, E. Afshari
+                        </div>
+                        <div class="publication-journal">
+                            <i class="fas fa-book"></i> Energy Science and Technology | 2015
+                        </div>
+                        <div class="publication-stats">
+                            <span class="stat stat-citations">
+                                <i class="fas fa-quote-left"></i> 21 Citations
+                            </span>
+                        </div>
+                        <div class="publication-links">
+                            <a href="https://doi.org/10.3968/7298" target="_blank" class="btn btn-primary">
+                                <i class="fas fa-external-link-alt"></i> View Article
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="publication">
+                    <div class="publication-image">
+                        <img src="publications/Predictive, multiphysics simulation of effective electrical conductivity, permeability, porosity, and specific active area of gas diffusion electrode microstructure.gif" alt="Conference Presentation" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <div class="placeholder" style="display: none;">
+                            <i class="fas fa-chalkboard-teacher"></i>
+                        </div>
+                    </div>
+                    <div class="publication-content">
+                        <div class="publication-title">
+                            Predictive, multiphysics simulation of effective electrical conductivity, permeability, porosity, and specific active area of gas diffusion electrode microstructure
+                        </div>
+                        <div class="publication-authors">
+                             <strong>S.A Atyabi</strong>, A. Farkhondehfal, Y. Birdja, W. Schepper
+                        </div>
+                        <div class="publication-journal">
+                            <i class="fas fa-chalkboard-teacher"></i> Symposium on Insights into Gas Diffusion Electrodes: From Fundamentals to Industrial Applications, Max Planck | Magdeburg, Germany | 2023
+                        </div>
+                        <div class="publication-links">
+                            <a href="https://github.com/Atyabia/Atyabia.github.io/raw/main/conference/GDE%20symposium.pptx" download class="btn btn-primary">
+                                <i class="fas fa-file-powerpoint"></i> Download Presentation                               
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Education Section -->
+    <section id="education" style="background: white;">
+        <div class="container">
+            <h2><i class="fas fa-user-graduate"></i> Education</h2>
+            
+            <div class="experience-item">
+                <div class="experience-header">
+                    <div class="experience-title">
+                        <h3>Ph.D. in Mechanical Engineering (Energy Conversion)</h3>
+                        <div class="experience-company">
+                            <i class="fas fa-university"></i> University of Isfahan, Isfahan, Iran
+                        </div>
+                    </div>
+                    <div class="experience-date">
+                        <i class="far fa-calendar-alt"></i> 2014 – 2019
+                    </div>
+                </div>
+                <p style="margin-top: 1rem; font-size: 1.05rem;"><strong><i class="fas fa-book"></i> Dissertation:</strong> Numerical and thermodynamic modeling and optimization of power generation system in a PEM fuel cell vehicle using multi-objective optimization with genetic algorithms (GA).</p>
+                <p style="margin-top: 0.8rem;"><strong><i class="fas fa-tools"></i> Tools:</strong> ANSYS Fluent, MATLAB, Genetic Algorithms</p>
+                <p style="margin-top: 0.8rem;"><strong><i class="fas fa-trophy"></i> Achievement:</strong> Published 8 journal papers</p>
+            </div>
+
+            <div class="experience-item">
+                <div class="experience-header">
+                    <div class="experience-title">
+                        <h3>M.Sc. in Mechanical Engineering (Energy Conversion)</h3>
+                        <div class="experience-company">
+                            <i class="fas fa-university"></i> Isfahan University of Technology, Isfahan, Iran
+                        </div>
+                    </div>
+                    <div class="experience-date">
+                        <i class="far fa-calendar-alt"></i> 2010 – 2013
+                    </div>
+                </div>
+                <p style="margin-top: 1rem; font-size: 1.05rem;"><strong><i class="fas fa-book"></i> Thesis:</strong> Numerical modeling of honeycomb flow field for PEM fuel cell stack</p>
+                <p style="margin-top: 0.8rem;"><strong><i class="fas fa-tools"></i> Tools:</strong> ANSYS Fluent, CFD-Post</p>
+                <p style="margin-top: 0.8rem;"><strong><i class="fas fa-trophy"></i> Achievement:</strong> Novel flow field design</p>
+            </div>
+
+            <div class="experience-item">
+                <div class="experience-header">
+                    <div class="experience-title">
+                        <h3>B.Sc. in Mechanical Engineering (Solid Mechanics)</h3>
+                        <div class="experience-company">
+                            <i class="fas fa-university"></i> Isfahan University of Technology, Isfahan, Iran
+                        </div>
+                    </div>
+                    <div class="experience-date">
+                        <i class="far fa-calendar-alt"></i> 2005 – 2009
+                    </div>
+                </div>
+                <p style="margin-top: 1rem; font-size: 1.05rem;"><strong><i class="fas fa-cogs"></i> Foundation:</strong> Strong fundamentals in mechanics, thermodynamics, and engineering mathematics</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact">
+        <div class="container">
+            <h2><i class="far fa-address-card"></i> Contact Information</h2>
+            
+            <div class="contact-grid">
+                <div class="contact-card">
+                    <div class="contact-icon"><i class="far fa-envelope"></i></div>
+                    <h3>Email</h3>
+                    <p><a href="mailto:atyabi@gmail.com">atyabi@gmail.com</a></p>
+                </div>
+                
+                <div class="contact-card">
+                    <div class="contact-icon"><i class="fas fa-mobile-alt"></i></div>
+                    <h3>Phone</h3>
+                    <p><a href="tel:+32484645223">+32 484 645 223</a></p>
+                </div>
+                
+                <div class="contact-card">
+                    <div class="contact-icon"><i class="fab fa-linkedin-in"></i></div>
+                    <h3>LinkedIn</h3>
+                    <p><a href="https://linkedin.com/in/s-ali-atyabi" target="_blank">s-ali-atyabi</a></p>
+                </div>
+                
+                <div class="contact-card">
+                    <div class="contact-icon"><i class="fas fa-graduation-cap"></i></div>
+                    <h3>Google Scholar</h3>
+                    <p><a href="https://scholar.google.com/citations?user=MytiTgsAAAAJ" target="_blank">1126 Citations</a></p>
+                </div>
+            </div>
+
+            <div class="info-box" style="margin-top: 3rem;">
+                <h3><i class="fas fa-handshake"></i> Open to Collaboration</h3>
+                <p style="margin-top: 1rem; line-height: 1.8; font-size: 1.05rem;">
+                    Interested in research collaborations and consulting opportunities in CFD/FE modeling.
+                    Let's connect and discuss potential projects!
+                </p>
+                <div class="btn-group" style="margin-top: 1.5rem;">
+                    <a href="mailto:atyabi@gmail.com" class="btn btn-primary">
+                        <i class="far fa-envelope"></i> Get in Touch
+                    </a>
+                    <a href="https://linkedin.com/in/s-ali-atyabi" target="_blank" class="btn btn-info">
+                        <i class="fab fa-linkedin-in"></i> Connect on LinkedIn
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <h3 style="margin-bottom: 1rem; color: white;">
+                <i class="fas fa-atom"></i> Ali Atyabi, Ph.D.
+            </h3>
+            <p style="font-size: 1.1rem;">Mechanical Engineer | R&D Researcher | CFD Simulation Expert</p>
+            <p style="margin-top: 0.5rem; font-size: 1.05rem;">1126 Citations | 10+ Years Experience | Sustainable Energy Technologies</p>
+            
+            <div style="margin-top: 2rem; font-size: 1.05rem;">
+                <a href="https://scholar.google.com/citations?user=MytiTgsAAAAJ" target="_blank">
+                    <i class="fas fa-graduation-cap"></i> Google Scholar
+                </a> | 
+                <a href="https://www.researchgate.net/profile/Ali-Atyabi" target="_blank">
+                    <i class="fab fa-researchgate"></i> ResearchGate
+                </a> | 
+                <a href="https://linkedin.com/in/s-ali-atyabi" target="_blank">
+                    <i class="fab fa-linkedin-in"></i> LinkedIn
+                </a> | 
+                <a href="mailto:atyabi@gmail.com">
+                    <i class="far fa-envelope"></i> Email
+                </a>
+            </div>
+            
+            <p style="margin-top: 2rem; font-size: 0.9rem; opacity: 0.8;">
+                © 2024 Ali Atyabi. All rights reserved.
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        // Observe elements for animation
+        document.querySelectorAll('.skill-category, .experience-item, .publication, .contact-card').forEach(el => {
+            el.classList.add('fade-in');
+            observer.observe(el);
+        });
+
+        // Add active state to navigation on scroll
+        window.addEventListener('scroll', () => {
+            let current = '';
+            const sections = document.querySelectorAll('section');
+            
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (pageYOffset >= sectionTop - 200) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            document.querySelectorAll('nav a').forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
