@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="CFD Simulation of Oxygen Mixing Nozzle (Z-1001) for MEG Unit">
+    <meta name="author" content="Ali Atyabi">
+    <title>Oxygen Mixing Nozzle CFD Project | Ali Atyabi, Ph.D.</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary-color: #0d9488;
+            --secondary-color: #14b8a6;
+            --accent-color: #ccfbf1;
+            --success-color: #10b981;
+            --text-dark: #333;
+            --text-light: #666;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background: #f8f9fa;
+        }
+        
+        /* Navigation */
+        nav {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        
+        nav .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        nav .logo {
+            font-size: 1.3rem;
+            font-weight: bold;
+        }
+        
+        nav a {
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s;
+            padding: 0.5rem;
+        }
+        
+        nav a:hover {
+            color: var(--accent-color);
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+        
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            opacity: 0.95;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        
+        /* Main Content */
+        .content {
+            background: white;
+            margin: -2rem auto 3rem;
+            padding: 3rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            max-width: 1200px;
+        }
+        
+        section {
+            margin-bottom: 3rem;
+        }
+        
+        h2 {
+            color: var(--primary-color);
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 3px solid var(--primary-color);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        h3 {
+            color: var(--primary-color);
+            font-size: 1.4rem;
+            margin: 2rem 0 1rem;
+        }
+        
+        p {
+            margin-bottom: 1rem;
+            line-height: 1.8;
+            color: var(--text-light);
+            text-align: justify;
+        }
+        
+        /* Overview Card Layout */
+        .overview-card {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 2.5rem;
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+        
+        .overview-text {
+            text-align: justify;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .schema-container {
+            position: relative;
+            width: 100%;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .schema-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        /* Info Box */
+        .info-box {
+            background: var(--accent-color);
+            border-left: 4px solid var(--primary-color);
+            padding: 1.5rem;
+            border-radius: 5px;
+            margin: 1.5rem 0;
+        }
+        
+        .info-box h4 {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        ul {
+            margin-left: 2rem;
+            color: var(--text-light);
+        }
+        
+        li {
+            margin-bottom: 0.8rem;
+        }
+        
+        /* Data Table */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .data-table thead {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+        }
+        
+        .data-table th {
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+        }
+        
+        .data-table td {
+            padding: 1rem;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        
+        .data-table tbody tr:hover {
+            background: var(--accent-color);
+        }
+        
+        .data-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+        
+        /* Highlight Box */
+        .highlight-box {
+            background: linear-gradient(135deg, #f0fdfa 0%, #ccfbf1 100%);
+            border: 2px solid var(--secondary-color);
+            padding: 2rem;
+            border-radius: 10px;
+            margin: 2rem 0;
+        }
+        
+        .highlight-box h4 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+        
+        /* Comparison Grid */
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .comparison-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border-top: 4px solid var(--secondary-color);
+        }
+        
+        .comparison-card h4 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+        
+        .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--success-color);
+            margin: 0.5rem 0;
+        }
+        
+        .stat-label {
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+        
+        /* Footer */
+        footer {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+        
+        footer a {
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        
+        footer a:hover {
+            color: var(--accent-color);
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .overview-card {
+                grid-template-columns: 1fr;
+            }
+            
+            .comparison-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+            }
+            
+            .content {
+                padding: 2rem 1.5rem;
+            }
+            
+            .data-table {
+                font-size: 0.9rem;
+            }
+            
+            .data-table th,
+            .data-table td {
+                padding: 0.75rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="container">
+            <div class="logo">
+                <i class="fas fa-wind"></i> Ali Atyabi, Ph.D.
+            </div>
+            <a href="https://atyabia.github.io/index.html">
+                <i class="fas fa-home"></i> Back to Portfolio
+            </a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="hero">
+        <h1>CFD Simulation of Oxygen Mixing Nozzle (Z-1001) for MEG Unit</h1>
+        <p>Comprehensive Hydrodynamic Analysis and Optimization of Oxygen Injection Nozzles at Marvarid Petrochemical Complex</p>
+    </div>
+
+    <!-- Main Content -->
+    <div class="content container">
+
+        <!-- Overview Section -->
+        <section id="overview">
+            <h2><i class="fas fa-info-circle"></i> Project Overview</h2>
+            
+            <div class="overview-card">
+                <div class="overview-text">
+                    <p>
+                        This comprehensive research project addresses a critical component in the capacity expansion and development plan of the Monoethylene Glycol (MEG) unit at Marvarid Petrochemical Complex: the optimization of oxygen mixing nozzles. Accurate sizing verification of oxygen gas injection nozzles, coupled with detailed hydrodynamic analysis and concentration profile evaluation, constitutes an essential element of optimal nozzle design. The primary objective is to investigate the hydrodynamic behavior and gas distribution patterns within the oxygen mixing system using advanced computational fluid dynamics (CFD) methodology, providing actionable engineering insights for the re-impelled nozzle design compared to the original configuration.
+                    </p>
+                </div>
+                <div class="schema-container">
+                    <img src="Webpages/photos/Oxygen_Nozzle.jpg" alt="Oxygen Mixing Nozzle CFD Schematic">
+                </div>
+            </div>
+
+            <div class="info-box">
+                <h4><i class="fas fa-target"></i> Research Objectives</h4>
+                <ul>
+                    <li>Verify accurate sizing and design of oxygen gas injection nozzles</li>
+                    <li>Conduct comprehensive hydrodynamic analysis of mixing behavior</li>
+                    <li>Evaluate oxygen concentration profiles and distribution uniformity</li>
+                    <li>Validate numerical CFD model against operational field data</li>
+                    <li>Compare re-impelled nozzle design performance with original configuration</li>
+                    <li>Assess mixing uniformity index for velocity and oxygen mass fraction</li>
+                    <li>Ensure optimal oxygen distribution at increased capacity conditions</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Methodology Section -->
+        <section id="methodology">
+            <h2><i class="fas fa-project-diagram"></i> CFD Simulation Methodology</h2>
+            
+            <h3>Numerical Model Development and Validation</h3>
+            <p>
+                The computational fluid dynamics analysis employed advanced numerical methods to simulate three-dimensional turbulent gas mixing within the oxygen injection nozzle system. Following comprehensive model development, rigorous validation against actual operational data established confidence in the numerical approach. Upon successful validation of the original nozzle configuration, the detailed re-impelled design was simulated and subjected to comprehensive hydrodynamic comparison with the baseline original model. This systematic validation-then-prediction methodology ensures engineering confidence in the capacity enhancement predictions.
+            </p>
+
+            <h3>Uniformity Index: Critical Performance Metric</h3>
+            <p>
+                A fundamental parameter extracted from the CFD results for hydrodynamic performance evaluation is the uniformity index for both velocity distribution and oxygen mass fraction along the mixing tube length and ultimately at the tube outlet. Achieving uniform oxygen mixing represents the primary objective for an optimized oxygen mixing nozzle design. The uniformity index quantifies the degree of homogeneity in the gas mixture, with values approaching 100% indicating complete mixing uniformity. This metric provides objective comparison criteria between original and re-impelled configurations across different operating conditions.
+            </p>
+
+            <h3>Operating Conditions: SOC and EOC Analysis</h3>
+            <p>
+                The comprehensive simulation campaign evaluated nozzle performance under two critical operating scenarios: Start of Cycle (SOC) and End of Cycle (EOC) conditions. These represent the operating envelope extremes encountered during catalyst cycle operation, with varying process gas compositions, temperatures, and flow rates. Analyzing performance across both SOC and EOC conditions ensures the nozzle design maintains acceptable mixing performance throughout the entire catalyst cycle, preventing operational issues associated with non-uniform oxygen distribution.
+            </p>
+        </section>
+
+        <!-- Results Section -->
+        <section id="results">
+            <h2><i class="fas fa-chart-line"></i> Hydrodynamic Performance Analysis Results</h2>
+
+            <h3>Oxygen Mass Fraction Uniformity Index</h3>
+            <p>
+                CFD simulation results demonstrate that the oxygen mass fraction uniformity index at the mixing nozzle outlet remains essentially identical between the original and re-impelled designs under both SOC and EOC operating conditions. This critical finding confirms that the capacity enhancement achieved through the re-impelled design does not compromise oxygen distribution quality. The uniformity index for oxygen mass fraction exhibits an ascending trend along the mixing tube length following the sparger injection points, ultimately reaching a maximum value of 99% for both original and re-impelled models under both SOC and EOC conditions.
+            </p>
+
+            <div class="highlight-box">
+                <h4><i class="fas fa-check-circle"></i> Oxygen Distribution Uniformity: 99% Achievement</h4>
+                <p>
+                    The comprehensive CFD analysis confirms that both original and re-impelled oxygen mixing nozzle configurations achieve 99% oxygen mass fraction uniformity at the nozzle outlet under all operating conditions (SOC and EOC). This exceptional mixing performance validates the re-impelled design's capability to maintain optimal oxygen distribution despite increased capacity and higher outlet velocities.
+                </p>
+            </div>
+
+            <h3>Velocity Distribution Uniformity Index</h3>
+            <p>
+                Simulation results reveal that the velocity distribution uniformity index at the oxygen mixing nozzle outlet remains approximately equivalent for both re-impelled and original models under both SOC and EOC operating conditions. Under SOC conditions, the velocity uniformity index decreases to approximately 88.5% for the re-impelled model and 85% for the original model. Under EOC conditions, the velocity uniformity index decreases to approximately 84.5% for the re-impelled model and 81% for the original model. These results demonstrate that the re-impelled design maintains comparable or slightly superior velocity uniformity despite the increased capacity and higher absolute velocities.
+            </p>
+
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Operating Condition</th>
+                        <th>Configuration</th>
+                        <th>Velocity Uniformity Index (%)</th>
+                        <th>O₂ Mass Fraction Uniformity (%)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td rowspan="2"><strong>Start of Cycle (SOC)</strong></td>
+                        <td>Original Model</td>
+                        <td>85.0</td>
+                        <td>99.0</td>
+                    </tr>
+                    <tr>
+                        <td>Re-Impelled Model</td>
+                        <td>88.5</td>
+                        <td>99.0</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="2"><strong>End of Cycle (EOC)</strong></td>
+                        <td>Original Model</td>
+                        <td>81.0</td>
+                        <td>99.0</td>
+                    </tr>
+                    <tr>
+                        <td>Re-Impelled Model</td>
+                        <td>84.5</td>
+                        <td>99.0</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Flow Pattern and Oxygen Distribution Characteristics</h3>
+            <p>
+                The spatial distribution pattern of maximum velocity and oxygen mole fraction following oxygen injection through the spargers exhibits a characteristic geometry in the original model: three connected vertices forming a regular triangular arrangement with 120-degree angular spacing. This geometric pattern reflects the three-sparger injection configuration and demonstrates the fundamental mixing mechanism within the nozzle. The CFD analysis reveals that this characteristic flow pattern persists in both original and re-impelled configurations, indicating that the fundamental hydrodynamic behavior remains consistent despite geometric modifications.
+            </p>
+
+            <h3>Outlet Velocity Increase with Capacity Enhancement</h3>
+            <p>
+                With the capacity increase implementation, the mixing tube outlet velocity under both SOC and EOC conditions in the re-impelled models increases by approximately 7 m/s compared to the original model. Despite this substantial velocity increase, the velocity distribution uniformity percentage exhibits minimal change. This critical finding demonstrates that increased oxygen injection capacity achieved through the re-impelled design does not compromise uniform distribution performance. The maintained uniformity despite higher velocities validates the robustness of the nozzle design optimization.
+            </p>
+
+            <div class="comparison-grid">
+                <div class="comparison-card">
+                    <h4>SOC Conditions: Velocity Uniformity</h4>
+                    <div class="stat-value">+3.5%</div>
+                    <div class="stat-label">Improvement (Re-Impelled vs. Original)</div>
+                    <p style="margin-top: 1rem; font-size: 0.9rem;">85.0% → 88.5%</p>
+                </div>
+                <div class="comparison-card">
+                    <h4>EOC Conditions: Velocity Uniformity</h4>
+                    <div class="stat-value">+3.5%</div>
+                    <div class="stat-label">Improvement (Re-Impelled vs. Original)</div>
+                    <p style="margin-top: 1rem; font-size: 0.9rem;">81.0% → 84.5%</p>
+                </div>
+                <div class="comparison-card">
+                    <h4>Outlet Velocity Increase</h4>
+                    <div class="stat-value">+7 m/s</div>
+                    <div class="stat-label">Capacity Enhancement Impact</div>
+                    <p style="margin-top: 1rem; font-size: 0.9rem;">Both SOC and EOC Conditions</p>
+                </div>
+                <div class="comparison-card">
+                    <h4>Oxygen Distribution Uniformity</h4>
+                    <div class="stat-value">99%</div>
+                    <div class="stat-label">Maintained Across All Cases</div>
+                    <p style="margin-top: 1rem; font-size: 0.9rem;">Original and Re-Impelled Models</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Technical Achievements Section -->
+        <section id="achievements">
+            <h2><i class="fas fa-trophy"></i> Technical Achievements and Industrial Implications</h2>
+
+            <div class="info-box">
+                <h4><i class="fas fa-check-circle"></i> Key Research Contributions</h4>
+                <ul>
+                    <li><strong>Validated CFD Methodology:</strong> Established accurate numerical simulation approach validated against field operational data for oxygen mixing nozzle performance</li>
+                    <li><strong>Capacity Enhancement Confirmation:</strong> Demonstrated 7 m/s outlet velocity increase with maintained distribution uniformity</li>
+                    <li><strong>Uniformity Index Quantification:</strong> Achieved 99% oxygen mass fraction uniformity for both configurations under all operating conditions</li>
+                    <li><strong>Velocity Distribution Improvement:</strong> Re-impelled design shows 3.5% better velocity uniformity compared to original model</li>
+                    <li><strong>Robust Performance Verification:</strong> Confirmed consistent performance across SOC and EOC catalyst cycle conditions</li>
+                    <li><strong>Flow Pattern Characterization:</strong> Identified characteristic triangular distribution pattern with 120-degree spacing</li>
+                    <li><strong>Design Optimization Validation:</strong> Proven that capacity increase does not compromise mixing quality</li>
+                    <li><strong>Risk Mitigation:</strong> CFD analysis eliminates operational risk prior to physical implementation</li>
+                </ul>
+            </div>
+
+            <h3>Industrial Implementation Significance</h3>
+            <p>
+                The research validates that increased oxygen injection capacity achieved through the re-impelled nozzle design introduces no detrimental impact on uniform distribution performance. This critical finding provides engineering confidence for implementing the capacity expansion project without compromising product quality or catalyst performance that could result from non-uniform oxygen distribution. The maintained 99% oxygen mass fraction uniformity ensures consistent reaction conditions across the catalyst bed, preventing localized hot spots or oxygen-deficient zones that would reduce selectivity and catalyst life.
+            </p>
+
+            <h3>Design Optimization Insights</h3>
+            <p>
+                The comprehensive CFD analysis reveals that the re-impelled design actually demonstrates marginally superior velocity distribution uniformity compared to the original configuration, despite operating at higher absolute velocities. This unexpected performance enhancement suggests that the geometric modifications incorporated in the re-impelled design provide beneficial hydrodynamic effects that partially compensate for the increased flow rates. The 3.5% improvement in velocity uniformity index under both SOC and EOC conditions, though modest, indicates optimized flow conditioning that contributes to overall mixing performance.
+            </p>
+
+            <h3>Economic and Operational Benefits</h3>
+            <p>
+                The validated capacity enhancement through nozzle optimization enables MEG unit throughput increase without major equipment replacement or extensive piping modifications. By confirming that the re-impelled oxygen mixing nozzle maintains optimal distribution performance at increased capacity, the project de-risks the capacity expansion investment and provides quantitative performance predictions for operational planning. The CFD methodology establishes a proven approach for future nozzle optimization projects and provides the engineering foundation for confident scale-up decisions in petrochemical processing applications.
+            </p>
+        </section>
+
+        <!-- Conclusion Section -->
+        <section id="conclusion">
+            <h2><i class="fas fa-flag-checkered"></i> Conclusions</h2>
+            
+            <p>
+                This comprehensive CFD investigation successfully demonstrates that the re-impelled oxygen mixing nozzle design maintains exceptional distribution uniformity while accommodating increased oxygen injection capacity for MEG unit expansion at Marvarid Petrochemical Complex. The rigorous numerical simulation, validated against operational field data, provides high confidence in predicted performance characteristics. Critical findings establish that oxygen mass fraction uniformity reaches 99% at the nozzle outlet for both original and re-impelled configurations under all operating conditions (SOC and EOC), confirming that capacity enhancement does not compromise fundamental mixing performance.
+            </p>
+
+            <p>
+                The velocity distribution uniformity analysis reveals that the re-impelled design not only maintains acceptable uniformity despite 7 m/s outlet velocity increase, but actually demonstrates 3.5% improvement compared to the original configuration under both SOC and EOC conditions. This validates the effectiveness of the geometric optimization approach and confirms that increased oxygen injection capacity introduces no detrimental impact on uniform distribution—a critical requirement for maintaining catalyst performance and product quality in the MEG production process.
+            </p>
+
+            <div class="highlight-box">
+                <h4><i class="fas fa-lightbulb"></i> Research Impact and Engineering Significance</h4>
+                <p>
+                    The integration of advanced CFD simulation with operational validation establishes a proven methodology for oxygen mixing nozzle performance prediction applicable across petrochemical processing facilities. The demonstrated capacity enhancement while maintaining 99% oxygen distribution uniformity provides the engineering foundation for confident implementation of the MEG unit expansion project. The research delivers quantitative performance metrics that de-risk the capital investment and enable optimized operational planning for increased production capacity without compromising process performance or product quality.
+                </p>
+            </div>
+
+            <p>
+                The characteristic flow pattern analysis, revealing the three-vertex triangular distribution with 120-degree angular spacing, provides fundamental insight into the mixing mechanism and validates that this beneficial pattern persists in the re-impelled design. The comprehensive evaluation across SOC and EOC conditions ensures robust performance throughout the entire catalyst cycle, preventing operational issues associated with changing process conditions. The CFD methodology developed in this research demonstrates the powerful application of computational analysis for critical equipment optimization in industrial petrochemical applications.
+            </p>
+        </section>
+
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 Ali Atyabi, Ph.D. | <a href="mailto:aliatyabi@gmail.com">aliatyabi@gmail.com</a></p>
+    </footer>
+
+</body>
+</html>
