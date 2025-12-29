@@ -29,6 +29,8 @@
             --text-dark: #333;
             --text-light: #666;
             --border-color: #ddd;
+            --header-bg: #4A7C9B;
+            --yellow-highlight: #FFE600;
         }
         
         body {
@@ -86,72 +88,190 @@
             transform: translateY(-2px);
         }
         
-        /* Hero Section */
-        .hero {
-            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
-            color: white;
-            padding: 4rem 2rem;
-            text-align: center;
+        /* Professional Header Section */
+        .professional-header {
+            background: var(--header-bg);
+            padding: 2.5rem 2rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
         }
         
-        .hero-content {
-            max-width: 900px;
+        .header-container {
+            max-width: 1400px;
             margin: 0 auto;
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            gap: 2rem;
+            align-items: start;
         }
         
-        .hero-image {
-            width: 180px;
-            height: 180px;
+        /* Profile Image Section */
+        .profile-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .profile-image {
+            width: 160px;
+            height: 160px;
             border-radius: 50%;
-            margin: 0 auto 1.5rem;
             border: 4px solid white;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
             overflow: hidden;
             background: white;
         }
         
-        .hero-image img {
+        .profile-image img {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
         
-        .hero h1 {
-            font-size: 2.8rem;
-            margin-bottom: 0.5rem;
-        }
-        
-        .hero .subtitle {
-            font-size: 1.3rem;
-            margin-bottom: 0.5rem;
-            opacity: 0.95;
-        }
-        
-        .social-links {
-            display: flex;
-            justify-content: center;
-            gap: 1.5rem;
-            margin-top: 1.5rem;
-        }
-        
-        .social-links a {
+        .profile-name {
             color: white;
-            font-size: 1.5rem;
-            transition: transform 0.3s;
-            text-decoration: none;
-            padding: 0.5rem;
-            background: rgba(255,255,255,0.15);
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
+            font-size: 1.6rem;
+            font-weight: bold;
+            text-align: center;
+        }
+        
+        .social-links-compact {
+            display: flex;
+            gap: 0.5rem;
+            justify-content: center;
+        }
+        
+        .social-links-compact a {
+            color: white;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+            padding: 0.6rem;
+            background: rgba(255,255,255,0.2);
+            border-radius: 6px;
+            width: 40px;
+            height: 40px;
             display: flex;
             align-items: center;
             justify-content: center;
+            text-decoration: none;
         }
         
-        .social-links a:hover {
-            transform: scale(1.2);
-            background: rgba(255,255,255,0.25);
+        .social-links-compact a:hover {
+            background: rgba(255,255,255,0.3);
+            transform: scale(1.1);
+        }
+        
+        /* Professional Summary Section */
+        .summary-section {
+            background: white;
+            padding: 1.8rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .summary-title {
+            color: var(--primary-color);
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            border-bottom: 3px solid var(--primary-color);
+            padding-bottom: 0.5rem;
+        }
+        
+        .summary-text {
+            color: #333;
+            font-size: 1rem;
+            line-height: 1.7;
+            margin-bottom: 1.2rem;
+            background: var(--yellow-highlight);
+            padding: 1rem;
+            border-radius: 6px;
+        }
+        
+        .summary-text strong {
+            color: var(--text-dark);
+            font-weight: 600;
+        }
+        
+        .cv-download {
+            text-align: center;
+            padding-top: 1rem;
+            border-top: 2px solid #e8f1f5;
+        }
+        
+        .btn-cv {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.7rem 1.8rem;
+            background: var(--header-bg);
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 500;
+            font-size: 1rem;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(74, 124, 155, 0.3);
+        }
+        
+        .btn-cv:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(74, 124, 155, 0.4);
+            background: var(--secondary-color);
+        }
+        
+        /* Expertise & Tools Section */
+        .skills-section {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+        }
+        
+        .skill-box {
+            background: white;
+            padding: 1.3rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            min-width: 280px;
+        }
+        
+        .skill-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+        
+        .skill-box-title {
+            color: var(--primary-color);
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            border-bottom: 2px solid var(--accent-color);
+            padding-bottom: 0.5rem;
+        }
+        
+        .skill-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .skill-list li {
+            padding: 0.4rem 0;
+            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-size: 0.92rem;
+        }
+        
+        .skill-list li i {
+            color: var(--primary-color);
+            font-size: 0.9rem;
         }
         
         /* Container */
@@ -636,7 +756,23 @@
             opacity: 0.8;
         }
         
-        /* Responsive Design */
+        /* Responsive Design for Header */
+        @media (max-width: 1200px) {
+            .header-container {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .profile-section {
+                justify-self: center;
+            }
+            
+            .skills-section {
+                flex-direction: row;
+                justify-content: center;
+            }
+        }
+        
         @media (max-width: 768px) {
             nav .container {
                 flex-direction: column;
@@ -648,12 +784,17 @@
                 justify-content: center;
             }
             
-            .hero h1 {
-                font-size: 2rem;
+            .skills-section {
+                flex-direction: column;
             }
             
-            .hero .subtitle {
-                font-size: 1.1rem;
+            .profile-image {
+                width: 140px;
+                height: 140px;
+            }
+            
+            .profile-name {
+                font-size: 1.4rem;
             }
             
             .projects-grid,
@@ -696,106 +837,67 @@
         </div>
     </nav>
 
-   <!-- Hero Section -->
-<div class="hero" style="background-color: #326a82; padding: 60px 0; text-align: center; color: white;">
-    <div class="hero-content">
-        <div class="hero-image" style="margin-bottom: 20px;">
-            <img src="photos/ali_atyabi.jpg" 
-                 alt="Ali Atyabi"
-                 style="width: 180px; height: 180px; border-radius: 50%; object-fit: cover; border: 4px solid white; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);">
-        </div>
-        <h1 style="font-size: 2rem; margin-top: 0.5rem; color: #fff;">Ali Atyabi, Ph.D.</h1>
-        <p class="subtitle" style="font-size: 1.2rem; color: #d9e9f2;">
-            Mechanical Engineer | CFD Simulation Expert | R&D Researcher
-        </p>
-        <p style="font-size: 1.1rem; margin-top: 1rem; color: #e8f1f5;">
-            <i class="fas fa-burn"></i> Hydrogen Production |
-            <i class="fas fa-cube"></i> Multiphysics Modeling |
-            <i class="fas fa-wave-square"></i> CFD/FE Analysis
-        </p>
-        <div class="social-links" style="margin-top: 20px;">
-            <a href="https://scholar.google.com/citations?user=MytiTgsAAAAJ" target="_blank" title="Google Scholar" style="margin: 0 10px; color: white; font-size: 1.4rem;">
-                <i class="fas fa-graduation-cap"></i>
-            </a>
-            <a href="https://www.researchgate.net/profile/Ali-Atyabi" target="_blank" title="ResearchGate" style="margin: 0 10px; color: white; font-size: 1.4rem;">
-                <i class="fab fa-researchgate"></i>
-            </a>
-            <a href="https://linkedin.com/in/s-ali-atyabi" target="_blank" title="LinkedIn" style="margin: 0 10px; color: white; font-size: 1.4rem;">
-                <i class="fab fa-linkedin-in"></i>
-            </a>
-            <a href="/cdn-cgi/l/email-protection#1677626f77747f2f262456717b777f7a3875797b" title="Email" style="margin: 0 10px; color: white; font-size: 1.4rem;">
-                <i class="far fa-envelope"></i>
-            </a>
-        </div>
-    </div>
-</div>
-
-    <!-- About Section (Professional Summary with Expertise and Simulation Tools) -->
-    <section id="about" style="background: linear-gradient(135deg, #f8f9fa 0%, #e8f1f5 50%, #f8f9fa 100%); 
-                                position: relative; 
-                                overflow: hidden;">
-        <!-- Subtle geometric pattern overlay -->
-        <div style="position: absolute; 
-                    top: 0; 
-                    left: 0; 
-                    right: 0; 
-                    bottom: 0; 
-                    background-image: 
-                        repeating-linear-gradient(45deg, transparent, transparent 35px, rgba(44, 95, 124, 0.02) 35px, rgba(44, 95, 124, 0.02) 70px),
-                        repeating-linear-gradient(-45deg, transparent, transparent 35px, rgba(44, 95, 124, 0.02) 35px, rgba(44, 95, 124, 0.02) 70px);
-                    pointer-events: none;"></div>
-        
-        <div class="container" style="position: relative; z-index: 1;">
-            <div style="text-align: center; margin-bottom: 2rem;">
-                <h2 style="display: inline-block;"><i class="far fa-user-circle"></i> Professional Summary</h2>
+    <!-- Professional Header Section -->
+    <div class="professional-header">
+        <div class="header-container">
+            <!-- Profile Section -->
+            <div class="profile-section">
+                <div class="profile-image">
+                    <img src="photos/ali_atyabi.jpg" alt="Ali Atyabi">
+                </div>
+                <h1 class="profile-name">Ali Atyabi, Ph.D.</h1>
+                <div class="social-links-compact">
+                    <a href="mailto:ali.atyabi@kuleuven.be" title="Email">
+                        <i class="fas fa-envelope"></i>
+                    </a>
+                    <a href="https://scholar.google.com/citations?user=MytiTgsAAAAJ" target="_blank" title="Google Scholar">
+                        <i class="fas fa-graduation-cap"></i>
+                    </a>
+                    <a href="https://linkedin.com/in/s-ali-atyabi" target="_blank" title="LinkedIn">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+                    <a href="mailto:ali.atyabi@kuleuven.be" title="Email">
+                        <i class="far fa-envelope"></i>
+                    </a>
+                </div>
             </div>
-            
-            <div class="info-box" style="background: white; 
-                                        box-shadow: 0 8px 30px rgba(44, 95, 124, 0.15); 
-                                        border-left: 5px solid var(--primary-color);
-                                        backdrop-filter: blur(10px);">
-                <p style="font-size: 1.1rem; line-height: 1.8;">
+
+            <!-- Professional Summary -->
+            <div class="summary-section">
+                <h2 class="summary-title">
+                    <i class="far fa-user-circle"></i> Professional Summary
+                </h2>
+                <p class="summary-text">
                     Ph.D. in Mechanical Engineering with <strong>10 years</strong> of specialized experience in 
                     <strong>CFD/FE modeling</strong>, <strong>Energy conversion systems</strong>, and <strong>Heat and mass transfer</strong>. 
                     Currently a Researcher at KU Leuven, focusing on advanced modeling of mass transport phenomena in different types of membrane and drug delivery device.
                 </p>
-                
-                <!-- CV Download Button -->
-                <div style="text-align: center; margin-top: 2rem; padding-top: 1.5rem; border-top: 2px solid #e8f1f5;">
-                    <a href="projects/Cv_atyabi.pdf" 
-                       download 
-                       class="btn btn-primary cv-download-btn" 
-                       style="font-size: 1.1rem; 
-                              padding: 0.8rem 2rem; 
-                              background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
-                              box-shadow: 0 4px 15px rgba(44, 95, 124, 0.3);
-                              transition: all 0.3s ease;">
+                <div class="cv-download">
+                    <a href="projects/Cv_atyabi.pdf" download class="btn-cv">
                         <i class="fas fa-file-download"></i> Download My CV
                     </a>
-                    <p style="margin-top: 0.8rem; font-size: 0.9rem; color: var(--text-light);">
-                        <i class="fas fa-info-circle"></i> Complete resume with publications and projects
-                    </p>
                 </div>
             </div>
 
-            <div class="projects-grid" style="margin-top: 2.5rem;">
-                <div class="project-card expertise-card" style="background: white; 
-                                                 box-shadow: 0 6px 25px rgba(44, 95, 124, 0.12);
-                                                 transition: transform 0.3s ease, box-shadow 0.3s ease;">
-                    <h3><i class="fas fa-microscope"></i> Expertise</h3>
-                    <ul style="list-style: none; padding: 0;">
-                        <li><i class="fas fa-battery-full"></i> CFD/FE modeling</li>
-                        <li><i class="fas fa-flask"></i> Multiphysics modeling</li>
-                        <li><i class="fas fa-wave-square"></i> Flow field design</li>
-                        <li><i class="fas fa-calculator"></i> Optimization and ML</li>
+            <!-- Expertise & Tools -->
+            <div class="skills-section">
+                <div class="skill-box">
+                    <h3 class="skill-box-title">
+                        <i class="fas fa-lightbulb"></i> Expertise
+                    </h3>
+                    <ul class="skill-list">
+                        <li><i class="fas fa-check"></i> CFD/FE modeling</li>
+                        <li><i class="fas fa-check"></i> Multiphysics modeling</li>
+                        <li><i class="fas fa-check"></i> Flow field design</li>
+                        <li><i class="fas fa-check"></i> Optimization and ML</li>
                     </ul>
                 </div>
                 
-                <div class="project-card tools-card" style="background: white; 
-                                                 box-shadow: 0 6px 25px rgba(44, 95, 124, 0.12);
-                                                 transition: transform 0.3s ease, box-shadow 0.3s ease;">
-                    <h3><i class="fas fa-laptop-code"></i> Simulation Tools</h3>
-                    <ul style="list-style: none; padding: 0;">
+                <div class="skill-box">
+                    <h3 class="skill-box-title">
+                        <i class="fas fa-desktop"></i> Simulation Tools
+                    </h3>
+                    <ul class="skill-list">
                         <li><i class="fas fa-cube"></i> COMSOL Multiphysics</li>
                         <li><i class="fas fa-cube"></i> ANSYS</li>
                         <li><i class="fas fa-code"></i> MATLAB</li>
@@ -804,22 +906,7 @@
                 </div>
             </div>
         </div>
-        
-        <style>
-            /* Hover effects for project cards */
-            .expertise-card:hover,
-            .tools-card:hover {
-                transform: translateY(-8px);
-                box-shadow: 0 12px 35px rgba(44, 95, 124, 0.2) !important;
-            }
-            
-            /* CV button hover effect */
-            .cv-download-btn:hover {
-                transform: translateY(-3px);
-                box-shadow: 0 6px 20px rgba(44, 95, 124, 0.4) !important;
-            }
-        </style>
-    </section>
+    </div>
 
 <!-- Professional Experience Section -->
 <section id="experience" style="background: white;">
@@ -1021,11 +1108,7 @@
         <div class="projects-grid">
             <div class="project-card">
                 <div style="width: 100%; height: 240px; background: #ffffff; border-radius: 8px; margin-bottom: 1.5rem; display: flex; align-items: center; justify-content: center; overflow: hidden; border: 1px solid #ddd; padding: 12px;">
-                    <img src="projects/HERAQCLES.jpg" alt="HERAQCLES Project" style="max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain;" onerror="this.style.display='none'; this.parentElement.style.background='linear-gradient(135deg, #E8F1F5 0%, #d0e4ec 100%)'; this.nextElementSibling.style.display='flex';">
-                    <div style="display: none; flex-direction: column; align-items: center; color: var(--primary-color);">
-                        <i class="fas fa-flask" style="font-size: 3.5rem; opacity: 0.3;"></i>
-                        <p style="margin-top: 0.5rem; font-weight: 500; font-size: 0.9rem;">HERAQCLES Project</p>
-                    </div>
+                    <img src="projects/HERAQCLES.jpg" alt="HERAQCLES Project" style="max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain;">
                 </div>
                 <h3 style="margin-top: 0;">HERAQCLES</h3>
                 <p><strong>Duration:</strong> 2021 – 2024</p>
@@ -1045,11 +1128,7 @@
 
             <div class="project-card">
                 <div style="width: 100%; height: 240px; background: #ffffff; border-radius: 8px; margin-bottom: 1.5rem; display: flex; align-items: center; justify-content: center; overflow: hidden; border: 1px solid #ddd; padding: 12px;">
-                    <img src="projects/H2MHYTIC_COVER.jpg" alt="H2-MHYTIC Project" style="max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain;" onerror="this.style.display='none'; this.parentElement.style.background='linear-gradient(135deg, #E8F1F5 0%, #d0e4ec 100%)'; this.nextElementSibling.style.display='flex';">
-                    <div style="display: none; flex-direction: column; align-items: center; color: var(--primary-color);">
-                        <i class="fas fa-bolt" style="font-size: 3.5rem; opacity: 0.3;"></i>
-                        <p style="margin-top: 0.5rem; font-weight: 500; font-size: 0.9rem;">H2-MHYTIC Project</p>
-                    </div>
+                    <img src="projects/H2MHYTIC_COVER.jpg" alt="H2-MHYTIC Project" style="max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain;">
                 </div>
                 <h3 style="margin-top: 0;">H2-MHYTIC</h3>
                 <p><strong>Duration:</strong> 2021 – 2024</p>
@@ -1069,11 +1148,7 @@
 
             <div class="project-card">
                 <div style="width: 100%; height: 240px; background: #ffffff; border-radius: 8px; margin-bottom: 1.5rem; display: flex; align-items: center; justify-content: center; overflow: hidden; border: 1px solid #ddd; padding: 12px;">
-                    <img src="projects/BioRECO2VER.jpg" alt="BioRECO2VER Project" style="max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain;" onerror="this.style.display='none'; this.parentElement.style.background='linear-gradient(135deg, #E8F1F5 0%, #d0e4ec 100%)'; this.nextElementSibling.style.display='flex';">
-                    <div style="display: none; flex-direction: column; align-items: center; color: var(--primary-color);">
-                        <i class="fas fa-leaf" style="font-size: 3.5rem; opacity: 0.3;"></i>
-                        <p style="margin-top: 0.5rem; font-weight: 500; font-size: 0.9rem;">BioRECO2VER Project</p>
-                    </div>
+                    <img src="projects/BioRECO2VER.jpg" alt="BioRECO2VER Project" style="max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain;">
                 </div>
                 <h3 style="margin-top: 0;">BioRECO2VER</h3>
                 <p><strong>Duration:</strong> 2021 – 2024</p>
@@ -1093,11 +1168,7 @@
 
             <div class="project-card">
                 <div style="width: 100%; height: 240px; background: #ffffff; border-radius: 8px; margin-bottom: 1.5rem; display: flex; align-items: center; justify-content: center; overflow: hidden; border: 1px solid #ddd; padding: 12px;">
-                    <img src="projects/Columbus.jpg" alt="COLUMBUS Project" style="max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain;" onerror="this.style.display='none'; this.parentElement.style.background='linear-gradient(135deg, #E8F1F5 0%, #d0e4ec 100%)'; this.nextElementSibling.style.display='flex';">
-                    <div style="display: none; flex-direction: column; align-items: center; color: var(--primary-color);">
-                        <i class="fas fa-industry" style="font-size: 3.5rem; opacity: 0.3;"></i>
-                        <p style="margin-top: 0.5rem; font-weight: 500; font-size: 0.9rem;">COLUMBUS Project</p>
-                    </div>
+                    <img src="projects/Columbus.jpg" alt="COLUMBUS Project" style="max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain;">
                 </div>
                 <h3 style="margin-top: 0;">Membrane Selection</h3>
                 <p><strong>Duration:</strong> 2021 – 2024</p>
@@ -1124,11 +1195,7 @@
 
             <div class="project-card">
                 <div style="width: 100%; height: 240px; background: #ffffff; border-radius: 8px; margin-bottom: 1rem; display: flex; align-items: center; justify-content: center; overflow: hidden; border: 1px solid #ddd; padding: 12px;">
-                    <img src="projects/KU_Leuven.jpg" alt="Electrodialysis Project" style="max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain;" onerror="this.style.display='none'; this.parentElement.style.background='linear-gradient(135deg, #E8F1F5 0%, #d0e4ec 100%)'; this.nextElementSibling.style.display='flex';">
-                    <div style="display: none; flex-direction: column; align-items: center; color: var(--primary-color);">
-                        <i class="fas fa-water" style="font-size: 3.5rem; opacity: 0.3;"></i>
-                        <p style="margin-top: 0.5rem; font-weight: 500; font-size: 0.9rem;">Electrodialysis Project</p>
-                    </div>
+                    <img src="projects/KU_Leuven.jpg" alt="Electrodialysis Project" style="max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain;">
                 </div>
                 <h3 style="margin-top: 0;">CFD Modeling of ED, osmotic pump, ...</h3>
                 <p><strong>Duration:</strong> 2024 – Present</p>
@@ -1148,11 +1215,7 @@
 
              <div class="project-card">
                 <div style="width: 100%; height: 240px; background: #ffffff; border-radius: 8px; margin-bottom: 1.5rem; display: flex; align-items: center; justify-content: center; overflow: hidden; border: 1px solid #ddd; padding: 12px;">
-                    <img src="projects/H2MHYTIC.jpg" alt="Industrial Project" style="max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain;" onerror="this.style.display='none'; this.parentElement.style.background='linear-gradient(135deg, #E8F1F5 0%, #d0e4ec 100%)'; this.nextElementSibling.style.display='flex';">
-                    <div style="display: none; flex-direction: column; align-items: center; color: var(--primary-color);">
-                        <i class="fas fa-fire" style="font-size: 3.5rem; opacity: 0.3;"></i>
-                        <p style="margin-top: 0.5rem; font-weight: 500; font-size: 0.9rem;">Industrial Optimization</p>
-                    </div>
+                    <img src="projects/H2MHYTIC.jpg" alt="Industrial Project" style="max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain;">
                 </div>
                 <h3 style="margin-top: 0;">Industrial Process Optimization</h3>
                 <p><strong>Duration:</strong> 2019 – 2020</p>
@@ -1171,11 +1234,7 @@
 
             <div class="project-card">
                 <div style="width: 100%; height: 240px; background: #ffffff; border-radius: 8px; margin-bottom: 1.5rem; display: flex; align-items: center; justify-content: center; overflow: hidden; border: 1px solid #ddd; padding: 12px;">
-                    <img src="projects/Furnace.gif" alt="PEM Fuel Cell Research" style="max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain;" onerror="this.style.display='none'; this.parentElement.style.background='linear-gradient(135deg, #E8F1F5 0%, #d0e4ec 100%)'; this.nextElementSibling.style.display='flex';">
-                    <div style="display: none; flex-direction: column; align-items: center; color: var(--primary-color);">
-                        <i class="fas fa-battery-full" style="font-size: 3.5rem; opacity: 0.3;"></i>
-                        <p style="margin-top: 0.5rem; font-weight: 500; font-size: 0.9rem;">PEM Fuel Cell</p>
-                    </div>
+                    <img src="projects/Furnace.gif" alt="PEM Fuel Cell Research" style="max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain;">
                 </div>
                 <h3 style="margin-top: 0;">CFD Analysis of Technology Upgrading of Cracking Furnace</h3>
                 <p><strong>Duration:</strong> 2020– 2021</p>
@@ -1196,11 +1255,7 @@
 
                 <div class="project-card">
                 <div style="width: 100%; height: 240px; background: #ffffff; border-radius: 8px; margin-bottom: 1.5rem; display: flex; align-items: center; justify-content: center; overflow: hidden; border: 1px solid #ddd; padding: 12px;">
-                    <img src="projects/Pump_petrochemical.gif" alt="Centrifugal Pump CFD" style="max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain;" onerror="this.style.display='none'; this.parentElement.style.background='linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%)'; this.nextElementSibling.style.display='flex';">
-                    <div style="display: none; flex-direction: column; align-items: center; color: #1e3a8a;">
-                        <i class="fas fa-cogs" style="font-size: 3.5rem; opacity: 0.3;"></i>
-                        <p style="margin-top: 0.5rem; font-weight: 500; font-size: 0.9rem;">Centrifugal Pump Analysis</p>
-                    </div>
+                    <img src="projects/Pump_petrochemical.gif" alt="Centrifugal Pump CFD" style="max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain;">
                 </div>
                 <h3 style="margin-top: 0;">Centrifugal Pump Capacity Enhancement via CFD</h3>
                 <p><strong>Project Scope:</strong> Industrial Pump Performance Optimization</p>
@@ -1220,11 +1275,7 @@
             </div>
             <div class="project-card">
                 <div style="width: 100%; height: 240px; background: #ffffff; border-radius: 8px; margin-bottom: 1.5rem; display: flex; align-items: center; justify-content: center; overflow: hidden; border: 1px solid #ddd; padding: 12px;">
-                    <img src="projects/nozzle_cfd.gif" alt="Oxygen Mixing Nozzle CFD" style="max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain;" onerror="this.style.display='none'; this.parentElement.style.background='linear-gradient(135deg, #ccfbf1 0%, #99f6e4 100%)'; this.nextElementSibling.style.display='flex';">
-                    <div style="display: none; flex-direction: column; align-items: center; color: #0d9488;">
-                        <i class="fas fa-wind" style="font-size: 3.5rem; opacity: 0.3;"></i>
-                        <p style="margin-top: 0.5rem; font-weight: 500; font-size: 0.9rem;">CFD Analysis</p>
-                    </div>
+                    <img src="projects/nozzle_cfd.gif" alt="Oxygen Mixing Nozzle CFD" style="max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain;">
                 </div>
                 <h3 style="margin-top: 0;">Oxygen Mixing Nozzle CFD Optimization</h3>
                 <p><strong>Duration:</strong> 2023 – 2024</p>
@@ -1252,10 +1303,7 @@
     <!-- Publication 1 -->
     <div class="publication">
         <div class="publication-image">
-            <img src="publications/Three-dimensional multiphase modeling of the performance of an open-cathode PEM fuel cell with additional cooling channels.jpg" alt="Publication" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-            <div class="placeholder" style="display: none;">
-                <i class="fas fa-image"></i>
-            </div>
+            <img src="publications/Three-dimensional multiphase modeling of the performance of an open-cathode PEM fuel cell with additional cooling channels.jpg" alt="Publication">
         </div>
         <div class="publication-content">
             <div class="publication-title">
@@ -1278,10 +1326,7 @@
     <!-- Publication 2 -->
     <div class="publication">
         <div class="publication-image">
-            <img src="publications/Comparison of active and passive cooling of proton exchange membrane fuel cell using a multiphase model.jpg" alt="Publication" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-            <div class="placeholder" style="display: none;">
-                <i class="fas fa-image"></i>
-            </div>
+            <img src="publications/Comparison of active and passive cooling of proton exchange membrane fuel cell using a multiphase model.jpg" alt="Publication">
         </div>
         <div class="publication-content">
             <div class="publication-title">
@@ -1304,10 +1349,7 @@
     <!-- Publication 3 -->
     <div class="publication">
         <div class="publication-image">
-            <img src="publications/Numerical simulation of membrane humidifier with different flow fields for medical application.jpg" alt="Publication" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-            <div class="placeholder" style="display: none;">
-                <i class="fas fa-image"></i>
-            </div>
+            <img src="publications/Numerical simulation of membrane humidifier with different flow fields for medical application.jpg" alt="Publication">
         </div>
         <div class="publication-content">
             <div class="publication-title">
@@ -1330,10 +1372,7 @@
     <!-- Publication 4 -->
     <div class="publication">
         <div class="publication-image">
-            <img src="publications/Three-dimensional simulation of different flow fields of proton exchange membrane fuel cell using a multi-phase coupled model with cooling channel.jpg" alt="Publication" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-            <div class="placeholder" style="display: none;">
-                <i class="fas fa-image"></i>
-            </div>
+            <img src="publications/Three-dimensional simulation of different flow fields of proton exchange membrane fuel cell using a multi-phase coupled model with cooling channel.jpg" alt="Publication">
         </div>
         <div class="publication-content">
             <div class="publication-title">
@@ -1356,10 +1395,7 @@
     <!-- Publication 5 -->
     <div class="publication">
         <div class="publication-image">
-            <img src="publications/Enhancing the Specific Power of a PEM Fuel Cell Powered UAV with a Novel Bean-Shaped Flow Field.jpg" alt="Publication" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-            <div class="placeholder" style="display: none;">
-                <i class="fas fa-image"></i>
-            </div>
+            <img src="publications/Enhancing the Specific Power of a PEM Fuel Cell Powered UAV with a Novel Bean-Shaped Flow Field.jpg" alt="Publication">
         </div>
         <div class="publication-content">
             <div class="publication-title">
@@ -1382,10 +1418,7 @@
     <!-- Publication 6 -->
     <div class="publication">
         <div class="publication-image">
-            <img src="publications/Three-dimensional multiphase flow modeling of membrane humidifier for PEM fuel cell application.gif" alt="Publication" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-            <div class="placeholder" style="display: none;">
-                <i class="fas fa-image"></i>
-            </div>
+            <img src="publications/Three-dimensional multiphase flow modeling of membrane humidifier for PEM fuel cell application.gif" alt="Publication">
         </div>
         <div class="publication-content">
             <div class="publication-title">
@@ -1408,10 +1441,7 @@
     <!-- Publication 7 -->
     <div class="publication">
         <div class="publication-image">
-            <img src="publications/Effects of assembly pressure on PEM fuel cell performance by taking into accounts electrical and thermal contact resistances.jpg" alt="Publication" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-            <div class="placeholder" style="display: none;">
-                <i class="fas fa-image"></i>
-            </div>
+            <img src="publications/Effects of assembly pressure on PEM fuel cell performance by taking into accounts electrical and thermal contact resistances.jpg" alt="Publication">
         </div>
         <div class="publication-content">
             <div class="publication-title">
@@ -1434,10 +1464,7 @@
     <!-- Publication 8 -->
     <div class="publication">
         <div class="publication-image">
-            <img src="publications/Three-dimensional multiphase model of proton exchange membrane fuel cell with honeycomb flow field at the cathode side.gif" alt="Publication" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-            <div class="placeholder" style="display: none;">
-                <i class="fas fa-image"></i>
-            </div>
+            <img src="publications/Three-dimensional multiphase model of proton exchange membrane fuel cell with honeycomb flow field at the cathode side.gif" alt="Publication">
         </div>
         <div class="publication-content">
             <div class="publication-title">
@@ -1460,10 +1487,7 @@
     <!-- Publication 9 -->
     <div class="publication">
         <div class="publication-image">
-            <img src="publications/A numerical multiphase CFD simulation for PEMFC with parallel sinusoidal flow fields.gif" alt="Publication" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-            <div class="placeholder" style="display: none;">
-                <i class="fas fa-image"></i>
-            </div>
+            <img src="publications/A numerical multiphase CFD simulation for PEMFC with parallel sinusoidal flow fields.gif" alt="Publication">
         </div>
         <div class="publication-content">
             <div class="publication-title">
@@ -1486,10 +1510,7 @@
     <!-- Publication 10 -->
     <div class="publication">
         <div class="publication-image">
-            <img src="publications/Thermal and electrochemical analysis of different flow field patterns in a PEM electrolyzer.jpg" alt="Publication" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-            <div class="placeholder" style="display: none;">
-                <i class="fas fa-image"></i>
-            </div>
+            <img src="publications/Thermal and electrochemical analysis of different flow field patterns in a PEM electrolyzer.jpg" alt="Publication">
         </div>
         <div class="publication-content">
             <div class="publication-title">
@@ -1512,10 +1533,7 @@
     <!-- Publication 11 -->
     <div class="publication">
         <div class="publication-image">
-            <img src="publications/Thermal and electrochemical performance assessment of a high temperature PEM electrolyzer.jpg" alt="Publication" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-            <div class="placeholder" style="display: none;">
-                <i class="fas fa-image"></i>
-            </div>
+            <img src="publications/Thermal and electrochemical performance assessment of a high temperature PEM electrolyzer.jpg" alt="Publication">
         </div>
         <div class="publication-content">
             <div class="publication-title">
@@ -1538,10 +1556,7 @@
     <!-- Publication 12 -->
     <div class="publication">
         <div class="publication-image">
-            <img src="publications/Thermal and electrochemical performance analysis of a proton exchange membrane fuel cell under assembly pressure on gas diffusion layer.jpg" alt="Publication" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-            <div class="placeholder" style="display: none;">
-                <i class="fas fa-image"></i>
-            </div>
+            <img src="publications/Thermal and electrochemical performance analysis of a proton exchange membrane fuel cell under assembly pressure on gas diffusion layer.jpg" alt="Publication">
         </div>
         <div class="publication-content">
             <div class="publication-title">
@@ -1569,9 +1584,6 @@
                 <div class="publication">
                     <div class="publication-image">
                         <img src="publications/Configuration of proton exchange membrane fuel cell gas and cooling flow fields.jpg" alt="Book Chapter">
-                        <div class="placeholder" style="display: none;">
-                            <i class="fas fa-book"></i>
-                        </div>
                     </div>
                     <div class="publication-content">
                         <div class="publication-title">
@@ -1599,9 +1611,6 @@
                 <div class="publication">
                     <div class="publication-image">
                         <img src="publications/The Impact of CFD Modeling on Membrane Module Design$​.gif" alt="Conference">
-                        <div class="placeholder" style="display: none;">
-                            <i class="fas fa-chalkboard-teacher"></i>
-                        </div>
                     </div>
                     <div class="publication-content">
                         <div class="publication-title">
@@ -1624,9 +1633,6 @@
                 <div class="publication">
                     <div class="publication-image">
                         <img src="publications/CFD simulation of electrodialysis system using selective ion exchange membranes​.gif" alt="Conference">
-                        <div class="placeholder" style="display: none;">
-                            <i class="fas fa-chalkboard-teacher"></i>
-                        </div>
                     </div>
                     <div class="publication-content">
                         <div class="publication-title">
@@ -1649,9 +1655,6 @@
                 <div class="publication">
                     <div class="publication-image">
                         <img src="publications/A multiphase transport model for the evaluation of electrode and PTL bubble coverage in a zero-gap hydroxyl exchange membrane water electrolyzer.gif" alt="Conference">
-                        <div class="placeholder" style="display: none;">
-                            <i class="fas fa-chalkboard-teacher"></i>
-                        </div>
                     </div>
                     <div class="publication-content">
                         <div class="publication-title">
@@ -1676,9 +1679,6 @@
                 <div class="publication">
                     <div class="publication-image">
                         <img src="publications/Electrochemical simulation of alkaline water electrolyzer cell by a 1D model with two different types of the membrane (anion exchange membrane and separator)$.gif" alt="Conference">
-                        <div class="placeholder" style="display: none;">
-                            <i class="fas fa-chalkboard-teacher"></i>
-                        </div>
                     </div>
                     <div class="publication-content">
                         <div class="publication-title">
@@ -1703,9 +1703,6 @@
                 <div class="publication">
                     <div class="publication-image">
                         <img src="publications/Predictive, multiphysics simulation of effective electrical conductivity, permeability, porosity, and specific active area of gas diffusion electrode microstructure.gif" alt="Conference">
-                        <div class="placeholder" style="display: none;">
-                            <i class="fas fa-chalkboard-teacher"></i>
-                        </div>
                     </div>
                     <div class="publication-content">
                         <div class="publication-title">
@@ -1793,7 +1790,7 @@
                 <div class="contact-card">
                     <div class="contact-icon"><i class="far fa-envelope"></i></div>
                     <h3>Email</h3>
-                    <p><a href="/cdn-cgi/l/email-protection#e485909d85868dddd4d6a48389858d88ca878b89"><span class="__cf_email__" data-cfemail="90f1e4e9f1f2f9a9a0a2d0f7fdf1f9fcbef3fffd">[email&#160;protected]</span></a></p>
+                    <p><a href="mailto:ali.atyabi@kuleuven.be">ali.atyabi@kuleuven.be</a></p>
                 </div>
                 
                 <div class="contact-card">
@@ -1822,7 +1819,7 @@
                     Let's connect and discuss potential projects!
                 </p>
                 <div class="btn-group" style="margin-top: 1.5rem;">
-                    <a href="/cdn-cgi/l/email-protection#ec8d98958d8e85d5dcdeac8b818d8580c28f8381" class="btn btn-primary">
+                    <a href="mailto:ali.atyabi@kuleuven.be" class="btn btn-primary">
                         <i class="far fa-envelope"></i> Get in Touch
                     </a>
                     <a href="https://linkedin.com/in/s-ali-atyabi" target="_blank" class="btn btn-info">
@@ -1852,7 +1849,7 @@
                 <a href="https://linkedin.com/in/s-ali-atyabi" target="_blank">
                     <i class="fab fa-linkedin-in"></i> LinkedIn
                 </a> | 
-                <a href="/cdn-cgi/l/email-protection#2e4f5a574f4c47171e1c6e49434f4742004d4143">
+                <a href="mailto:ali.atyabi@kuleuven.be">
                     <i class="far fa-envelope"></i> Email
                 </a>
             </div>
@@ -1863,7 +1860,7 @@
         </div>
     </footer>
 
-    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+    <script>
         // Smooth scrolling
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
@@ -1892,6 +1889,6 @@
                 }
             });
         }, observerOptions);
-
-        // Observe elements
-        document.querySe
+    </script>
+</body>
+</html>
