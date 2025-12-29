@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Rotary Piston Pump Design and Numerical Simulation for Seawater Applications">
+    <meta name="author" content="Ali Atyabi">
+    <title>Rotary Piston Pump Design | Ali Atyabi, Ph.D.</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary-color: #2C5F7C;
+            --secondary-color: #4A7C9B;
+            --accent-color: #E8F1F5;
+            --success-color: #28a745;
+            --text-dark: #333;
+            --text-light: #666;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background: #f8f9fa;
+        }
+        
+        /* Navigation */
+        nav {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        
+        nav .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        nav .logo {
+            font-size: 1.3rem;
+            font-weight: bold;
+        }
+        
+        nav a {
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s;
+            padding: 0.5rem;
+        }
+        
+        nav a:hover {
+            color: var(--accent-color);
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+        
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            opacity: 0.95;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        
+        /* Main Content */
+        .content {
+            background: white;
+            margin: -2rem auto 3rem;
+            padding: 3rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            max-width: 1200px;
+        }
+        
+        section {
+            margin-bottom: 3rem;
+        }
+        
+        h2 {
+            color: var(--primary-color);
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 3px solid var(--primary-color);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        h3 {
+            color: var(--primary-color);
+            font-size: 1.4rem;
+            margin: 2rem 0 1rem;
+        }
+        
+        p {
+            margin-bottom: 1rem;
+            line-height: 1.8;
+            color: var(--text-light);
+            text-align: justify;
+        }
+        
+        /* Overview Card Layout */
+        .overview-card {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 2.5rem;
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+        
+        .overview-text {
+            text-align: justify;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .schema-container {
+            position: relative;
+            width: 100%;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .schema-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        /* Info Box */
+        .info-box {
+            background: var(--accent-color);
+            border-left: 4px solid var(--primary-color);
+            padding: 1.5rem;
+            border-radius: 5px;
+            margin: 1.5rem 0;
+        }
+        
+        .info-box h4 {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .highlight-box {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 1.5rem;
+            border-radius: 5px;
+            margin: 1.5rem 0;
+        }
+        
+        .highlight-box h4 {
+            color: #856404;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        ul {
+            margin-left: 2rem;
+            color: var(--text-light);
+        }
+        
+        li {
+            margin-bottom: 0.8rem;
+        }
+        
+        /* Technical Specs Grid */
+        .specs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .spec-card {
+            background: var(--accent-color);
+            padding: 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+        
+        .spec-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .spec-card i {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+        
+        .spec-card h4 {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        .spec-card p {
+            color: var(--text-dark);
+            font-weight: 600;
+            text-align: center;
+        }
+        
+        /* Keywords */
+        .keywords {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            margin-top: 1.5rem;
+        }
+        
+        .keyword-tag {
+            background: var(--primary-color);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        
+        /* Footer */
+        footer {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+        
+        footer a {
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        
+        footer a:hover {
+            color: var(--accent-color);
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .overview-card {
+                grid-template-columns: 1fr;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+            }
+            
+            .content {
+                padding: 2rem 1.5rem;
+            }
+            
+            .specs-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="container">
+            <div class="logo">
+                <i class="fas fa-cog"></i> Ali Atyabi, Ph.D.
+            </div>
+            <a href="https://atyabia.github.io/index.html">
+                <i class="fas fa-home"></i> Back to Portfolio
+            </a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="hero">
+        <h1>Rotary Piston Pump Design and Numerical Simulation</h1>
+        <p>CFD Analysis and Performance Optimization for High-Pressure Seawater Pumping Applications</p>
+    </div>
+
+    <!-- Main Content -->
+    <div class="content container">
+
+        <!-- Overview Section -->
+        <section id="overview">
+            <h2><i class="fas fa-info-circle"></i> Project Overview</h2>
+            
+            <div class="overview-card">
+                <div class="overview-text">
+                    <p>
+                        This project encompasses the design, numerical simulation, and performance optimization of a specialized 
+                        rotary piston pump for seawater pumping applications up to 35 bar pressure. The pump design employs reverse 
+                        engineering methodology, where the fluid chamber volume and rotational speed are calculated based on required 
+                        flow rate and estimated volumetric efficiency.
+                    </p>
+                    <p>
+                        Given the unique nature of this pump design and the absence of prior numerical or analytical studies in the 
+                        literature, a systematic validation approach was implemented using lobe pump simulations as benchmark cases 
+                        before analyzing the main pump configuration.
+                    </p>
+                </div>
+                <div class="schema-container">
+                    <img src="photos/rotary_pump.png" alt="Rotary Piston Pump Configuration">
+                </div>
+            </div>
+
+            <div class="specs-grid">
+                <div class="spec-card">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <h4>Operating Pressure</h4>
+                    <p>Up to 35 bar</p>
+                </div>
+                <div class="spec-card">
+                    <i class="fas fa-water"></i>
+                    <h4>Application</h4>
+                    <p>Seawater Pumping</p>
+                </div>
+                <div class="spec-card">
+                    <i class="fas fa-sync-alt"></i>
+                    <h4>Design Method</h4>
+                    <p>Reverse Engineering</p>
+                </div>
+                <div class="spec-card">
+                    <i class="fas fa-chart-line"></i>
+                    <h4>Key Parameters</h4>
+                    <p>Speed & Clearance</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Design Methodology Section -->
+        <section id="methodology">
+            <h2><i class="fas fa-drafting-compass"></i> Design Methodology</h2>
+            
+            <p>
+                The pump design utilizes a reverse engineering approach based on performance specifications. The methodology involves 
+                calculating the pump chamber volume and rotational speed from target flow rate and volumetric efficiency requirements.
+            </p>
+
+            <h3>Performance Parameters Analysis</h3>
+            <p>
+                Two critical parameters significantly influence pump performance:
+            </p>
+            
+            <ul>
+                <li><strong>Rotational Speed:</strong> Flow rate increases significantly with pump rotational speed, providing direct 
+                control over pumping capacity</li>
+                <li><strong>Rotor-Casing Clearance:</strong> Increased clearance leads to higher internal leakage between drive rotor 
+                sides, resulting in reduced flow rate and volumetric efficiency</li>
+            </ul>
+
+            <div class="highlight-box">
+                <h4><i class="fas fa-exclamation-triangle"></i> Critical Design Consideration</h4>
+                <p>
+                    Clearance management is essential for maintaining high volumetric efficiency. Internal leakage through excessive 
+                    clearance can significantly compromise pump performance, making precision manufacturing crucial for optimal operation.
+                </p>
+            </div>
+        </section>
+
+        <!-- CFD Simulation Section -->
+        <section id="cfd-modeling">
+            <h2><i class="fas fa-calculator"></i> Numerical Simulation Strategy</h2>
+            
+            <p>
+                Given the unique nature of this pump design and the absence of prior numerical or analytical studies in the literature, 
+                a systematic two-phase validation approach was implemented using ANSYS Fluent.
+            </p>
+
+            <h3>Phase 1: Validation Studies</h3>
+            <p>
+                Initial simulations focused on established lobe pump configurations to develop and validate the numerical framework:
+            </p>
+            
+            <ul>
+                <li>Lobe pump numerical simulation as benchmark case</li>
+                <li>Investigation of appropriate boundary conditions and mesh configurations</li>
+                <li>Mesh refinement and remeshing strategy optimization</li>
+                <li>Time-dependent flow rate curve generation and validation against published literature</li>
+                <li>Analysis of cosine deviation effects in lobe geometry</li>
+            </ul>
+
+            <div class="info-box">
+                <h4><i class="fas fa-check-circle"></i> Validation Results</h4>
+                <p>
+                    The lobe pump simulations successfully reproduced flow characteristics reported in literature, demonstrating the 
+                    reliability of the numerical setup. Flow rate variations at different rotor angles (45°, 90°, 135° at 600 rpm) 
+                    matched expected sinusoidal, circular, and involute patterns.
+                </p>
+            </div>
+
+            <h3>Phase 2: Main Pump Analysis</h3>
+            <p>
+                Following successful validation, the proven numerical methodology was applied to the specialized rotary piston pump:
+            </p>
+            
+            <ul>
+                <li>Application of validated numerical setup to the primary pump design</li>
+                <li>Comprehensive CFD analysis of internal flow patterns and pressure distributions</li>
+                <li>Performance prediction across operating range</li>
+                <li>Optimization of geometric parameters for viscous fluid handling</li>
+                <li>Assessment of suitability for offshore and firefighting applications</li>
+            </ul>
+
+            <div class="info-box">
+                <h4><i class="fas fa-lightbulb"></i> Key CFD Findings</h4>
+                <p>
+                    Velocity vector analysis revealed complex flow patterns within the pump chambers, including vortex formation and 
+                    secondary flows. The simulations provided detailed insights into pressure development through the pumping cycle 
+                    and identified optimal operating conditions for maximum efficiency.
+                </p>
+            </div>
+        </section>
+
+        <!-- Results Section -->
+        <section id="results">
+            <h2><i class="fas fa-chart-bar"></i> Key Findings and Results</h2>
+            
+            <p>
+                The comprehensive numerical study systematically examined the effects of various design and operating parameters:
+            </p>
+
+            <h3>Rotational Speed Effects</h3>
+            <p>
+                Flow rate characteristics were analyzed at multiple rotor positions (45°, 90°, 135°) at a constant speed of 600 rpm. 
+                The results demonstrated predictable flow rate variations corresponding to the pump's geometric configuration and 
+                rotor positioning.
+            </p>
+
+            <h3>Geometric Configuration Analysis</h3>
+            <p>
+                Three distinct lobe geometries were evaluated:
+            </p>
+            
+            <ul>
+                <li><strong>Sinusoidal Profile:</strong> Smooth flow characteristics with minimal pulsation</li>
+                <li><strong>Circular Profile:</strong> Balanced performance between flow smoothness and volumetric efficiency</li>
+                <li><strong>Involute Profile:</strong> Enhanced sealing characteristics reducing internal leakage</li>
+            </ul>
+
+            <h3>Flow Pattern Visualization</h3>
+            <p>
+                Velocity vector analysis provided critical insights into internal fluid dynamics, revealing secondary flow structures 
+                and their impact on overall pump efficiency. These visualizations enabled optimization of chamber geometry for 
+                improved performance.
+            </p>
+
+            <div class="highlight-box">
+                <h4><i class="fas fa-trophy"></i> Project Outcome</h4>
+                <p>
+                    This research provides essential design guidelines and validated numerical modeling approaches for specialized 
+                    rotary pumps in high-pressure seawater applications. The CFD methodologies developed are applicable to similar 
+                    positive displacement pump designs, enabling efficient development of custom pumping solutions for demanding 
+                    industrial applications including viscous fluid handling, firefighting systems, and offshore operations.
+                </p>
+            </div>
+        </section>
+
+        <!-- Applications Section -->
+        <section id="applications">
+            <h2><i class="fas fa-industry"></i> Target Applications</h2>
+            
+            <p>
+                The rotary piston pump design is optimized for demanding industrial applications requiring reliable high-pressure 
+                performance:
+            </p>
+
+            <div class="specs-grid">
+                <div class="spec-card">
+                    <i class="fas fa-water"></i>
+                    <h4>Viscous Fluid Handling</h4>
+                    <p>High-viscosity industrial fluids</p>
+                </div>
+                <div class="spec-card">
+                    <i class="fas fa-fire-extinguisher"></i>
+                    <h4>Firefighting Systems</h4>
+                    <p>Emergency response applications</p>
+                </div>
+                <div class="spec-card">
+                    <i class="fas fa-ship"></i>
+                    <h4>Offshore Operations</h4>
+                    <p>Marine and subsea systems</p>
+                </div>
+                <div class="spec-card">
+                    <i class="fas fa-tint"></i>
+                    <h4>Seawater Pumping</h4>
+                    <p>Up to 35 bar pressure</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Keywords Section -->
+        <section id="keywords">
+            <h2><i class="fas fa-tags"></i> Keywords</h2>
+            <div class="keywords">
+                <span class="keyword-tag">Rotary Piston Pump</span>
+                <span class="keyword-tag">Numerical Simulation</span>
+                <span class="keyword-tag">ANSYS Fluent</span>
+                <span class="keyword-tag">CFD Analysis</span>
+                <span class="keyword-tag">Lobe Pump</span>
+                <span class="keyword-tag">Engineering Design</span>
+                <span class="keyword-tag">Reverse Engineering</span>
+                <span class="keyword-tag">Seawater Applications</span>
+                <span class="keyword-tag">High-Pressure Pumping</span>
+                <span class="keyword-tag">Performance Optimization</span>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 Ali Atyabi, Ph.D. | <a href="mailto:aliatyabi@gmail.com">aliatyabi@gmail.com</a></p>
+    </footer>
+
+</body>
+</html>
