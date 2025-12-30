@@ -35,14 +35,51 @@
             --warning-color: #ffc107;
             --danger-color: #dc3545;
         }
-        
-        body {
-            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            color: var(--text-cream);
-            background: var(--bg-dark);
+                /* ========================================
+           GOLD SHINE EFFECT
+           ======================================== */
+        .shine-gold {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
         }
         
+        .shine-gold::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(212, 175, 55, 0.4),
+                rgba(255, 215, 0, 0.6),
+                rgba(212, 175, 55, 0.4),
+                transparent
+            );
+            transition: left 0.6s ease;
+            z-index: 1;
+            pointer-events: none;
+        }
+        
+        .shine-gold:hover::before {
+            left: 100%;
+        }
+        
+        /* Ensure child elements stay above shine */
+        .shine-gold > * {
+            position: relative;
+            z-index: 2;
+        }
+                body {
+                    font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                    line-height: 1.6;
+                    color: var(--text-cream);
+                    background: var(--bg-dark);
+                }
+                
         /* Navigation */
         nav {
             background: linear-gradient(135deg, var(--navy-dark) 0%, var(--navy-medium) 100%);
@@ -664,7 +701,7 @@
                 <i class="fas fa-cogs"></i> Ali Atyabi, Ph.D.
             </div>
             <ul>
-                <li><a href="#experience"><i class="fas fa-briefcase"></i> Experience</a></li>
+                <li><a href="#experience" class="shine-gold"><i class="fas fa-briefcase"></i> Experience</a></li>
                 <li><a href="#skills"><i class="fas fa-tools"></i> Skills</a></li>
                 <li><a href="#projects"><i class="fas fa-project-diagram"></i> Projects</a></li>
                 <li><a href="#publications"><i class="fas fa-scroll"></i> Publications</a></li>
