@@ -51,6 +51,7 @@
         .info-box { background:linear-gradient(135deg,var(--navy-light) 0%,var(--navy-medium) 100%); padding:2rem; border-radius:10px; border-left:5px solid var(--accent-gold); margin:2rem 0; box-shadow:0 4px 15px rgba(0,0,0,0.3); }
         .info-box h3 { margin-top:0; color:var(--gold-bright); }
         .info-box p { color:var(--text-cream); }
+        /* Publications & Certificates shared grid styles */
         .publications-grid { display:grid; gap:2rem; margin-top:2rem; }
         .publication { background:linear-gradient(135deg,var(--navy-light) 0%,var(--navy-medium) 100%); border-radius:10px; box-shadow:0 4px 15px rgba(0,0,0,0.3); overflow:hidden; display:flex; flex-direction:row; transition:all 0.3s; border:2px solid var(--border-gold); }
         .publication:hover { transform:translateY(-5px); box-shadow:0 8px 25px rgba(201,169,97,0.2); border-color:var(--accent-gold); }
@@ -66,6 +67,9 @@
         .publication-meta { display:flex; gap:2rem; flex-wrap:wrap; margin:1rem 0; padding:1rem 0; border-top:1px solid var(--border-gold); border-bottom:1px solid var(--border-gold); }
         .publication-meta div { display:flex; align-items:center; gap:0.5rem; color:var(--text-gray); font-size:0.95rem; }
         .publication-links { display:flex; gap:1rem; flex-wrap:wrap; margin-top:1rem; }
+        /* Certificate badge pill */
+        .cert-badge { display:inline-flex; align-items:center; gap:0.4rem; padding:0.3rem 0.8rem; border-radius:20px; font-size:0.8rem; font-weight:600; background:linear-gradient(135deg,rgba(201,169,97,0.15) 0%,rgba(201,169,97,0.05) 100%); border:1px solid var(--accent-gold); color:var(--gold-bright); margin-top:0.5rem; }
+        /* Projects */
         .projects-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(350px,1fr)); gap:2rem; margin-top:2rem; }
         .project-card { background:linear-gradient(135deg,var(--navy-light) 0%,var(--navy-medium) 100%); padding:2rem; border-radius:10px; box-shadow:0 4px 15px rgba(0,0,0,0.3); transition:all 0.3s; border:2px solid var(--border-gold); }
         .project-card p { text-align:justify; }
@@ -120,6 +124,7 @@
             <div class="logo"><i class="fas fa-cogs"></i> Ali Atyabi, Ph.D.</div>
             <ul>
                 <li><a href="#experience" class="shine-gold"><i class="fas fa-briefcase"></i> Experience</a></li>
+                <li><a href="#certificates" class="shine-gold"><i class="fas fa-certificate"></i> Certificates</a></li>
                 <li><a href="#skills" class="shine-gold"><i class="fas fa-tools"></i> Skills</a></li>
                 <li><a href="#projects" class="shine-gold"><i class="fas fa-project-diagram"></i> Projects</a></li>
                 <li><a href="#publications" class="shine-gold"><i class="fas fa-scroll"></i> Publications</a></li>
@@ -170,6 +175,8 @@
             </div>
         </div>
     </div>
+
+    <!-- ═══════════════════════════════════════════════════════════ EXPERIENCE -->
     <section id="experience" style="background:var(--bg-section);">
         <div class="container">
             <h2><i class="fas fa-briefcase"></i> Professional Experience</h2>
@@ -265,7 +272,136 @@
             </div>
         </div>
     </section>
-    <section id="skills">
+
+    <!-- ═══════════════════════════════════════════════════════════ CERTIFICATES -->
+    <section id="certificates">
+        <div class="container">
+            <h2><i class="fas fa-certificate"></i> Certificates</h2>
+            <div class="publications-grid">
+
+                <!-- Certificate 1 -->
+                <div class="publication">
+                    <div class="publication-image">
+                        <img src="certificates/comsol_cert.jpg" alt="COMSOL Certificate" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+                        <div class="placeholder" style="display:none;"><i class="fas fa-certificate"></i></div>
+                    </div>
+                    <div class="publication-content">
+                        <div>
+                            <div class="publication-title">COMSOL Multiphysics – Advanced CFD Modeling</div>
+                            <div class="publication-authors"><i class="fas fa-building" style="color:var(--accent-gold);margin-right:0.3rem;"></i> <strong>COMSOL Inc.</strong></div>
+                            <div class="publication-journal"><i class="far fa-calendar-alt"></i> Issued: 2022</div>
+                            <div style="margin-top:0.5rem;">
+                                <span class="cert-badge"><i class="fas fa-tag"></i> CFD</span>
+                                <span class="cert-badge" style="margin-left:0.4rem;"><i class="fas fa-tag"></i> Multiphysics</span>
+                            </div>
+                        </div>
+                        <div class="publication-links">
+                            <a href="certificates/comsol_cert.pdf" download class="btn btn-primary"><i class="fas fa-file-download"></i> Download Certificate</a>
+                            <a href="certificates/comsol_cert.pdf" target="_blank" class="btn btn-outline"><i class="fas fa-external-link-alt"></i> View</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Certificate 2 -->
+                <div class="publication">
+                    <div class="publication-image">
+                        <img src="certificates/ansys_cert.jpg" alt="ANSYS Certificate" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+                        <div class="placeholder" style="display:none;"><i class="fas fa-certificate"></i></div>
+                    </div>
+                    <div class="publication-content">
+                        <div>
+                            <div class="publication-title">ANSYS Fluent – Computational Fluid Dynamics</div>
+                            <div class="publication-authors"><i class="fas fa-building" style="color:var(--accent-gold);margin-right:0.3rem;"></i> <strong>ANSYS Inc.</strong></div>
+                            <div class="publication-journal"><i class="far fa-calendar-alt"></i> Issued: 2019</div>
+                            <div style="margin-top:0.5rem;">
+                                <span class="cert-badge"><i class="fas fa-tag"></i> CFD</span>
+                                <span class="cert-badge" style="margin-left:0.4rem;"><i class="fas fa-tag"></i> Fluent</span>
+                            </div>
+                        </div>
+                        <div class="publication-links">
+                            <a href="certificates/ansys_cert.pdf" download class="btn btn-primary"><i class="fas fa-file-download"></i> Download Certificate</a>
+                            <a href="certificates/ansys_cert.pdf" target="_blank" class="btn btn-outline"><i class="fas fa-external-link-alt"></i> View</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Certificate 3 -->
+                <div class="publication">
+                    <div class="publication-image">
+                        <img src="certificates/python_cert.jpg" alt="Python Certificate" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+                        <div class="placeholder" style="display:none;"><i class="fab fa-python"></i></div>
+                    </div>
+                    <div class="publication-content">
+                        <div>
+                            <div class="publication-title">Python for Scientific Computing and Data Analysis</div>
+                            <div class="publication-authors"><i class="fas fa-building" style="color:var(--accent-gold);margin-right:0.3rem;"></i> <strong>Coursera / University of Michigan</strong></div>
+                            <div class="publication-journal"><i class="far fa-calendar-alt"></i> Issued: 2021</div>
+                            <div style="margin-top:0.5rem;">
+                                <span class="cert-badge"><i class="fas fa-tag"></i> Python</span>
+                                <span class="cert-badge" style="margin-left:0.4rem;"><i class="fas fa-tag"></i> Data Science</span>
+                            </div>
+                        </div>
+                        <div class="publication-links">
+                            <a href="certificates/python_cert.pdf" download class="btn btn-primary"><i class="fas fa-file-download"></i> Download Certificate</a>
+                            <a href="certificates/python_cert.pdf" target="_blank" class="btn btn-outline"><i class="fas fa-external-link-alt"></i> View</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Certificate 4 -->
+                <div class="publication">
+                    <div class="publication-image">
+                        <img src="certificates/ml_cert.jpg" alt="Machine Learning Certificate" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+                        <div class="placeholder" style="display:none;"><i class="fas fa-brain"></i></div>
+                    </div>
+                    <div class="publication-content">
+                        <div>
+                            <div class="publication-title">Machine Learning Specialization</div>
+                            <div class="publication-authors"><i class="fas fa-building" style="color:var(--accent-gold);margin-right:0.3rem;"></i> <strong>Coursera / Stanford University</strong></div>
+                            <div class="publication-journal"><i class="far fa-calendar-alt"></i> Issued: 2023</div>
+                            <div style="margin-top:0.5rem;">
+                                <span class="cert-badge"><i class="fas fa-tag"></i> ML</span>
+                                <span class="cert-badge" style="margin-left:0.4rem;"><i class="fas fa-tag"></i> Optimization</span>
+                                <span class="cert-badge" style="margin-left:0.4rem;"><i class="fas fa-tag"></i> Neural Networks</span>
+                            </div>
+                        </div>
+                        <div class="publication-links">
+                            <a href="certificates/ml_cert.pdf" download class="btn btn-primary"><i class="fas fa-file-download"></i> Download Certificate</a>
+                            <a href="certificates/ml_cert.pdf" target="_blank" class="btn btn-outline"><i class="fas fa-external-link-alt"></i> View</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Certificate 5 -->
+                <div class="publication">
+                    <div class="publication-image">
+                        <img src="photos/Applied_energy_certifcate.jpg" alt="Reviewer of journal of International Hydrogen Energy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+                        <div class="placeholder" style="display:none;"><i class="fas fa-brain"></i></div>
+                    </div>
+                    <div class="publication-content">
+                        <div>
+                            <div class="publication-title">Machine Learning Specialization</div>
+                            <div class="publication-authors"><i class="fas fa-building" style="color:var(--accent-gold);margin-right:0.3rem;"></i> <strong>Coursera / Stanford University</strong></div>
+                            <div class="publication-journal"><i class="far fa-calendar-alt"></i> Issued: 2023</div>
+                            <div style="margin-top:0.5rem;">
+                                <span class="cert-badge"><i class="fas fa-tag"></i> ML</span>
+                                <span class="cert-badge" style="margin-left:0.4rem;"><i class="fas fa-tag"></i> Optimization</span>
+                                <span class="cert-badge" style="margin-left:0.4rem;"><i class="fas fa-tag"></i> Neural Networks</span>
+                            </div>
+                        </div>
+                        <div class="publication-links">
+                            <a href="certificates/ml_cert.pdf" download class="btn btn-primary"><i class="fas fa-file-download"></i> Download Certificate</a>
+                            <a href="certificates/ml_cert.pdf" target="_blank" class="btn btn-outline"><i class="fas fa-external-link-alt"></i> View</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════ SKILLS -->
+    <section id="skills" style="background:var(--bg-section);">
         <div class="container">
             <h2><i class="fas fa-tools"></i> Technical Skills</h2>
             <div class="skills-grid">
@@ -309,7 +445,8 @@
         </div>
     </section>
 
-    <section id="projects" style="background:var(--bg-section);">
+    <!-- ═══════════════════════════════════════════════════════════ PROJECTS -->
+    <section id="projects">
         <div class="container">
             <h2><i class="fas fa-project-diagram"></i> Research Projects</h2>
             <div class="projects-grid">
@@ -407,7 +544,7 @@
                     <p><strong>Institution:</strong> Persian Gulf University</p>
                     <p style="margin:1rem 0;">Comprehensive CFD investigation of capacity enhancement for four centrifugal process pumps through impeller redesign. Validated numerical simulations against operational data achieved 10.6% to 59.6% flow rate increases while maintaining required head delivery.</p>
                     <p><strong><i class="fas fa-tools"></i> Tools:</strong> ANSYS-CFX</p>
-                <p><strong><i class='fas fa-chart-line'></i> Key Results:</strong> Up to 59.6% capacity increase</p>
+                    <p><strong><i class='fas fa-chart-line'></i> Key Results:</strong> Up to 59.6% capacity increase</p>
                     <div class="btn-group" style="margin-top:1.5rem;">
                         <a href="Webpages/Pump_petrochemical.html" class="btn btn-primary"><i class="fas fa-info-circle"></i> View Details</a>
                     </div>
@@ -450,7 +587,7 @@
                     <p><strong>Institution:</strong> KU Leuven, Belgium</p>
                     <p style="margin:1rem 0;">Developed a 1D transient COMSOL model of a hybrid zinc-ion/air battery (Zn anode | separator | Co&#8323;O&#8324; cathode) following the unified data-physics framework (Maghsoudy et al., 2026). Incorporates Butler–Volmer kinetics for four reactions, dynamic porosity via Bruggeman correlation, and ML surrogates (BO-LSSVM / BO-RF) across 405 parametric scenarios for specific capacity and discharge voltage prediction.</p>
                     <p><strong><i class="fas fa-tools"></i> Tools:</strong> COMSOL, Python, Scikit-Learn</p>
-                <p><strong><i class='fas fa-chart-line'></i> Key Results:</strong> R&#178;=0.998 (discharge voltage), R&#178;=0.980 (Zn-ion capacity)</p>
+                    <p><strong><i class='fas fa-chart-line'></i> Key Results:</strong> R&#178;=0.998 (discharge voltage), R&#178;=0.980 (Zn-ion capacity)</p>
                     <div class="btn-group" style="margin-top:1.5rem;">
                         <a href="Webpages/zn_battery.html" class="btn btn-primary"><i class="fas fa-info-circle"></i> View Details</a>
                     </div>
@@ -465,7 +602,7 @@
                     <p><strong>Institution:</strong> KU Leuven, Belgium</p>
                     <p style="margin:1rem 0;">Developed advanced multiphysics models for vanadium redox flow batteries with a focus on ion-selective membrane transport using Poisson–Nernst–Planck (PNP) equations. The model captures coupled ionic flux, electric potential distribution, and species crossover, enabling performance prediction and membrane selectivity optimization for large-scale energy storage.</p>
                     <p><strong><i class="fas fa-tools"></i> Tools:</strong> COMSOL Multiphysics, Python</p>
-                <p><strong><i class='fas fa-chart-line'></i> Key Results:</strong> PNP equations, membrane ion selectivity, scale-up</p>
+                    <p><strong><i class='fas fa-chart-line'></i> Key Results:</strong> PNP equations, membrane ion selectivity, scale-up</p>
                     <div class="btn-group" style="margin-top:1.5rem;">
                         <a href="Webpages/vanadium_battery.html" class="btn btn-primary"><i class="fas fa-info-circle"></i> View Details</a>
                     </div>
@@ -480,7 +617,7 @@
                     <p><strong>Institution:</strong> KU Leuven, Belgium</p>
                     <p style="margin:1rem 0;">Developed Random Forest and Physics-Informed Neural Network (PINN) surrogate models to accelerate predictions for dual-compartment osmotic pump co-delivery systems (Gemcitabine-HCl / urea). Integrated with COMSOL parametric sweeps and Python automation pipelines for CFD error correction, validated against experimental data, drastically reducing computational cost.</p>
                     <p><strong><i class="fas fa-tools"></i> Tools:</strong> COMSOL, Python, TensorFlow, Scikit-Learn</p>
-                <p><strong><i class='fas fa-chart-line'></i> Key Results:</strong> Surrogate models replacing time-intensive CFD parametric sweeps</p>
+                    <p><strong><i class='fas fa-chart-line'></i> Key Results:</strong> Surrogate models replacing time-intensive CFD parametric sweeps</p>
                     <div class="btn-group" style="margin-top:1.5rem;">
                         <a href="Webpages/ml_drug_delivery.html" class="btn btn-primary"><i class="fas fa-info-circle"></i> View Details</a>
                     </div>
@@ -488,7 +625,9 @@
             </div>
         </div>
     </section>
-    <section id="publications">
+
+    <!-- ═══════════════════════════════════════════════════════════ PUBLICATIONS -->
+    <section id="publications" style="background:var(--bg-section);">
         <div class="container">
             <h2><i class="fas fa-scroll"></i> Publications</h2>
             <div class="publications-grid">
@@ -499,7 +638,7 @@
                     </div>
                     <div class="publication-content">
                         <div class="publication-title">Secondary flow mitigation through impeller revamping of a centrifugal pump to improve efficiency and mitigate energy loss</div>
-                        <div class="publication-authors"> Mina Amirsadat,Ahmad Azari, Ahmadreza Amirsadat, Ali Atyabi</strong>,  Rouhollah Fatehi,  Ali Amirsadat</div>
+                        <div class="publication-authors"> Mina Amirsadat, Ahmad Azari, Ahmadreza Amirsadat, <strong>Ali Atyabi</strong>, Rouhollah Fatehi, Ali Amirsadat</div>
                         <div class="publication-journal"><i class="fas fa-book-open"></i> Case Studies in Chemical and Environmental Engineering | Volume 13, (2026)</div>
                         <div class="publication-links"><a href="https://doi.org/10.1016/j.cscee.2026.101394" target="_blank" class="btn btn-primary"><i class="fas fa-external-link-alt"></i> View Paper</a></div>
                     </div>
@@ -717,7 +856,8 @@
         </div>
     </section>
 
-    <section id="education" style="background:var(--bg-section);">
+    <!-- ═══════════════════════════════════════════════════════════ EDUCATION -->
+    <section id="education">
         <div class="container">
             <h2><i class="fas fa-user-graduate"></i> Education</h2>
             <div class="experience-item">
@@ -757,6 +897,7 @@
     </footer>
 
     <script>
+        // Smooth scroll for anchor links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function(e) {
                 e.preventDefault();
@@ -764,6 +905,8 @@
                 if (target) { target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
             });
         });
+
+        // Scroll-reveal animation
         const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -50px 0px' };
         const observer = new IntersectionObserver(function(entries) {
             entries.forEach(entry => {
