@@ -6,389 +6,83 @@
     <meta name="description" content="Li-Ion Battery Thermal Simulation and Cooling System Design">
     <meta name="author" content="Ali Atyabi">
     <title>Battery Cooling Project | Ali Atyabi, Ph.D.</title>
-    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
         :root {
-            --primary-color: #2C5F7C;
-            --secondary-color: #4A7C9B;
-            --accent-color: #E8F1F5;
-            --success-color: #28a745;
-            --text-dark: #333;
-            --text-light: #666;
+            --bg: #0f1117;
+            --surface: #181c27;
+            --surface-hover: #1f2435;
+            --border: #2a3048;
+            --gold: #c9a84c;
+            --gold-dim: #8c6e2f;
+            --gold-glow: rgba(201, 168, 76, 0.15);
+            --text-main: #f5f5f5;
+            --text-muted: #a0aabf;
+            --ff-body: 'Calibri', 'Segoe UI', sans-serif;
+            --ff-display: 'Arial', 'Helvetica Neue', sans-serif;
+            --radius: 6px;
+            --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            color: var(--text-dark);
-            background: #f8f9fa;
-        }
-        
-        /* Navigation */
-        nav {
-            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
-            color: white;
-            padding: 1rem 0;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-        }
-        
-        nav .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        nav .logo {
-            font-size: 1.3rem;
-            font-weight: bold;
-        }
-        
-        nav a {
-            color: white;
-            text-decoration: none;
-            transition: all 0.3s;
-            padding: 0.5rem;
-        }
-        
-        nav a:hover {
-            color: var(--accent-color);
-        }
-        
-        /* Hero Section */
-        .hero {
-            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
-            color: white;
-            padding: 3rem 2rem;
-            text-align: center;
-        }
-        
-        .hero h1 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-        }
-        
-        .hero p {
-            font-size: 1.2rem;
-            opacity: 0.95;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-        
-        /* Container */
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 2rem;
-        }
-        
-        /* Main Content */
-        .content {
-            background: white;
-            margin: -2rem auto 3rem;
-            padding: 3rem;
-            border-radius: 10px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-            max-width: 1200px;
-        }
-        
-        section {
-            margin-bottom: 3rem;
-        }
-        
-        h2 {
-            color: var(--primary-color);
-            font-size: 2rem;
-            margin-bottom: 1.5rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 3px solid var(--primary-color);
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        
-        h3 {
-            color: var(--primary-color);
-            font-size: 1.4rem;
-            margin: 2rem 0 1rem;
-        }
-        
-        p {
-            margin-bottom: 1rem;
-            line-height: 1.8;
-            color: var(--text-light);
-            text-align: justify;
-        }
-        
-        /* Overview Card Layout */
-        .overview-card {
-            display: grid;
-            grid-template-columns: 1.2fr 1fr;
-            gap: 2.5rem;
-            background: white;
-            padding: 2rem;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            margin-bottom: 2rem;
-        }
-        
-        .overview-text {
-            text-align: justify;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-        
-        .schema-container {
-            position: relative;
-            width: 100%;
-            background: white;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-        
-        .schema-container img {
-            width: 100%;
-            height: auto;
-            display: block;
-        }
-        
-        /* Info Box */
-        .info-box {
-            background: var(--accent-color);
-            border-left: 4px solid var(--primary-color);
-            padding: 1.5rem;
-            border-radius: 5px;
-            margin: 1.5rem 0;
-        }
-        
-        .info-box h4 {
-            color: var(--primary-color);
-            margin-bottom: 0.5rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        
-        ul {
-            margin-left: 2rem;
-            color: var(--text-light);
-        }
-        
-        li {
-            margin-bottom: 0.8rem;
-        }
-        
-        /* Footer */
-        footer {
-            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
-            color: white;
-            text-align: center;
-            padding: 2rem 0;
-            margin-top: 3rem;
-        }
-        
-        footer a {
-            color: white;
-            text-decoration: none;
-            transition: all 0.3s;
-        }
-        
-        footer a:hover {
-            color: var(--accent-color);
-        }
-        
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .overview-card {
-                grid-template-columns: 1fr;
-            }
-            
-            .hero h1 {
-                font-size: 2rem;
-            }
-            
-            .hero p {
-                font-size: 1rem;
-            }
-            
-            .content {
-                padding: 2rem 1.5rem;
-            }
-        }
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { font-family: var(--ff-body); background-color: var(--bg); color: var(--text-main); line-height: 1.7; font-size: 1rem; -webkit-font-smoothing: antialiased; }
+        h1, h2, h3, h4, .nav-brand { font-family: var(--ff-display); font-weight: 700; color: var(--text-main); letter-spacing: -0.01em; }
+        p, li, span { font-family: var(--ff-body); }
+        nav { position: sticky; top: 0; z-index: 1000; background: rgba(15, 17, 23, 0.92); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); }
+        nav .inner { max-width: 1200px; margin: 0 auto; padding: 0 2rem; height: 60px; display: flex; justify-content: space-between; align-items: center; }
+        .nav-brand { font-size: 1.1rem; color: var(--gold); display: flex; align-items: center; gap: 0.5rem; }
+        .nav-back { display: flex; align-items: center; gap: 0.3rem; color: var(--text-muted); text-decoration: none; font-size: 0.875rem; font-family: var(--ff-display); font-weight: 700; transition: color var(--transition); }
+        .nav-back:hover { color: var(--gold); }
+        .hero { position: relative; overflow: hidden; padding: 5rem 2rem 4rem; text-align: center; background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(201, 168, 76, 0.08) 0%, transparent 70%), var(--bg); border-bottom: 1px solid var(--border); }
+        .hero h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); margin-bottom: 1.25rem; }
+        .hero p { color: var(--text-muted); font-size: 1.1rem; max-width: 800px; margin: 0 auto; }
+        .page { max-width: 1200px; margin: 0 auto; padding: 0 2rem 6rem; }
+        .section-head { display: flex; align-items: center; gap: 1rem; margin: 4rem 0 2rem; }
+        .section-head h2 { font-size: 1.75rem; }
+        .section-head::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+        .grid-layout { display: grid; grid-template-columns: 1.2fr 1fr; gap: 2.5rem; margin-bottom: 2rem; align-items: center; }
+        .content-box { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 2.5rem; transition: all var(--transition); }
+        .content-box:hover { border-color: var(--gold-dim); box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5), 0 0 0 1px var(--gold-glow); }
+        .content-box:active { transform: translateY(-1px) scale(0.99); border-color: var(--gold); box-shadow: 0 4px 12px rgba(0,0,0,0.3), 0 0 15px var(--gold); background-color: var(--surface-hover); }
+        .content-box:target { animation: flash 1.5s ease-out; }
+        @keyframes flash { 0% { border-color: var(--gold); box-shadow: 0 0 30px var(--gold); background-color: var(--surface-hover); } 100% { border-color: var(--border); box-shadow: none; background-color: var(--surface); } }
+        .content-box ul { list-style: none; }
+        .content-box li { font-size: 0.95rem; color: var(--text-main); margin-bottom: 0.8rem; padding-left: 1.5rem; position: relative; text-align: justify; }
+        .content-box li::before { content: "•"; color: var(--gold); position: absolute; left: 0; font-weight: bold; }
+        .img-container { width: 100%; border-radius: var(--radius); overflow: hidden; border: 1px solid var(--border); }
+        .img-container img { width: 100%; height: auto; display: block; }
+        footer { background: var(--surface); border-top: 1px solid var(--border); padding: 2.5rem 2rem; text-align: center; }
+        footer p { color: var(--text-muted); font-size: 0.9rem; }
+        footer a { color: var(--gold); text-decoration: none; font-family: var(--ff-display); font-weight: 700; }
+        @media (max-width: 768px) { .grid-layout { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
-
-    <!-- Navigation -->
     <nav>
-        <div class="container">
-            <div class="logo">
-                <i class="fas fa-battery-full"></i> Ali Atyabi, Ph.D.
-            </div>
-            <a href="https://atyabia.github.io/index.html">
-                <i class="fas fa-home"></i> Back to Portfolio
-            </a>
+        <div class="inner">
+            <div class="nav-brand"><i class="fas fa-battery-full"></i> Ali Atyabi, Ph.D.</div>
+            <a href="https://atyabia.github.io/index.html" class="nav-back"><i class="fas fa-arrow-left"></i> Portfolio</a>
         </div>
     </nav>
-
-    <!-- Hero Section -->
     <div class="hero">
         <h1>Li-Ion Battery Thermal Simulation and Advanced Cooling System Design</h1>
         <p>Computational Fluid Dynamics Analysis for Electric Vehicle Battery Thermal Management</p>
     </div>
-
-    <!-- Main Content -->
-    <div class="content container">
-
-        <!-- Overview Section -->
+    <div class="page">
         <section id="overview">
-            <h2><i class="fas fa-info-circle"></i> Project Overview</h2>
-            
-            <div class="overview-card">
-                <div class="overview-text">
-                    <p>
-                        This comprehensive research project investigates advanced thermal management strategies for lithium-ion battery systems in electric vehicle applications through sophisticated computational fluid dynamics (CFD) simulation and coupled electrochemical-thermal modeling. The study addresses critical thermal control challenges in high-performance LiFePO4 (LFP) battery packs and develops innovative cooling system architectures featuring novel flow field designs and transient coupling cold plate technologies. The project encompasses complete multi-scale thermal, hydrodynamic, and electrochemical behavior modeling spanning single cell characterization, validation against experimental data, transient coupled analysis, and comprehensive battery pack cooling system optimization across multiple flow field configurations.
-                    </p>
+            <div class="section-head"><h2>Project Overview</h2></div>
+            <div class="grid-layout">
+                <div class="content-box">
+                    <ul>
+                        <li><strong>Target:</strong> Mitigate thermal control and safety challenges in electric vehicle $LiFePO_4$ battery packs by maintaining optimal operating temperatures (25–40°C) and minimizing thermal gradients under high (4C) discharge rates.</li>
+                        <li><strong>Approach:</strong> Integrated a multi-scale computational framework coupling electrochemical kinetics (Multi-purpose Battery Model and NTGK) with 3D conjugate heat transfer liquid-cooling CFD simulations in ANSYS Fluent and COMSOL.</li>
+                        <li><strong>Achievements:</strong> Developed an optimized variable-amplitude sinusoidal channel cold-plate design that limits the total pack temperature gradient to less than 5 K while maintaining an energy-efficient hydraulic pressure drop of roughly 20 Pa.</li>
+                    </ul>
                 </div>
-                <div class="schema-container">
-                    <img src="photos/battery_cooling.gif" alt="Battery Pack Thermal Management System">
-                </div>
+                <div class="img-container"><img src="photos/battery_cooling.gif" alt="Battery Pack Thermal Management System"></div>
             </div>
         </section>
-
-        <!-- Project Goals Section -->
-        <section id="goals">
-            <h2><i class="fas fa-bullseye"></i> Project Goals and Objectives</h2>
-            
-            <p>
-                Lithium-ion batteries operating in electric vehicle applications generate substantial heat during charging and discharging cycles, with thermal management representing a critical factor in battery performance, safety, and cycle life. This research systematically addresses fundamental thermal control requirements for LFP battery systems, with specific emphasis on maintaining optimal operating temperatures, achieving uniform temperature distribution, and minimizing parasitic pressure losses in liquid cooling systems.
-            </p>
-
-            <div class="info-box">
-                <h4><i class="fas fa-list"></i> Primary Research Objectives</h4>
-                <ul>
-                    <li><strong>Temperature Control:</strong> Maintain battery operating temperature within optimal range of 25-40°C under high discharge rates (up to 4C) to ensure peak performance and longevity</li>
-                    <li><strong>Temperature Uniformity:</strong> Achieve maximum uniformity in temperature distribution across all battery cells to prevent localized thermal stress and capacity degradation</li>
-                    <li><strong>Thermal Gradient Minimization:</strong> Limit temperature gradient to less than 5 K throughout the battery pack to ensure balanced electrochemical performance</li>
-                    <li><strong>Hydraulic Optimization:</strong> Minimize pressure drop across cooling system to reduce parasitic power consumption and enhance overall system efficiency</li>
-                    <li><strong>Life Cycle Extension:</strong> Maximize battery cycle life through optimized thermal management, preventing accelerated degradation from thermal stress</li>
-                </ul>
-            </div>
-
-            <h3>Research Novelties and Innovations</h3>
-            <p>
-                The project introduces multiple technological innovations that advance the state-of-the-art in battery thermal management. The development of novel flow field configurations optimizes coolant distribution and heat transfer uniformity across the battery pack. Implementation of transient coupling methodology between electrochemical heat generation and liquid cooling system dynamics enables accurate prediction of thermal behavior under realistic driving cycles. The comprehensive multi-scale approach integrates single-cell electrochemical modeling with pack-level CFD analysis to capture critical interactions between battery performance and thermal management system operation.
-            </p>
-        </section>
-
-        <!-- Battery Selection Section -->
-        <section id="battery-selection">
-            <h2><i class="fas fa-battery-three-quarters"></i> Battery Technology Selection and Characterization</h2>
-            
-            <p>
-                Selection of appropriate battery technology for electric vehicle applications requires comprehensive evaluation of multiple performance criteria including energy density, cost-effectiveness, safety characteristics, and thermal stability. The LiFePO4 (LFP) chemistry selected for this study offers excellent thermal stability, superior cycle life (3000+ cycles), and enhanced safety compared to alternative lithium-ion chemistries. While LFP batteries exhibit lower energy density compared to nickel-based alternatives, their robust thermal characteristics and extended operational lifespan make them particularly suitable for applications where safety and longevity are paramount.
-            </p>
-
-            <h3>Physical and Electrochemical Specifications</h3>
-            <p>
-                The study employs 45 Ah LiFePO4/graphite prismatic pouch cells with nominal voltage of 3.2 V and dimensions of 295×150×12 mm. The prismatic pouch cell geometry provides optimal balance between packaging efficiency and thermal management accessibility. Electrochemical characterization includes nominal charging current of 15-45 A and discharging current range of 45-180 A, with upper and lower cut-off voltages of 4.1 V and 3.0 V respectively. These specifications enable investigation of thermal behavior across realistic operational profiles including both standard driving conditions and high-performance scenarios.
-            </p>
-
-            <h3>Battery Pack Architecture</h3>
-            <p>
-                The battery pack configuration consists of 24 pouch cells arranged in a parallel-series architecture designed to achieve target voltage and capacity requirements for electric vehicle applications. The 250 km nominal range specification with energy consumption of 161.75 Wh/km yields total energy requirement of 40.6 kWh. Individual cells are organized into packs connected in parallel to achieve desired current capability while maintaining voltage within optimal inverter operating range. This architecture provides flexibility for thermal management system integration while maintaining electrical performance requirements.
-            </p>
-
-            <div class="info-box">
-                <h4><i class="fas fa-shield-alt"></i> Safety Considerations and Thermal Runaway Prevention</h4>
-                <p>
-                    Lithium-ion batteries present multiple safety challenges including thermal runaway risk under abuse conditions such as external short circuits, overcharging, over-discharging, mechanical deformation, and excessive heating. Thermal runaway initiation can result from various mechanisms including electrolyte decomposition, SEI layer breakdown, and exothermic reactions between electrodes and electrolyte. The research incorporates comprehensive safety analysis to ensure cooling system design maintains battery temperatures well below critical thermal runaway thresholds (typically above 150°C for LFP chemistry). Effective thermal management represents the primary defense mechanism against thermal runaway propagation, maintaining cell temperatures within safe operating limits even under high discharge rates and elevated ambient conditions.
-                </p>
-            </div>
-        </section>
-
-        <!-- Simulation Methodology Section -->
-        <section id="methodology">
-            <h2><i class="fas fa-cogs"></i> Numerical Simulation Methodology</h2>
-            
-            <p>
-                The comprehensive simulation framework employs multi-scale computational modeling spanning electrochemical behavior at the cell level through complete battery pack thermal-hydraulic analysis. The methodology integrates the Multi-purpose Battery Model (MPBM) incorporating Newman-Tiedemann-Gottesfeld-Kim (NTGK) electrochemical kinetics with advanced CFD techniques for thermal and flow field analysis. This coupled approach enables accurate prediction of battery thermal behavior under realistic operating conditions while maintaining computational efficiency suitable for parametric design optimization.
-            </p>
-
-            <h3>Simulation Workflow and Validation</h3>
-            <p>
-                The project follows a systematic five-stage simulation workflow designed to progressively build model complexity and confidence. Initial stages focus on grid independence verification and temporal discretization validation to establish numerical accuracy. Subsequent validation against experimental data from literature (Shim et al., Journal of Power Sources, 2002) confirms model fidelity for temperature prediction during charge-discharge cycling. The validated single-cell model provides foundation for transient coupled thermal analysis under various cooling configurations, ultimately enabling comprehensive battery pack design optimization.
-            </p>
-
-            <div class="info-box">
-                <h4><i class="fas fa-project-diagram"></i> Multi-Stage Simulation Strategy</h4>
-                <ul>
-                    <li><strong>Stage 1 - Validation:</strong> Grid independence verification, time step sensitivity analysis, and experimental validation against published thermal camera data</li>
-                    <li><strong>Stage 2 - Single Cell Analysis:</strong> Unsteady electrochemical-thermal simulation to predict maximum heat flux generation during 4C discharge rate operation</li>
-                    <li><strong>Stage 3 - Heat Source Characterization:</strong> Comprehensive calculation of volumetric heat generation rates during complete charge-discharge cycles for various C-rates</li>
-                    <li><strong>Stage 4 - Coupled Cooling Simulation:</strong> Transient fluid-thermal coupling analysis evaluating liquid cooling performance across multiple Reynolds number configurations</li>
-                    <li><strong>Stage 5 - Pack Optimization:</strong> Three-dimensional steady-state CFD simulation of complete 24-cell battery pack with parametric flow field optimization</li>
-                </ul>
-            </div>
-
-            <h3>Computational Tools and Physical Models</h3>
-            <p>
-                Simulations employ ANSYS Fluent and COMSOL Multiphysics platforms for comprehensive CFD analysis coupled with specialized electrochemical battery models. The thermal modeling incorporates temperature-dependent material properties, internal heat generation from electrochemical reactions and ohmic losses, and conjugate heat transfer between battery cells and cooling system. Fluid dynamics modeling utilizes Reynolds-Averaged Navier-Stokes (RANS) turbulence closure with appropriate near-wall treatment. The integrated approach captures critical multiphysics interactions including electrochemical-thermal coupling, fluid-thermal coupling, and structural-thermal effects.
-            </p>
-        </section>
-
-        <!-- Results Section -->
-        <section id="results">
-            <h2><i class="fas fa-chart-line"></i> Simulation Results and Performance Analysis</h2>
-            
-            <p>
-                Comprehensive CFD analysis reveals significant performance variations across different cooling system configurations and flow field designs. Single-cell analysis without active cooling demonstrates temperature rise from ambient 292 K to critical 344 K during 4C discharge operation, confirming necessity of active thermal management for high-performance applications. Air cooling systems achieve limited thermal control with maximum Reynolds numbers (Re=2000) reducing peak temperature to 324 K, while water cooling demonstrates superior performance achieving 302 K at moderate Reynolds number (Re=300).
-            </p>
-
-            <h3>Single Cell Cooling Performance</h3>
-            <p>
-                Parametric analysis of single-cell cooling across Reynolds number range 60-2000 quantifies fundamental trade-offs between thermal performance and hydraulic power consumption. Water cooling systems demonstrate substantially superior heat transfer coefficients compared to air cooling, achieving target temperature ranges at Reynolds numbers approximately one order of magnitude lower. Integration of metal foam heat exchangers within the cold plate assembly further enhances thermal performance, reducing peak temperatures an additional 4-8 K while maintaining acceptable pressure drop characteristics. The validated single-cell model provides critical heat flux boundary conditions (90.8 W/L at 4C discharge) for subsequent battery pack analysis.
-            </p>
-
-            <h3>Battery Pack Flow Field Optimization</h3>
-            <p>
-                Evaluation of six distinct flow field configurations reveals dramatic performance variations in both thermal uniformity and hydraulic efficiency. The baseline parallel channel configuration achieves adequate average pack temperature (311.3 K) but exhibits substantial pressure drop (14.8 Pa) and poor temperature uniformity. Alternative configurations including horizontal serpentine, vertical serpentine, and sinusoidal channel designs demonstrate varying degrees of improvement in thermal distribution while introducing additional hydraulic losses. The optimized sinusoidal channel design with variable amplitude achieves best overall performance with average temperature of 302.5 K, maximum temperature gradient below 5 K, and acceptable pressure drop of 19.6 Pa.
-            </p>
-
-            <div class="info-box">
-                <h4><i class="fas fa-trophy"></i> Key Performance Achievements and Design Insights</h4>
-                <p>
-                    The integrated multi-scale simulation framework successfully validates feasibility of liquid cooling thermal management for high-performance LFP battery packs in electric vehicle applications. Critical findings include confirmation that water cooling achieves required thermal control at significantly lower flow rates and pressure drops compared to air cooling alternatives. Novel sinusoidal channel flow field design with variable amplitude delivers optimal combination of thermal uniformity, temperature control, and hydraulic efficiency. The comprehensive validation against experimental data establishes confidence in predictive capability for parametric optimization and future design iterations. Performance coefficient analysis incorporating both thermal and hydraulic performance metrics enables objective comparison across design alternatives, with optimized configuration achieving superior overall performance through balanced consideration of competing objectives.
-                </p>
-            </div>
-
-            <h3>Thermal Management System Integration</h3>
-            <p>
-                The optimized cooling system design provides practical pathway for implementation in production electric vehicles while addressing critical thermal, hydraulic, and packaging constraints. The liquid cooling approach utilizing advanced flow field design maintains all battery cells within optimal 25-40°C operating range under aggressive 4C discharge scenarios representative of high-performance driving conditions. Temperature gradient minimization below 5 K threshold ensures balanced electrochemical performance and prevents accelerated degradation from thermal stress. Moderate pressure drop requirements (approximately 20 Pa) enable integration with standard automotive cooling system infrastructure without excessive parasitic power consumption. The comprehensive modeling framework developed through this research provides valuable design tools for future battery thermal management system optimization and can be readily extended to alternative cell chemistries, geometries, and pack configurations.
-            </p>
-        </section>
-
     </div>
-
-    <!-- Footer -->
-    <footer>
-        <p>&copy; 2020 Ali Atyabi, Ph.D. | <a href="mailto:aliatyabi@gmail.com">aliatyabi@gmail.com</a></p>
-    </footer>
-
+    <footer><p>&copy; 2026 Ali Atyabi, Ph.D. | <a href="mailto:aliatyabi@gmail.com">aliatyabi@gmail.com</a></p></footer>
 </body>
 </html>
