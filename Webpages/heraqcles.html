@@ -1,0 +1,971 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Alkaline Electrolyzer Optimization - Advanced 3D Multiphysics Modeling for Green Hydrogen Production">
+    <meta name="author" content="Ali Atyabi">
+    <title>Alkaline Electrolyzer Optimization | Ali Atyabi, Ph.D.</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* ── TOKEN SYSTEM ─────────────────────────────────── */
+        :root {
+            --bg:        #0f1117;
+            --surface:   #181c27;
+            --surface2:  #1f2435;
+            --border:    #2a3048;
+            --gold:      #c9a84c;
+            --gold-dim:  #8c6e2f;
+            --gold-glow: rgba(201,168,76,0.15);
+            --text:      #e8e4da;
+            --muted:     #8c95ac;
+            --accent:    #3a8fc4;   /* cool blue for data/tech labels */
+            --ff-display: 'Playfair Display', Georgia, serif;
+            --ff-body:    'Inter', sans-serif;
+            --ff-mono:    'JetBrains Mono', monospace;
+            --radius:     6px;
+            --transition: 0.25s ease;
+        }
+
+        *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: var(--ff-body);
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+            font-size: 1rem;
+        }
+
+        /* ── SCROLLBAR ───────────────────────────────────── */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: var(--bg); }
+        ::-webkit-scrollbar-thumb { background: var(--gold-dim); border-radius: 3px; }
+
+        /* ── NAVIGATION ──────────────────────────────────── */
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: rgba(15,17,23,0.92);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+        }
+
+        nav .inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            height: 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-brand {
+            font-family: var(--ff-display);
+            font-size: 1.1rem;
+            color: var(--gold);
+            letter-spacing: 0.02em;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-back {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: color var(--transition);
+        }
+        .nav-back:hover { color: var(--gold); }
+
+        /* ── HERO ────────────────────────────────────────── */
+        .hero {
+            position: relative;
+            overflow: hidden;
+            padding: 5rem 2rem 4rem;
+            text-align: center;
+            background:
+                radial-gradient(ellipse 80% 60% at 50% 0%, rgba(201,168,76,0.08) 0%, transparent 70%),
+                var(--bg);
+            border-bottom: 1px solid var(--border);
+        }
+
+        /* signature element: gold horizontal rule that "radiates" */
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 50%;
+            transform: translateX(-50%);
+            width: 120px; height: 2px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+        }
+
+        .hero-eyebrow {
+            font-family: var(--ff-mono);
+            font-size: 0.78rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 1rem;
+        }
+
+        .hero h1 {
+            font-family: var(--ff-display);
+            font-size: clamp(2rem, 5vw, 3.2rem);
+            font-weight: 700;
+            line-height: 1.15;
+            color: var(--text);
+            margin-bottom: 1.25rem;
+        }
+
+        .hero h1 em {
+            font-style: normal;
+            color: var(--gold);
+        }
+
+        .hero-sub {
+            color: var(--muted);
+            font-size: 1.05rem;
+            max-width: 680px;
+            margin: 0 auto;
+        }
+
+        /* ── LAYOUT ──────────────────────────────────────── */
+        .page {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem 6rem;
+        }
+
+        /* ── SECTION HEADERS ─────────────────────────────── */
+        .section-head {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin: 4rem 0 2rem;
+        }
+
+        .section-head .label {
+            font-family: var(--ff-mono);
+            font-size: 0.7rem;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--gold);
+            background: var(--gold-glow);
+            border: 1px solid var(--gold-dim);
+            border-radius: 2px;
+            padding: 2px 8px;
+            white-space: nowrap;
+        }
+
+        .section-head h2 {
+            font-family: var(--ff-display);
+            font-size: 1.75rem;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .section-head::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--border);
+        }
+
+        /* ── OVERVIEW CARD ───────────────────────────────── */
+        .overview-grid {
+            display: grid;
+            grid-template-columns: 1fr 0.9fr;
+            gap: 2.5rem;
+            align-items: start;
+        }
+
+        .overview-copy p {
+            color: var(--muted);
+            margin-bottom: 1.1rem;
+            text-align: justify;
+            font-size: 0.97rem;
+        }
+
+        .stat-row {
+            display: flex;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .stat {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 0.8rem 1.2rem;
+            text-align: center;
+            min-width: 90px;
+        }
+
+        .stat .num {
+            font-family: var(--ff-display);
+            font-size: 1.6rem;
+            color: var(--gold);
+            font-weight: 700;
+            display: block;
+            line-height: 1;
+        }
+
+        .stat .desc {
+            font-size: 0.72rem;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-top: 4px;
+            display: block;
+        }
+
+        /* video */
+        .video-wrap {
+            position: relative;
+            width: 100%;
+            padding-bottom: 100%;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            overflow: hidden;
+            cursor: pointer;
+            transition: border-color var(--transition), box-shadow var(--transition);
+        }
+
+        .video-wrap:hover {
+            border-color: var(--gold);
+            box-shadow: 0 0 24px rgba(201,168,76,0.12);
+        }
+
+        .video-thumb {
+            position: absolute; inset: 0;
+            width: 100%; height: 100%;
+            object-fit: cover;
+        }
+
+        .play-btn {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%,-50%);
+            width: 72px; height: 72px;
+            border-radius: 50%;
+            background: rgba(0,0,0,0.75);
+            border: 2px solid var(--gold);
+            display: flex; align-items: center; justify-content: center;
+            transition: background var(--transition), transform var(--transition);
+        }
+
+        .video-wrap:hover .play-btn {
+            background: rgba(201,168,76,0.2);
+            transform: translate(-50%,-50%) scale(1.08);
+        }
+
+        .play-btn i { font-size: 2rem; color: #FF0000; margin-left: 4px; }
+
+        .video-wrap iframe {
+            position: absolute; inset: 0;
+            width: 100%; height: 100%;
+            border: none;
+        }
+
+        .video-wrap.loaded .video-thumb,
+        .video-wrap.loaded .play-btn { display: none; }
+
+        /* ── MODELING CARDS ──────────────────────────────── */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: border-color var(--transition), transform var(--transition), box-shadow var(--transition);
+        }
+
+        .card:hover {
+            border-color: var(--gold-dim);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 32px rgba(0,0,0,0.4), 0 0 0 1px rgba(201,168,76,0.08);
+        }
+
+        .card-img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            object-position: center;
+            display: block;
+            background: var(--surface2);
+        }
+
+        .card-img-fallback {
+            width: 100%;
+            height: 220px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--surface2);
+            color: var(--gold-dim);
+        }
+
+        .card-img-fallback i { font-size: 3rem; }
+
+        .card-body {
+            padding: 1.4rem 1.5rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-tag {
+            font-family: var(--ff-mono);
+            font-size: 0.68rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+
+        .card-body h4 {
+            font-family: var(--ff-display);
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: var(--text);
+            line-height: 1.35;
+            margin-bottom: 0.75rem;
+        }
+
+        .card-body p {
+            font-size: 0.88rem;
+            color: var(--muted);
+            line-height: 1.7;
+            flex: 1;
+            text-align: justify;
+            margin-bottom: 1.2rem;
+        }
+
+        .card-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            width: 100%;
+            padding: 0.65rem;
+            background: transparent;
+            border: 1px solid var(--gold-dim);
+            border-radius: var(--radius);
+            color: var(--gold);
+            font-family: var(--ff-body);
+            font-size: 0.85rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background var(--transition), border-color var(--transition), color var(--transition);
+            text-decoration: none;
+        }
+
+        .card-btn:hover {
+            background: var(--gold-glow);
+            border-color: var(--gold);
+        }
+
+        /* ── ACHIEVEMENTS ────────────────────────────────── */
+        .achievements-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .achievement {
+            display: flex;
+            gap: 1.25rem;
+            align-items: flex-start;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 1.2rem 1.4rem;
+            transition: border-color var(--transition);
+        }
+
+        .achievement:hover { border-color: var(--gold-dim); }
+
+        .achievement-icon {
+            width: 36px; height: 36px;
+            border-radius: 50%;
+            background: var(--gold-glow);
+            border: 1px solid var(--gold-dim);
+            display: flex; align-items: center; justify-content: center;
+            color: var(--gold);
+            font-size: 0.9rem;
+            flex-shrink: 0;
+        }
+
+        .achievement-text strong {
+            display: block;
+            color: var(--text);
+            font-size: 0.93rem;
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+        }
+
+        .achievement-text span {
+            font-size: 0.86rem;
+            color: var(--muted);
+        }
+
+        /* ── COLLABORATION ───────────────────────────────── */
+        .collab-box {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-left: 3px solid var(--gold);
+            border-radius: var(--radius);
+            padding: 2rem 2.5rem;
+            margin-top: 1rem;
+        }
+
+        .collab-box p {
+            color: var(--muted);
+            margin-bottom: 1.5rem;
+            font-size: 0.97rem;
+        }
+
+        .collab-actions {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn-gold {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.7rem 1.4rem;
+            background: var(--gold);
+            color: #0f1117;
+            border-radius: var(--radius);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: background var(--transition), transform var(--transition);
+        }
+
+        .btn-gold:hover {
+            background: #dbb95a;
+            transform: translateY(-2px);
+        }
+
+        /* ── MODAL ───────────────────────────────────────── */
+        .modal {
+            display: none;
+            position: fixed; inset: 0;
+            z-index: 2000;
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(4px);
+            animation: fadeIn 0.2s ease;
+        }
+
+        @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+
+        .modal-box {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-top: 2px solid var(--gold);
+            border-radius: var(--radius);
+            width: 90%;
+            max-width: 420px;
+            margin: 12% auto;
+            padding: 2rem;
+            animation: slideUp 0.25s ease;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(30px); opacity: 0; }
+            to   { transform: translateY(0);    opacity: 1; }
+        }
+
+        .modal-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-head h3 {
+            font-family: var(--ff-display);
+            font-size: 1.2rem;
+            color: var(--text);
+            display: flex; align-items: center; gap: 0.5rem;
+        }
+
+        .modal-head h3 i { color: var(--gold); }
+
+        .modal-close {
+            background: none; border: none;
+            color: var(--muted); font-size: 1.5rem;
+            cursor: pointer; line-height: 1;
+            transition: color var(--transition);
+        }
+        .modal-close:hover { color: var(--gold); }
+
+        .modal label {
+            display: block;
+            font-size: 0.85rem;
+            color: var(--muted);
+            margin-bottom: 0.5rem;
+        }
+
+        .modal input[type="password"] {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            color: var(--text);
+            font-family: var(--ff-body);
+            font-size: 0.95rem;
+            outline: none;
+            transition: border-color var(--transition);
+        }
+
+        .modal input[type="password"]:focus { border-color: var(--gold); }
+
+        .modal-msg {
+            font-size: 0.82rem;
+            margin-top: 0.5rem;
+            display: none;
+        }
+
+        .modal-msg.error { color: #e05c5c; }
+        .modal-msg.success { color: #5ce07a; }
+
+        .modal-foot {
+            display: flex;
+            gap: 0.75rem;
+            justify-content: flex-end;
+            margin-top: 1.5rem;
+        }
+
+        .modal-foot button {
+            padding: 0.65rem 1.3rem;
+            border-radius: var(--radius);
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            border: none;
+            transition: background var(--transition);
+            font-family: var(--ff-body);
+        }
+
+        .btn-cancel {
+            background: var(--surface2);
+            color: var(--muted);
+        }
+        .btn-cancel:hover { background: var(--border); }
+
+        .btn-submit {
+            background: var(--gold);
+            color: #0f1117;
+        }
+        .btn-submit:hover { background: #dbb95a; }
+
+        /* ── FOOTER ──────────────────────────────────────── */
+        footer {
+            background: var(--surface);
+            border-top: 1px solid var(--border);
+            padding: 2.5rem 2rem;
+            text-align: center;
+        }
+
+        .footer-inner { max-width: 1200px; margin: 0 auto; }
+
+        .footer-name {
+            font-family: var(--ff-display);
+            font-size: 1.1rem;
+            color: var(--gold);
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            margin-bottom: 1rem;
+        }
+
+        .footer-links a {
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 0.88rem;
+            display: flex; align-items: center; gap: 0.35rem;
+            transition: color var(--transition);
+        }
+
+        .footer-links a:hover { color: var(--gold); }
+
+        .footer-copy {
+            font-size: 0.78rem;
+            color: var(--muted);
+            opacity: 0.7;
+        }
+
+        /* ── RESPONSIVE ──────────────────────────────────── */
+        @media (max-width: 820px) {
+            .overview-grid { grid-template-columns: 1fr; }
+            .section-head h2 { font-size: 1.4rem; }
+            .cards-grid { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 480px) {
+            .page { padding: 0 1rem 4rem; }
+            .collab-box { padding: 1.5rem; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            * { transition: none !important; animation: none !important; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- NAVIGATION -->
+<nav>
+    <div class="inner">
+        <div class="nav-brand">
+            <i class="fas fa-atom"></i> Ali Atyabi, Ph.D.
+        </div>
+        <a href="https://atyabia.github.io/index.html" class="nav-back">
+            <i class="fas fa-arrow-left"></i> Portfolio
+        </a>
+    </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+    <div class="hero-eyebrow">Multiphysics Research · Green Hydrogen</div>
+    <h1>Alkaline Electrolyzer<br><em>Optimization</em></h1>
+    <p class="hero-sub">Advanced 3D multiphysics modeling for enhanced green hydrogen production efficiency</p>
+</div>
+
+<!-- PAGE CONTENT -->
+<div class="page">
+
+    <!-- ── OVERVIEW ── -->
+    <div class="section-head">
+        <span class="label">01</span>
+        <h2>Project Overview</h2>
+    </div>
+
+    <div class="overview-grid">
+        <div class="overview-copy">
+            <p>This research develops comprehensive 3D multiphysics models for alkaline water electrolyzers using COMSOL Multiphysics, integrating electrochemistry, fluid dynamics, and species transport to optimize hydrogen production efficiency.</p>
+            <p>Through systematic parametric studies, optimal operating conditions and design configurations were identified, achieving up to 30% improvement in performance over conventional systems.</p>
+            <p>Novel flow field designs and electrode configurations significantly improve current distribution uniformity, reduce ohmic losses, and enhance overall system efficiency while remaining cost-effective at industrial scale.</p>
+
+            <div class="stat-row">
+                <div class="stat">
+                    <span class="num">30%</span>
+                    <span class="desc">Energy saving</span>
+                </div>
+                <div class="stat">
+                    <span class="num">6</span>
+                    <span class="desc">Models built</span>
+                </div>
+                <div class="stat">
+                    <span class="num">3D</span>
+                    <span class="desc">Multiphysics</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="video-wrap" id="videoContainer" onclick="loadVideo()">
+            <img src="/Webpages/photos/H2MHYTIC.jpg" alt="Project video thumbnail" class="video-thumb">
+            <div class="play-btn">
+                <i class="fab fa-youtube"></i>
+            </div>
+        </div>
+    </div>
+
+    <!-- ── MODELING ACTIVITIES ── -->
+    <div class="section-head">
+        <span class="label">02</span>
+        <h2>Modeling Activities</h2>
+    </div>
+
+    <div class="cards-grid">
+
+        <div class="card">
+            <img src="/Webpages/photos/NM_PTL.jpg" alt="Nanomesh CFD" class="card-img"
+                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+            <div class="card-img-fallback" style="display:none;"><i class="fas fa-project-diagram"></i></div>
+            <div class="card-body">
+                <div class="card-tag">CFD · Porous Media</div>
+                <h4>CFD Modeling of a Nanomesh Integrated with a Substrate</h4>
+                <p>Advanced 3D CFD modeling optimizes fluid transport within nanomesh structures on porous substrates. Simulations capture precise nanoscale pores and interconnecting channels, replicating realistic inlet velocities and pressure gradients. Parametric analyses evaluate how mesh thickness, substrate porosity, and pore size distribution impact flow uniformity.</p>
+                <button class="card-btn" onclick="showPasswordModal('figure1')">
+                    <i class="fas fa-arrow-right"></i> More Info
+                </button>
+            </div>
+        </div>
+
+        <div class="card">
+            <img src="/Webpages/photos/BOP_post_AWE.jpg" alt="BOP data post-processing" class="card-img"
+                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+            <div class="card-img-fallback" style="display:none;"><i class="fas fa-bolt"></i></div>
+            <div class="card-body">
+                <div class="card-tag">Python · Data Analytics</div>
+                <h4>Data Post-Processing of BOP</h4>
+                <p>Stable operation of industrial AWE hydrogen production depends on liquid level and pressure balance for efficient gas–liquid separation and high-purity hydrogen generation. Python supports mass balance modeling, prediction, and optimization. Key parameters: HTO, OTH, I, V, L%, T, ΔP.</p>
+                <button class="card-btn" onclick="showPasswordModal('figure2')">
+                    <i class="fas fa-arrow-right"></i> More Info
+                </button>
+            </div>
+        </div>
+
+        <div class="card">
+            <img src="/Webpages/photos/CFD_3d_cell.jpg" alt="Flow field design" class="card-img"
+                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+            <div class="card-img-fallback" style="display:none;"><i class="fas fa-temperature-high"></i></div>
+            <div class="card-body">
+                <div class="card-tag">COMSOL · Flow Design</div>
+                <h4>Innovative Flow Field Design</h4>
+                <p>A novel 3D flow field design engineered by CFD simulation to enhance fluid distribution and gas removal within alkaline water electrolyzers. The design ensures uniform flow velocity, minimizes bubble accumulation, and improves mass transport efficiency at the electrode–electrolyte interface, demonstrating up to 30% improvement in overall energy efficiency.</p>
+                <button class="card-btn" onclick="showPasswordModal('figure3')">
+                    <i class="fas fa-arrow-right"></i> More Info
+                </button>
+            </div>
+        </div>
+
+        <div class="card">
+            <img src="/Webpages/photos/Shunt_current.jpg" alt="Shunt current" class="card-img"
+                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+            <div class="card-img-fallback" style="display:none;"><i class="fas fa-water"></i></div>
+            <div class="card-body">
+                <div class="card-tag">COMSOL · MATLAB · Python</div>
+                <h4>Shunt Current Calculation</h4>
+                <p>Multiphysics modeling of shunt current, pressure drop, and manifold optimization in an AWE stack. Simulations evaluate how manifold geometry and electrolyte flow affect current leakage, pressure distribution, and stack efficiency — highlighting trade-offs between large and small cell configurations to minimize energy loss.</p>
+                <button class="card-btn" onclick="showPasswordModal('figure4')">
+                    <i class="fas fa-arrow-right"></i> More Info
+                </button>
+            </div>
+        </div>
+
+        <div class="card">
+            <img src="/Webpages/photos/AWE_COMSOL.jpg" alt="Zero-gap electrolyzer" class="card-img"
+                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+            <div class="card-img-fallback" style="display:none;"><i class="fas fa-wind"></i></div>
+            <div class="card-body">
+                <div class="card-tag">Multiphase · HEM · Validation</div>
+                <h4>Multiphase Transport Model for Zero-Gap AWE</h4>
+                <p>A validated multiphase COMSOL model for a HEM electrolyzer comprising a hydroxide exchange membrane, nanostructured electrodes, porous foam layers, and 11 parallel flow channels. The 4 cm² active area system is evaluated across different flow rates to analyze fluid dynamics, bubble coverage, and electrochemical performance.</p>
+                <button class="card-btn" onclick="showPasswordModal('figure5')">
+                    <i class="fas fa-arrow-right"></i> More Info
+                </button>
+            </div>
+        </div>
+
+        <div class="card">
+            <img src="/Webpages/photos/gas_cross_over.jpg" alt="Gas cross-over" class="card-img"
+                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+            <div class="card-img-fallback" style="display:none;"><i class="fas fa-chart-line"></i></div>
+            <div class="card-body">
+                <div class="card-tag">CFD · Membrane Transport</div>
+                <h4>Gas Cross-Over Estimation in AWE Cell</h4>
+                <p>3D CFD models quantify gas transport through the membrane via diffusion, pressure-driven convection, and electro-osmotic drag. Key factors include separator thickness, porosity, current density, pressure, and temperature. Model fidelity spans 1D transient to full 3D CFD for detailed analysis of local gas–liquid interactions.</p>
+                <button class="card-btn" onclick="showPasswordModal('figure6')">
+                    <i class="fas fa-arrow-right"></i> More Info
+                </button>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ── ACHIEVEMENTS ── -->
+    <div class="section-head">
+        <span class="label">03</span>
+        <h2>Key Achievements</h2>
+    </div>
+
+    <div class="achievements-list">
+        <div class="achievement">
+            <div class="achievement-icon"><i class="fas fa-microchip"></i></div>
+            <div class="achievement-text">
+                <strong>Nanomesh–Substrate Integration</strong>
+                <span>3D CFD modeling optimized pore size distribution and mesh thickness, enhancing fluid transport uniformity by 25%.</span>
+            </div>
+        </div>
+        <div class="achievement">
+            <div class="achievement-icon"><i class="fas fa-chart-bar"></i></div>
+            <div class="achievement-text">
+                <strong>BOP Data Analytics</strong>
+                <span>Python-based mass balance modeling improved stability monitoring and degradation prediction through real-time analysis of HTO, OTH, and pressure parameters.</span>
+            </div>
+        </div>
+        <div class="achievement">
+            <div class="achievement-icon"><i class="fas fa-bolt"></i></div>
+            <div class="achievement-text">
+                <strong>30% Energy Efficiency Gain via Novel Flow Field</strong>
+                <span>CFD-driven 3D flow field design achieved uniform velocity distribution and minimized bubble accumulation, yielding a 30% improvement in overall energy efficiency.</span>
+            </div>
+        </div>
+        <div class="achievement">
+            <div class="achievement-icon"><i class="fas fa-project-diagram"></i></div>
+            <div class="achievement-text">
+                <strong>Shunt Current Optimization</strong>
+                <span>Multiphysics modeling identified optimal manifold geometry, reducing energy loss from current leakage while balancing cell-size trade-offs across the full stack.</span>
+            </div>
+        </div>
+        <div class="achievement">
+            <div class="achievement-icon"><i class="fas fa-layer-group"></i></div>
+            <div class="achievement-text">
+                <strong>Zero-Gap HEM Electrolyzer Validation</strong>
+                <span>Multiphase transport model for 4 cm² active area validated bubble coverage dynamics across 11 parallel channels at varied flow rates against experimental data.</span>
+            </div>
+        </div>
+        <div class="achievement">
+            <div class="achievement-icon"><i class="fas fa-shield-alt"></i></div>
+            <div class="achievement-text">
+                <strong>Gas Crossover Mitigation</strong>
+                <span>3D CFD models quantified membrane transport mechanisms, enabling separator optimization to minimize hydrogen–oxygen mixing under realistic operating conditions.</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ── COLLABORATION ── -->
+    <div class="section-head">
+        <span class="label">04</span>
+        <h2>Collaboration</h2>
+    </div>
+
+    <div class="collab-box">
+        <p>I am actively seeking collaboration opportunities in academic research, industry partnerships, and international projects related to electrolyzer optimization, green hydrogen production, and multiphysics modeling.</p>
+        <div class="collab-actions">
+            <a href="mailto:atyabi902@gmail.com" class="btn-gold">
+                <i class="far fa-envelope"></i> Email Me
+            </a>
+        </div>
+    </div>
+
+</div><!-- /page -->
+
+<!-- PASSWORD MODAL -->
+<div id="passwordModal" class="modal">
+    <div class="modal-box">
+        <div class="modal-head">
+            <h3><i class="fas fa-lock"></i> Secure Access</h3>
+            <button class="modal-close" onclick="closeModal()">×</button>
+        </div>
+        <label for="pwdInput">Enter password to access <span id="fileTypeLabel"></span>:</label>
+        <input type="password" id="pwdInput" placeholder="Password">
+        <div class="modal-msg error" id="errMsg">Incorrect password. Please try again.</div>
+        <div class="modal-msg success" id="okMsg">Correct! Opening resource…</div>
+        <div class="modal-foot">
+            <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+            <button class="btn-submit" onclick="verifyPassword()">Confirm</button>
+        </div>
+    </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+    <div class="footer-inner">
+        <div class="footer-name">Ali Atyabi, Ph.D.</div>
+        <div class="footer-links">
+            <a href="mailto:atyabi902@gmail.com"><i class="far fa-envelope"></i> Email</a>
+            <a href="https://linkedin.com/in/s-ali-atyabi" target="_blank"><i class="fab fa-linkedin-in"></i> LinkedIn</a>
+            <a href="https://scholar.google.com/citations?user=MytiTgsAAAAJ" target="_blank"><i class="fas fa-graduation-cap"></i> Google Scholar</a>
+        </div>
+        <div class="footer-copy">© 2025 Ali Atyabi · All rights reserved</div>
+    </div>
+</footer>
+
+<script>
+    // ── VIDEO ────────────────────────────────────────────
+    const YOUTUBE_ID = 'JYqvPE6mIGo';
+
+    function loadVideo() {
+        const wrap = document.getElementById('videoContainer');
+        const iframe = document.createElement('iframe');
+        iframe.src = `https://www.youtube.com/embed/${YOUTUBE_ID}?autoplay=1&rel=0`;
+        iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+        iframe.allowFullscreen = true;
+        wrap.appendChild(iframe);
+        wrap.classList.add('loaded');
+        wrap.onclick = null;
+    }
+
+    // ── MODAL ────────────────────────────────────────────
+    const GENERAL_PASSWORD = 'ali';
+
+    const fileConfig = {
+        figure1: { url: 'https://example.com/files/figure1_geometry.comsol',  label: 'COMSOL Model' },
+        figure2: { url: 'https://example.com/files/figure2_current_density.py', label: 'Python Script' },
+        figure3: { url: 'https://example.com/files/figure3_temperature.comsol', label: 'COMSOL Model' },
+        figure4: { url: 'https://example.com/files/figure4_bubble_flow.csv',   label: 'Data File' },
+        figure5: { url: 'https://example.com/files/figure5_velocity.comsol',   label: 'COMSOL Model' },
+        figure6: { url: 'https://example.com/files/figure6_optimization.xlsx', label: 'Excel File' }
+    };
+
+    let activeFile = null;
+
+    function showPasswordModal(id) {
+        activeFile = id;
+        document.getElementById('fileTypeLabel').textContent = fileConfig[id].label;
+        document.getElementById('pwdInput').value = '';
+        document.getElementById('errMsg').style.display = 'none';
+        document.getElementById('okMsg').style.display = 'none';
+        document.getElementById('passwordModal').style.display = 'block';
+        setTimeout(() => document.getElementById('pwdInput').focus(), 100);
+    }
+
+    function closeModal() {
+        document.getElementById('passwordModal').style.display = 'none';
+        activeFile = null;
+    }
+
+    function verifyPassword() {
+        const val = document.getElementById('pwdInput').value;
+        if (val === GENERAL_PASSWORD) {
+            document.getElementById('errMsg').style.display = 'none';
+            document.getElementById('okMsg').style.display = 'block';
+            setTimeout(() => {
+                window.open(fileConfig[activeFile].url, '_blank');
+                closeModal();
+            }, 900);
+        } else {
+            document.getElementById('okMsg').style.display = 'none';
+            document.getElementById('errMsg').style.display = 'block';
+            document.getElementById('pwdInput').value = '';
+            document.getElementById('pwdInput').focus();
+        }
+    }
+
+    document.getElementById('pwdInput').addEventListener('keydown', e => {
+        if (e.key === 'Enter') verifyPassword();
+    });
+
+    window.addEventListener('click', e => {
+        if (e.target === document.getElementById('passwordModal')) closeModal();
+    });
+</script>
+</body>
+</html>
