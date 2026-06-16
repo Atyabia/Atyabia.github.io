@@ -6,757 +6,128 @@
     <meta name="description" content="CO₂ Electrolyzer Optimization - Advanced 3D Multiphysics Modeling for Carbon Utilization">
     <meta name="author" content="Ali Atyabi">
     <title>CO₂ Electrolyzer Optimization | Ali Atyabi, Ph.D.</title>
-    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
+        /* ── THEME SYSTEM & TOKENS ─────────────────────────────────── */
         :root {
-            --primary-color: #2C5F7C;
-            --secondary-color: #4A7C9B;
-            --accent-color: #E8F1F5;
-            --success-color: #28a745;
-            --text-dark: #333;
-            --text-light: #666;
-        }
-        
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            color: var(--text-dark);
-            background: #f8f9fa;
-        }
-        
-        /* Navigation */
-        nav {
-            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
-            color: white;
-            padding: 1rem 0;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-        }
-        
-        nav .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        nav .logo {
-            font-size: 1.3rem;
-            font-weight: bold;
-        }
-        
-        nav a {
-            color: white;
-            text-decoration: none;
-            transition: all 0.3s;
-            padding: 0.5rem;
-        }
-        
-        nav a:hover {
-            color: var(--accent-color);
-        }
-        
-        /* Hero Section */
-        .hero {
-            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
-            color: white;
-            padding: 3rem 2rem;
-            text-align: center;
-        }
-        
-        .hero h1 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-        }
-        
-        .hero p {
-            font-size: 1.2rem;
-            opacity: 0.95;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-        
-        /* Container */
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 2rem;
-        }
-        
-        /* Main Content */
-        .content {
-            background: white;
-            margin: -2rem auto 3rem;
-            padding: 3rem;
-            border-radius: 10px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-            max-width: 1200px;
-        }
-        
-        section {
-            margin-bottom: 3rem;
-        }
-        
-        h2 {
-            color: var(--primary-color);
-            font-size: 2rem;
-            margin-bottom: 1.5rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 3px solid var(--primary-color);
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        
-        h3 {
-            color: var(--primary-color);
-            font-size: 1.4rem;
-            margin: 2rem 0 1rem;
-        }
-        
-        p {
-            margin-bottom: 1rem;
-            line-height: 1.8;
-            color: var(--text-light);
-            text-align: justify;
-        }
-        
-        /* Image Cards Grid */
-        .image-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 2rem;
-            margin: 2rem 0;
-        }
-        
-        .image-card {
-            background: white;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-        
-        .image-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-        }
-        
-        .image-placeholder {
-            width: 100%;
-            height: 250px;
-            background: linear-gradient(135deg, var(--accent-color) 0%, #d4e8f0 100%);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            color: var(--primary-color);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .image-placeholder img {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            object-position: center;
-            display: block;
-        }
-        
-        .image-placeholder i {
-            font-size: 3rem;
-            margin-bottom: 0.5rem;
-            opacity: 0.6;
-        }
-        
-        .image-card-content {
-            padding: 1.5rem;
-        }
-        
-        .image-card-content h4 {
-            color: var(--primary-color);
-            font-size: 1.1rem;
-            margin-bottom: 0.5rem;
-        }
-        
-        .image-card-content h4 a {
-            color: var(--primary-color);
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-        
-        .image-card-content h4 a:hover {
-            color: var(--secondary-color);
-        }
-        
-        .image-card-content p {
-            font-size: 0.95rem;
-            margin: 0 0 1rem 0;
-        }
-        
-        /* Download Button */
-        .download-btn {
-            display: inline-block;
-            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
-            color: white;
-            padding: 0.6rem 1.2rem;
-            border-radius: 5px;
-            text-decoration: none;
-            font-size: 0.9rem;
-            font-weight: 500;
-            transition: all 0.3s;
-            border: none;
-            cursor: pointer;
-            width: 100%;
-            text-align: center;
-        }
-        
-        .download-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(44, 95, 124, 0.3);
-        }
-        
-        .download-btn i {
-            margin-right: 0.5rem;
-        }
-        
-        /* Info Box */
-        .info-box {
-            background: var(--accent-color);
-            border-left: 4px solid var(--primary-color);
-            padding: 1.5rem;
-            border-radius: 5px;
-            margin: 1.5rem 0;
-        }
-        
-        .info-box h4 {
-            color: var(--primary-color);
-            margin-bottom: 0.5rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        
-        .success-box {
-            background: #d4edda;
-            border-left-color: var(--success-color);
-        }
-        
-        .success-box h4 {
-            color: var(--success-color);
-        }
-        
-        ul {
-            margin-left: 2rem;
-            color: var(--text-light);
-        }
-        
-        li {
-            margin-bottom: 0.8rem;
-        }
-        
-        /* Buttons */
-        .btn {
-            display: inline-block;
-            padding: 0.8rem 1.5rem;
-            border-radius: 5px;
-            text-decoration: none;
-            transition: all 0.3s;
-            font-weight: 500;
-        }
-        
-        .btn-primary {
-            background: var(--primary-color);
-            color: white;
-        }
-        
-        .btn-primary:hover {
-            background: var(--secondary-color);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-        }
-        
-        .btn-group {
-            display: flex;
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-        
-        /* Footer */
-        footer {
-            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
-            color: white;
-            text-align: center;
-            padding: 2rem 0;
-            margin-top: 3rem;
-        }
-        
-        footer a {
-            color: white;
-            text-decoration: none;
-            transition: all 0.3s;
-        }
-        
-        footer a:hover {
-            color: var(--accent-color);
-        }
-        
-        /* Modal Styles */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 2000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.6);
-            animation: fadeIn 0.3s;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        
-        .modal-content {
-            background-color: white;
-            margin: 10% auto;
-            padding: 2rem;
-            border-radius: 10px;
-            width: 90%;
-            max-width: 450px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
-            animation: slideDown 0.3s;
-        }
-        
-        @keyframes slideDown {
-            from {
-                transform: translateY(-50px);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
-        
-        .modal-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 1.5rem;
-            padding-bottom: 1rem;
-            border-bottom: 2px solid var(--accent-color);
-        }
-        
-        .modal-header h3 {
-            margin: 0;
-            color: var(--primary-color);
-            font-size: 1.3rem;
-        }
-        
-        .close {
-            color: #aaa;
-            font-size: 2rem;
-            font-weight: bold;
-            cursor: pointer;
-            line-height: 1;
-            transition: color 0.3s;
-        }
-        
-        .close:hover {
-            color: var(--primary-color);
-        }
-        
-        .modal-body {
-            margin-bottom: 1.5rem;
-        }
-        
-        .modal-body label {
-            display: block;
-            margin-bottom: 0.5rem;
-            color: var(--text-dark);
-            font-weight: 500;
-        }
-        
-        .modal-body input {
-            width: 100%;
-            padding: 0.8rem;
-            border: 2px solid #ddd;
-            border-radius: 5px;
-            font-size: 1rem;
-            transition: border-color 0.3s;
-        }
-        
-        .modal-body input:focus {
-            outline: none;
-            border-color: var(--primary-color);
-        }
-        
-        .modal-footer {
-            display: flex;
-            gap: 1rem;
-            justify-content: flex-end;
-        }
-        
-        .modal-btn {
-            padding: 0.7rem 1.5rem;
-            border: none;
-            border-radius: 5px;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-weight: 500;
-        }
-        
-        .modal-btn-primary {
-            background: var(--primary-color);
-            color: white;
-        }
-        
-        .modal-btn-primary:hover {
-            background: var(--secondary-color);
-        }
-        
-        .modal-btn-secondary {
-            background: #6c757d;
-            color: white;
-        }
-        
-        .modal-btn-secondary:hover {
-            background: #5a6268;
-        }
-        
-        .error-message {
-            color: #dc3545;
-            font-size: 0.9rem;
-            margin-top: 0.5rem;
-            display: none;
-        }
-        
-        .success-message {
-            color: var(--success-color);
-            font-size: 0.9rem;
-            margin-top: 0.5rem;
-            display: none;
-        }
-        
-        /* Overview Card Layout - New Improved Design */
-        .overview-card {
-            display: grid;
-            grid-template-columns: 1.2fr 1fr;
-            gap: 2.5rem;
-            align-items: center;
-            background: white;
-            padding: 2rem;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            margin-bottom: 2rem;
-        }
-        
-        .overview-text {
-            text-align: justify;
-        }
-        
-        .overview-text p {
-            margin-bottom: 0;
-            font-size: 1.05rem;
-        }
-        
-        .image-container {
-            width: 100%;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-        
-        .image-container:hover {
-            transform: scale(1.02);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-        }
-        
-        .image-container img {
-            width: 100%;
-            height: auto;
-            display: block;
-        }
-        
-        /* Responsive Design */
-        @media (max-width: 968px) {
-            .overview-card {
-                grid-template-columns: 1fr;
-            }
-        }
-        
-        @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 2rem;
-            }
+            --bg:          #0f1117;          /* Ultra-dark canvas background */
+            --surface:     #181c27;          /* Card and section container background */
+            --surface-hover:#1f2435;         /* Surface background on hover state */
+            --border:      #2a3048;          /* Low-contrast divider borders */
+            --gold:        #c9a84c;          /* Primary luxury gold accent */
+            --gold-dim:    #8c6e2f;          /* Subtle dark-gold accent tint */
+            --gold-glow:   rgba(201, 168, 76, 0.15); /* Soft radiating gold ambient lighting */
+            --text-main:   #f5f5f5;          /* Crisp off-white text for ultimate visibility */
+            --text-muted:  #a0aabf;          /* Accessible slate grey for body copy */
             
-            .hero p {
-                font-size: 1rem;
-            }
+            /* Typography Configuration */
+            --ff-body:     'Calibri', 'Segoe UI', sans-serif;
+            --ff-display:  'Arial', 'Helvetica Neue', sans-serif;
             
-            .content {
-                padding: 2rem 1.5rem;
-            }
-            
-            .image-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .modal-content {
-                margin: 20% auto;
-                width: 95%;
-            }
+            --radius:      6px;
+            --transition:  0.25s cubic-bezier(0.4, 0, 0.2, 1);
         }
+
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { font-family: var(--ff-body); background-color: var(--bg); color: var(--text-main); line-height: 1.7; font-size: 1rem; -webkit-font-smoothing: antialiased; }
+        h1, h2, h3, h4, .nav-brand, .download-btn { font-family: var(--ff-display); font-weight: 700; color: var(--text-main); letter-spacing: -0.01em; }
+        p, li, span { font-family: var(--ff-body); }
+        nav { position: sticky; top: 0; z-index: 1000; background: rgba(15, 17, 23, 0.92); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); }
+        nav .inner { max-width: 1200px; margin: 0 auto; padding: 0 2rem; height: 60px; display: flex; justify-content: space-between; align-items: center; }
+        .nav-brand { font-size: 1.1rem; color: var(--gold); display: flex; align-items: center; gap: 0.5rem; }
+        .nav-back { display: flex; align-items: center; gap: 0.3rem; color: var(--text-muted); text-decoration: none; font-size: 0.875rem; font-family: var(--ff-display); font-weight: 700; transition: color var(--transition); }
+        .nav-back:hover { color: var(--gold); }
+        .hero { position: relative; overflow: hidden; padding: 5rem 2rem 4rem; text-align: center; background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(201, 168, 76, 0.08) 0%, transparent 70%), var(--bg); border-bottom: 1px solid var(--border); }
+        .hero h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); margin-bottom: 1.25rem; }
+        .hero p { color: var(--text-muted); font-size: 1.1rem; max-width: 800px; margin: 0 auto; }
+        .page { max-width: 1200px; margin: 0 auto; padding: 0 2rem 6rem; }
+        .section-head { display: flex; align-items: center; gap: 1rem; margin: 4rem 0 2rem; }
+        .section-head h2 { font-size: 1.75rem; }
+        .section-head::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+        .grid-layout { display: grid; grid-template-columns: 1.2fr 1fr; gap: 2.5rem; margin-bottom: 2rem; align-items: center; }
+        .content-box { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 2.5rem; transition: all var(--transition); }
+        .content-box:hover { border-color: var(--gold-dim); box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5), 0 0 0 1px var(--gold-glow); }
+        .content-box:active { transform: translateY(-1px) scale(0.99); border-color: var(--gold); box-shadow: 0 4px 12px rgba(0,0,0,0.3), 0 0 15px var(--gold); background-color: var(--surface-hover); }
+        .content-box:target { animation: flash 1.5s ease-out; }
+        @keyframes flash { 0% { border-color: var(--gold); box-shadow: 0 0 30px var(--gold); background-color: var(--surface-hover); } 100% { border-color: var(--border); box-shadow: none; background-color: var(--surface); } }
+        .content-box ul { list-style: none; }
+        .content-box li { font-size: 0.95rem; color: var(--text-main); margin-bottom: 0.8rem; padding-left: 1.5rem; position: relative; text-align: justify; }
+        .content-box li::before { content: "•"; color: var(--gold); position: absolute; left: 0; font-weight: bold; }
+        .img-container { width: 100%; border-radius: var(--radius); overflow: hidden; border: 1px solid var(--border); }
+        .img-container img { width: 100%; height: auto; display: block; }
+        .download-btn { display: flex; align-items: center; justify-content: center; gap: 0.5rem; width: 100%; padding: 0.7rem; background: transparent; border: 1px solid var(--gold-dim); border-radius: var(--radius); color: var(--gold); font-size: 0.85rem; cursor: pointer; transition: all var(--transition); text-decoration: none; margin-top: 1rem; }
+        .download-btn:hover { background: var(--gold-glow); border-color: var(--gold); color: var(--text-main); }
+        .download-btn:active { transform: scale(0.97); }
+        .modal { display: none; position: fixed; inset: 0; z-index: 2000; background: rgba(0,0,0,0.7); backdrop-filter: blur(4px); animation: fadeIn 0.2s ease; }
+        @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+        .modal-content { background: var(--surface); border: 1px solid var(--border); border-top: 2px solid var(--gold); border-radius: var(--radius); width: 90%; max-width: 420px; margin: 12% auto; padding: 2rem; animation: slideUp 0.25s ease; }
+        @keyframes slideUp { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
+        .close { background: none; border: none; color: var(--text-muted); font-size: 1.5rem; cursor: pointer; line-height: 1; }
+        .close:hover { color: var(--gold); }
+        .modal-body label { display: block; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.5rem; }
+        .modal-body input { width: 100%; padding: 0.75rem 1rem; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); color: var(--text-main); outline: none; }
+        .modal-body input:focus { border-color: var(--gold); }
+        .error-message { font-size: 0.82rem; margin-top: 0.5rem; color: #e05c5c; display: none; }
+        .success-message { font-size: 0.82rem; margin-top: 0.5rem; color: #5ce07a; display: none; }
+        .modal-footer { display: flex; gap: 0.75rem; justify-content: flex-end; margin-top: 1.5rem; }
+        .modal-btn { padding: 0.65rem 1.3rem; border-radius: var(--radius); font-size: 0.9rem; font-weight: 700; cursor: pointer; border: none; font-family: var(--ff-display); }
+        .modal-btn-secondary { background: var(--surface-hover); color: var(--text-muted); }
+        .modal-btn-primary { background: var(--gold); color: #0f1117; }
+        footer { background: var(--surface); border-top: 1px solid var(--border); padding: 2.5rem 2rem; text-align: center; }
+        footer p { color: var(--text-muted); font-size: 0.9rem; }
+        footer a { color: var(--gold); text-decoration: none; font-family: var(--ff-display); font-weight: 700; }
+        @media (max-width: 968px) { .grid-layout { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
-
-    <!-- Navigation -->
     <nav>
-        <div class="container">
-            <div class="logo">
-                <i class="fas fa-atom"></i> Ali Atyabi, Ph.D.
-            </div>
-            <a href="https://atyabia.github.io/index.html">
-                <i class="fas fa-home"></i> Back to Portfolio
-            </a>
+        <div class="inner">
+            <div class="nav-brand"><i class="fas fa-atom"></i> Ali Atyabi, Ph.D.</div>
+            <a href="https://atyabia.github.io/index.html" class="nav-back"><i class="fas fa-arrow-left"></i> Portfolio</a>
         </div>
     </nav>
-
-    <!-- Hero Section -->
     <div class="hero">
         <h1>CO₂ Electrolyzer Optimization</h1>
         <p>Advanced 3D multiphysics modeling for enhanced carbon utilization and sustainable chemical production</p>
     </div>
-
-    <!-- Main Content -->
-    <div class="content container">
-
-        <!-- Overview Section -->
+    <div class="page">
         <section id="overview">
-            <h2><i class="fas fa-info-circle"></i> Project Overview</h2>
-            
-            <div class="overview-card">
-                <div class="overview-text">
-                    <p>
-                        This research focuses on developing comprehensive 3D multiphysics models for CO₂ electrolyzers 
-                        using COMSOL Multiphysics. The work integrates electrochemistry, fluid dynamics, and 
-                        species transport to optimize carbon utilization efficiency and scalability toward industrial-scale 
-                        systems for sustainable chemical production.
-                    </p>
+            <div class="section-head"><h2>Project Overview</h2></div>
+            <div class="grid-layout">
+                <div class="content-box">
+                    <ul>
+                        <li><strong>Target:</strong> Characterize gas diffusion electrode (GDE) microstructures and optimize flow configurations for scaled-up industrial $CO_2$ electrolyzer systems.</li>
+                        <li><strong>Approach:</strong> Developed 3D finite element simulations coupling fluid dynamics and electrical current pathways to map effective parameters (conductivity, permeability, active area) across varied carbon particle matrices.</li>
+                        <li><strong>Achievements:</strong> Validated numerical homogenization metrics against Bruggeman correlations and nickel foam experimental benchmarks, achieving an under 10% error margin. Contributed directly to optimizing gas–liquid transport dynamics for a 50 kW cell stack.</li>
+                    </ul>
+                    <button class="download-btn" onclick="showPasswordModal('figure1')"><i class="fas fa-info-circle"></i> Secure Access Files</button>
                 </div>
-                
-                <div class="image-container">
-                    <img src="/Webpages/photos/co2_flow_field.jpg" alt="CO₂ Electrolyzer System Schematic">
-                </div>
+                <div class="img-container"><img src="/Webpages/photos/co2_flow_field.jpg" alt="CO₂ Electrolyzer System Schematic"></div>
             </div>
         </section>
-
-        <!-- Visual Results Section with Image Cards -->
-        <section id="results">
-            <h2><i class="fas fa-images"></i> Modeling Activities</h2>
-            
-            <div class="image-grid">
-                <!-- Image Card 1 -->
-                <div class="image-card">
-                    <div class="image-placeholder">
-                        <img src="/Webpages/photos/BioRECO2VER.jpg" alt="GDL Microstructure Optimization">
-                    </div>
-                    <div class="image-card-content">
-                        <h4><a href="https://www.mpi-magdeburg.mpg.de/gde2022" target="_blank" rel="noopener noreferrer">Optimization of GDL Microstructures</a></h4>
-                        <p>A 3D finite element simulation approach was developed to characterize gas diffusion electrode (GDE) microstructures for CO₂ electrolyzers. 
-                            Coupled fluid dynamics and electrical current models were used to compute effective properties including electrical conductivity, permeability, and specific active area across different carbon particle volume fractions. 
-                            Results were validated against nickel foam experimental data and provide insights for optimizing GDE performance in high-current-density applications.
-                        </p>
-                        <button class="download-btn" onclick="showPasswordModal('figure1', 'https://example.com/files/figure1_geometry.comsol', 'more_info')">
-                            <i class="fas fa-info-circle"></i> More Info
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Image Card 2 -->
-                <div class="image-card">
-                    <div class="image-placeholder">
-                        <img src="/Webpages/photos/co2_flow_field.jpg" alt="Flow Field Optimization">
-                    </div>
-                    <div class="image-card-content">
-                        <h4><a href="https://eco2fuel-project.eu/2024/09/09/eco2fuel-achieves-major-milestone-with-scaled-up-50kw-stack-design/" target="_blank" rel="noopener noreferrer">Flow Field Optimization for CO₂ Electrolyzer Cell</a></h4>
-                        <p>A computational and experimental study was performed to optimize the flow field design of the 50 kW CO₂ electrolyzer stack. 
-                            Gas velocity and pressure distributions across the GDL were analyzed under varying flow rates and pressures to improve mass transport and reduce pressure drop.
-                            The optimized design enhances gas–liquid management, cell efficiency, and scalability toward the 1 MW system planned for 2026.
-                        </p>
-                        <button class="download-btn" onclick="showPasswordModal('figure2', 'https://example.com/files/figure2_current_density.py', 'more_info')">
-                            <i class="fas fa-info-circle"></i> More Info
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Key Findings Section -->
-        <section id="findings">
-            <h2><i class="fas fa-award"></i> Key Achievements</h2>
-            
-            <h3>Design Optimization</h3>
-            <ul>
-                <li><strong>3D CFD Simulation:</strong> New flow field design improved flow uniformity and mass transport efficiency, reducing pressure drop and enhancing gas–liquid management in the electrolyzer cell.</li>
-                                                        
-                <li><strong>FEM-Based GDE Property Prediction:</strong> Developed finite element models to predict effective electrical conductivity, permeability, porosity, and specific active area of gas diffusion electrode microstructures with varying carbon particle volume fractions.</li>
-                
-                <li><strong>Nickel Foam Validation Study:</strong> Validated numerical homogenization technique against Bruggeman correlation and catalog data for nickel foam (porosity=0.95), achieving less than 10% error in effective electrical conductivity predictions.</li>
-                
-                <li><strong>Microstructure Transport Analysis:</strong> Demonstrated that cubic matrix models with spherical particles reliably predict GDE effective properties, revealing trade-offs between enhanced electrical conductivity and reduced permeability at higher solid volume fractions.</li>
-                
-                <li><strong>Multiphysics GDE Simulation:</strong> Coupled fluid dynamics and electric current simulations to characterize mass transport limitations and electrical performance in porous electrode structures for CO₂ electrolyzer applications.</li>
-                
-                <li><strong>Scalability Analysis:</strong> Contributed to the development of a 50 kW stack design with insights applicable to the planned 1 MW industrial-scale system, advancing carbon utilization technology toward commercial deployment.</li>
-            </ul>
-        </section>
-
-        <!-- Collaboration Section -->
-        <section id="collaboration">
-            <h2><i class="fas fa-handshake"></i> Collaboration</h2>
-            
-            <p>
-                I am actively seeking collaboration opportunities in academic research, industry partnerships, 
-                and international projects related to CO₂ electrolyzer optimization, carbon utilization technologies, 
-                and multiphysics modeling for sustainable energy systems.
-            </p>
-
-            <div class="success-box info-box">
-                <h4><i class="fas fa-envelope"></i> Get in Touch</h4>
-                <p>
-                    Interested in collaborating? I'd love to hear from you!
-                </p>
-                <div class="btn-group">
-                    <a href="mailto:atyabi902@gmail.com" class="btn btn-primary">
-                        <i class="far fa-envelope"></i> Email Me
-                    </a>
-                </div>
-            </div>
-        </section>
-
     </div>
-
-    <!-- Password Modal -->
     <div id="passwordModal" class="modal">
         <div class="modal-content">
-            <div class="modal-header">
-                <h3><i class="fas fa-lock"></i> Secure Access</h3>
-                <span class="close" onclick="closePasswordModal()">&times;</span>
-            </div>
+            <div class="modal-header"><h3><i class="fas fa-lock"></i> Secure Access</h3><button class="close" onclick="closePasswordModal()">&times;</button></div>
             <div class="modal-body">
-                <label for="password">Enter password to access <span id="fileType"></span>:</label>
-                <input type="password" id="password" placeholder="Enter password">
-                <div class="error-message" id="errorMessage">Incorrect password. Please try again.</div>
-                <div class="success-message" id="successMessage">Password correct! Accessing content...</div>
+                <label for="password">Enter password to access content:</label><input type="password" id="password" placeholder="Enter password">
+                <div class="error-message" id="errorMessage">Incorrect password. Please try again.</div><div class="success-message" id="successMessage">Password correct! Accessing content...</div>
             </div>
-            <div class="modal-footer">
-                <button class="modal-btn modal-btn-secondary" onclick="closePasswordModal()">Cancel</button>
-                <button class="modal-btn modal-btn-primary" onclick="verifyPassword()">Access</button>
-            </div>
+            <div class="modal-footer"><button class="modal-btn modal-btn-secondary" onclick="closePasswordModal()">Cancel</button><button class="modal-btn modal-btn-primary" onclick="verifyPassword()">Confirm</button></div>
         </div>
     </div>
-
-    <!-- Footer -->
-    <footer>
-        <div class="container">
-            <p><strong>Ali Atyabi, Ph.D.</strong> | Mechanical Engineer | CFD Expert</p>
-            <p style="margin-top: 0.5rem;">
-                <a href="mailto:atyabi902@gmail.com"><i class="far fa-envelope"></i> Email</a> | 
-                <a href="https://linkedin.com/in/s-ali-atyabi" target="_blank"><i class="fab fa-linkedin-in"></i> LinkedIn</a> | 
-                <a href="https://scholar.google.com/citations?user=MytiTgsAAAAJ" target="_blank"><i class="fas fa-graduation-cap"></i> Google Scholar</a>
-            </p>
-            <p style="margin-top: 1rem; font-size: 0.9rem; opacity: 0.8;">© 2024 Ali Atyabi. All rights reserved.</p>
-        </div>
-    </footer>
-
+    <footer><p><strong>Ali Atyabi, Ph.D.</strong> | Mechanical Engineer | CFD Expert | <a href="mailto:atyabi902@gmail.com">Email</a></p></footer>
     <script>
-        // SINGLE GENERAL PASSWORD FOR ALL FILES
-        const GENERAL_PASSWORD = 'ali';  // <<< CHANGE THIS PASSWORD
-        
-        // File configuration (URLs and file types only)
-        const fileConfig = {
-            figure1: {
-                url: 'https://example.com/files/figure1_geometry.comsol',
-                fileType: 'Additional Information'
-            },
-            figure2: {
-                url: 'https://example.com/files/figure2_current_density.py',
-                fileType: 'Additional Information'
-            }
-        };
-
+        const GENERAL_PASSWORD = 'ali';
+        const fileConfig = { figure1: { url: 'https://example.com/files/figure1_geometry.comsol' } };
         let currentFileId = null;
-
-        function showPasswordModal(fileId, url, fileType) {
-            currentFileId = fileId;
-            document.getElementById('passwordModal').style.display = 'block';
-            document.getElementById('fileType').textContent = fileConfig[fileId].fileType;
-            document.getElementById('password').value = '';
-            document.getElementById('errorMessage').style.display = 'none';
-            document.getElementById('successMessage').style.display = 'none';
-            document.getElementById('password').focus();
-        }
-
-        function closePasswordModal() {
-            document.getElementById('passwordModal').style.display = 'none';
-            currentFileId = null;
-        }
-
-        function verifyPassword() {
-            const enteredPassword = document.getElementById('password').value;
-            const config = fileConfig[currentFileId];
-            
-            if (enteredPassword === GENERAL_PASSWORD) {
-                document.getElementById('errorMessage').style.display = 'none';
-                document.getElementById('successMessage').style.display = 'block';
-                
-                setTimeout(() => {
-                    window.open(config.url, '_blank');
-                    closePasswordModal();
-                }, 1000);
-            } else {
-                document.getElementById('errorMessage').style.display = 'block';
-                document.getElementById('successMessage').style.display = 'none';
-                document.getElementById('password').value = '';
-                document.getElementById('password').focus();
-            }
-        }
-
-        document.getElementById('password').addEventListener('keypress', function(event) {
-            if (event.key === 'Enter') {
-                verifyPassword();
-            }
-        });
-
-        window.onclick = function(event) {
-            const modal = document.getElementById('passwordModal');
-            if (event.target === modal) {
-                closePasswordModal();
-            }
-        }
+        function showPasswordModal(fileId) { currentFileId = fileId; document.getElementById('passwordModal').style.display = 'block'; document.getElementById('password').value = ''; document.getElementById('errorMessage').style.display = 'none'; document.getElementById('successMessage').style.display = 'none'; document.getElementById('password').focus(); }
+        function closePasswordModal() { document.getElementById('passwordModal').style.display = 'none'; currentFileId = null; }
+        function verifyPassword() { const enteredPassword = document.getElementById('password').value; const config = fileConfig[currentFileId]; if (enteredPassword === GENERAL_PASSWORD) { document.getElementById('errorMessage').style.display = 'none'; document.getElementById('successMessage').style.display = 'block'; setTimeout(() => { window.open(config.url, '_blank'); closePasswordModal(); }, 1000); } else { document.getElementById('errorMessage').style.display = 'block'; document.getElementById('successMessage').style.display = 'none'; document.getElementById('password').value = ''; document.getElementById('password').focus(); } }
+        document.getElementById('password').addEventListener('keypress', function(e) { if (e.key === 'Enter') verifyPassword(); });
+        window.onclick = function(e) { if (e.target === document.getElementById('passwordModal')) closePasswordModal(); }
     </script>
-
 </body>
 </html>
