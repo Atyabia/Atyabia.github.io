@@ -13,23 +13,26 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
-        /* ── TOKEN SYSTEM ─────────────────────────────────── */
+        /* ── THEME SYSTEM & TOKENS ─────────────────────────────────── */
         :root {
-            --bg:        #0f1117;
-            --surface:   #181c27;
-            --surface2:  #1f2435;
-            --border:    #2a3048;
-            --gold:      #c9a84c;
-            --gold-dim:  #8c6e2f;
-            --gold-glow: rgba(201,168,76,0.15);
-            --text:      #e8e4da;
-            --muted:     #8c95ac;
-            --accent:    #3a8fc4;   /* cool blue for data/tech labels */
-            --ff-display: 'Playfair Display', Georgia, serif;
-            --ff-body:    'Inter', sans-serif;
-            --ff-mono:    'JetBrains Mono', monospace;
-            --radius:     6px;
-            --transition: 0.25s ease;
+            --bg:          #0f1117;          /* Ultra-dark canvas background */
+            --surface:     #181c27;          /* Card and section container background */
+            --surface-hover:#1f2435;         /* Surface background on hover state */
+            --border:      #2a3048;          /* Low-contrast divider borders */
+            --gold:        #c9a84c;          /* Primary luxury gold accent */
+            --gold-dim:    #8c6e2f;          /* Subtle dark-gold accent tint */
+            --gold-glow:   rgba(201, 168, 76, 0.15); /* Soft radiating gold ambient lighting */
+            --text-main:   #f5f5f5;          /* Crisp off-white text for ultimate visibility */
+            --text-muted:  #a0aabf;          /* Accessible slate grey for body copy */
+            --accent:      #3a8fc4;          /* Cool blue labels */
+            
+            /* Typography Configuration */
+            --ff-body:     'Calibri', 'Segoe UI', sans-serif;
+            --ff-display:  'Arial', 'Helvetica Neue', sans-serif;
+            --ff-mono:     'JetBrains Mono', monospace;
+            
+            --radius:      6px;
+            --transition:  0.25s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
@@ -39,9 +42,10 @@
         body {
             font-family: var(--ff-body);
             background: var(--bg);
-            color: var(--text);
+            color: var(--text-main);
             line-height: 1.7;
             font-size: 1rem;
+            -webkit-font-smoothing: antialiased;
         }
 
         /* ── SCROLLBAR ───────────────────────────────────── */
@@ -71,6 +75,7 @@
 
         .nav-brand {
             font-family: var(--ff-display);
+            font-weight: 700;
             font-size: 1.1rem;
             color: var(--gold);
             letter-spacing: 0.02em;
@@ -83,10 +88,11 @@
             display: flex;
             align-items: center;
             gap: 0.5rem;
-            color: var(--muted);
+            color: var(--text-muted);
             text-decoration: none;
             font-size: 0.875rem;
-            font-weight: 500;
+            font-family: var(--ff-display);
+            font-weight: 700;
             transition: color var(--transition);
         }
         .nav-back:hover { color: var(--gold); }
@@ -97,13 +103,10 @@
             overflow: hidden;
             padding: 5rem 2rem 4rem;
             text-align: center;
-            background:
-                radial-gradient(ellipse 80% 60% at 50% 0%, rgba(201,168,76,0.08) 0%, transparent 70%),
-                var(--bg);
+            background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(201,168,76,0.08) 0%, transparent 70%), var(--bg);
             border-bottom: 1px solid var(--border);
         }
 
-        /* signature element: gold horizontal rule that "radiates" */
         .hero::after {
             content: '';
             position: absolute;
@@ -114,7 +117,8 @@
         }
 
         .hero-eyebrow {
-            font-family: var(--ff-mono);
+            font-family: var(--ff-display);
+            font-weight: 700;
             font-size: 0.78rem;
             letter-spacing: 0.2em;
             text-transform: uppercase;
@@ -124,10 +128,10 @@
 
         .hero h1 {
             font-family: var(--ff-display);
-            font-size: clamp(2rem, 5vw, 3.2rem);
             font-weight: 700;
+            font-size: clamp(2rem, 5vw, 3.2rem);
             line-height: 1.15;
-            color: var(--text);
+            color: var(--text-main);
             margin-bottom: 1.25rem;
         }
 
@@ -137,7 +141,7 @@
         }
 
         .hero-sub {
-            color: var(--muted);
+            color: var(--text-muted);
             font-size: 1.05rem;
             max-width: 680px;
             margin: 0 auto;
@@ -159,7 +163,8 @@
         }
 
         .section-head .label {
-            font-family: var(--ff-mono);
+            font-family: var(--ff-display);
+            font-weight: 700;
             font-size: 0.7rem;
             letter-spacing: 0.18em;
             text-transform: uppercase;
@@ -173,9 +178,9 @@
 
         .section-head h2 {
             font-family: var(--ff-display);
+            font-weight: 700;
             font-size: 1.75rem;
-            font-weight: 600;
-            color: var(--text);
+            color: var(--text-main);
         }
 
         .section-head::after {
@@ -194,7 +199,7 @@
         }
 
         .overview-copy p {
-            color: var(--muted);
+            color: var(--text-muted);
             margin-bottom: 1.1rem;
             text-align: justify;
             font-size: 0.97rem;
@@ -227,7 +232,7 @@
 
         .stat .desc {
             font-size: 0.72rem;
-            color: var(--muted);
+            color: var(--text-muted);
             text-transform: uppercase;
             letter-spacing: 0.1em;
             margin-top: 4px;
@@ -291,6 +296,7 @@
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
             gap: 1.5rem;
+            padding: 1rem 0;
         }
 
         .card {
@@ -338,30 +344,45 @@
         }
 
         .card-tag {
-            font-family: var(--ff-mono);
-            font-size: 0.68rem;
-            letter-spacing: 0.15em;
+            font-family: var(--ff-display);
+            font-weight: 700;
+            font-size: 0.75rem;
+            letter-spacing: 0.12em;
             text-transform: uppercase;
-            color: var(--accent);
-            margin-bottom: 0.5rem;
+            color: var(--gold);
+            margin-bottom: 0.6rem;
         }
 
         .card-body h4 {
             font-family: var(--ff-display);
             font-size: 1.05rem;
-            font-weight: 600;
-            color: var(--text);
+            font-weight: 700;
+            color: var(--text-main);
             line-height: 1.35;
             margin-bottom: 0.75rem;
         }
 
-        .card-body p {
-            font-size: 0.88rem;
-            color: var(--muted);
-            line-height: 1.7;
+        .card-body ul {
+            list-style: none;
+            margin-bottom: 1.5rem;
             flex: 1;
+        }
+
+        .card-body li {
+            font-size: 0.92rem;
+            color: var(--text-main);
+            margin-bottom: 0.8rem;
+            padding-left: 1.2rem;
+            position: relative;
             text-align: justify;
-            margin-bottom: 1.2rem;
+        }
+
+        .card-body li::before {
+            content: "•";
+            color: var(--gold);
+            position: absolute;
+            left: 0;
+            font-weight: bold;
         }
 
         .card-btn {
@@ -370,22 +391,45 @@
             justify-content: center;
             gap: 0.5rem;
             width: 100%;
-            padding: 0.65rem;
+            padding: 0.7rem;
             background: transparent;
             border: 1px solid var(--gold-dim);
             border-radius: var(--radius);
             color: var(--gold);
-            font-family: var(--ff-body);
+            font-family: var(--ff-display);
+            font-weight: 700;
             font-size: 0.85rem;
-            font-weight: 500;
             cursor: pointer;
-            transition: background var(--transition), border-color var(--transition), color var(--transition);
+            transition: all var(--transition);
             text-decoration: none;
         }
 
         .card-btn:hover {
             background: var(--gold-glow);
             border-color: var(--gold);
+            color: var(--text-main);
+        }
+
+        /* Interactive Click Response */
+        .card:active {
+            transform: translateY(-1px) scale(0.99);
+            border-color: var(--gold);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3), 0 0 15px var(--gold);
+            background-color: var(--surface-hover);
+        }
+
+        .card-btn:active {
+            transform: scale(0.97);
+        }
+
+        /* Anchor Highlight Effect */
+        .card:target {
+            animation: highlightedFlash 1.5s ease-out;
+        }
+
+        @keyframes highlightedFlash {
+            0% { border-color: var(--gold); box-shadow: 0 0 30px var(--gold); background-color: var(--surface-hover); }
+            100% { border-color: var(--border); box-shadow: none; background-color: var(--surface); }
         }
 
         /* ── ACHIEVEMENTS ────────────────────────────────── */
@@ -421,15 +465,16 @@
 
         .achievement-text strong {
             display: block;
-            color: var(--text);
+            font-family: var(--ff-display);
+            font-weight: 700;
+            color: var(--text-main);
             font-size: 0.93rem;
-            font-weight: 600;
             margin-bottom: 0.3rem;
         }
 
         .achievement-text span {
             font-size: 0.86rem;
-            color: var(--muted);
+            color: var(--text-muted);
         }
 
         /* ── COLLABORATION ───────────────────────────────── */
@@ -443,7 +488,7 @@
         }
 
         .collab-box p {
-            color: var(--muted);
+            color: var(--text-muted);
             margin-bottom: 1.5rem;
             font-size: 0.97rem;
         }
@@ -463,7 +508,8 @@
             color: #0f1117;
             border-radius: var(--radius);
             text-decoration: none;
-            font-weight: 600;
+            font-family: var(--ff-display);
+            font-weight: 700;
             font-size: 0.9rem;
             transition: background var(--transition), transform var(--transition);
         }
@@ -511,8 +557,9 @@
 
         .modal-head h3 {
             font-family: var(--ff-display);
+            font-weight: 700;
             font-size: 1.2rem;
-            color: var(--text);
+            color: var(--text-main);
             display: flex; align-items: center; gap: 0.5rem;
         }
 
@@ -520,7 +567,7 @@
 
         .modal-close {
             background: none; border: none;
-            color: var(--muted); font-size: 1.5rem;
+            color: var(--text-muted); font-size: 1.5rem;
             cursor: pointer; line-height: 1;
             transition: color var(--transition);
         }
@@ -529,7 +576,7 @@
         .modal label {
             display: block;
             font-size: 0.85rem;
-            color: var(--muted);
+            color: var(--text-muted);
             margin-bottom: 0.5rem;
         }
 
@@ -539,7 +586,7 @@
             background: var(--bg);
             border: 1px solid var(--border);
             border-radius: var(--radius);
-            color: var(--text);
+            color: var(--text-main);
             font-family: var(--ff-body);
             font-size: 0.95rem;
             outline: none;
@@ -568,16 +615,16 @@
             padding: 0.65rem 1.3rem;
             border-radius: var(--radius);
             font-size: 0.9rem;
-            font-weight: 500;
+            font-weight: 700;
             cursor: pointer;
             border: none;
             transition: background var(--transition);
-            font-family: var(--ff-body);
+            font-family: var(--ff-display);
         }
 
         .btn-cancel {
             background: var(--surface2);
-            color: var(--muted);
+            color: var(--text-muted);
         }
         .btn-cancel:hover { background: var(--border); }
 
@@ -599,6 +646,7 @@
 
         .footer-name {
             font-family: var(--ff-display);
+            font-weight: 700;
             font-size: 1.1rem;
             color: var(--gold);
             margin-bottom: 0.75rem;
@@ -613,7 +661,7 @@
         }
 
         .footer-links a {
-            color: var(--muted);
+            color: var(--text-muted);
             text-decoration: none;
             font-size: 0.88rem;
             display: flex; align-items: center; gap: 0.35rem;
@@ -624,7 +672,7 @@
 
         .footer-copy {
             font-size: 0.78rem;
-            color: var(--muted);
+            color: var(--text-muted);
             opacity: 0.7;
         }
 
@@ -638,10 +686,6 @@
         @media (max-width: 480px) {
             .page { padding: 0 1rem 4rem; }
             .collab-box { padding: 1.5rem; }
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-            * { transition: none !important; animation: none !important; }
         }
     </style>
 </head>
@@ -713,84 +757,108 @@
 
     <div class="cards-grid">
 
+        <!-- CARD 1 -->
         <div class="card">
-            <img src="/Webpages/photos/NM_PTL.jpg" alt="Nanomesh CFD" class="card-img"
-                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+            <img src="/Webpages/photos/NM_PTL.jpg" alt="Nanomesh CFD" class="card-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
             <div class="card-img-fallback" style="display:none;"><i class="fas fa-project-diagram"></i></div>
             <div class="card-body">
                 <div class="card-tag">CFD · Porous Media</div>
                 <h4>CFD Modeling of a Nanomesh Integrated with a Substrate</h4>
-                <p>Advanced 3D CFD modeling optimizes fluid transport within nanomesh structures on porous substrates. Simulations capture precise nanoscale pores and interconnecting channels, replicating realistic inlet velocities and pressure gradients. Parametric analyses evaluate how mesh thickness, substrate porosity, and pore size distribution impact flow uniformity.</p>
+                <ul>
+                    <li>**Target:** Optimize fluid transport within nanomesh structures on porous substrates using advanced 3D CFD modeling.</li>
+                    <li>**Approach:** Captured precise nanoscale pores and interconnecting channels to replicate realistic inlet velocities and pressure gradients.</li>
+                    <li>**Achievements:** Evaluated how mesh thickness, substrate porosity, and pore size distribution impact flow uniformity.</li>
+                </ul>
                 <button class="card-btn" onclick="showPasswordModal('figure1')">
                     <i class="fas fa-arrow-right"></i> More Info
                 </button>
             </div>
         </div>
 
+        <!-- CARD 2 -->
         <div class="card">
-            <img src="/Webpages/photos/BOP_post_AWE.jpg" alt="BOP data post-processing" class="card-img"
-                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+            <img src="/Webpages/photos/BOP_post_AWE.jpg" alt="BOP data post-processing" class="card-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
             <div class="card-img-fallback" style="display:none;"><i class="fas fa-bolt"></i></div>
             <div class="card-body">
                 <div class="card-tag">Python · Data Analytics</div>
                 <h4>Data Post-Processing of BOP</h4>
-                <p>Stable operation of industrial AWE hydrogen production depends on liquid level and pressure balance for efficient gas–liquid separation and high-purity hydrogen generation. Python supports mass balance modeling, prediction, and optimization. Key parameters: HTO, OTH, I, V, L%, T, ΔP.</p>
+                <ul>
+                    <li>**Target:** Maintain liquid level and pressure balance for efficient gas–liquid separation and high-purity hydrogen generation.</li>
+                    <li>**Approach:** Employed Python to build mass balance modeling, data prediction systems, and optimization methods.</li>
+                    <li>**Achievements:** Successfully monitored stable operation of industrial AWE hydrogen production across key tracked parameters.</li>
+                </ul>
                 <button class="card-btn" onclick="showPasswordModal('figure2')">
                     <i class="fas fa-arrow-right"></i> More Info
                 </button>
             </div>
         </div>
 
+        <!-- CARD 3 -->
         <div class="card">
-            <img src="/Webpages/photos/CFD_3d_cell.jpg" alt="Flow field design" class="card-img"
-                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+            <img src="/Webpages/photos/CFD_3d_cell.jpg" alt="Flow field design" class="card-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
             <div class="card-img-fallback" style="display:none;"><i class="fas fa-temperature-high"></i></div>
             <div class="card-body">
                 <div class="card-tag">COMSOL · Flow Design</div>
                 <h4>Innovative Flow Field Design</h4>
-                <p>A novel 3D flow field design engineered by CFD simulation to enhance fluid distribution and gas removal within alkaline water electrolyzers. The design ensures uniform flow velocity, minimizes bubble accumulation, and improves mass transport efficiency at the electrode–electrolyte interface, demonstrating up to 30% improvement in overall energy efficiency.</p>
+                <ul>
+                    <li>**Target:** Enhance fluid distribution and gas removal velocity components within alkaline water electrolyzer stacks.</li>
+                    <li>**Approach:** Deployed comprehensive CFD optimization simulations to analyze local fluid and gas vectors.</li>
+                    <li>**Achievements:** Assured uniform flow velocity, minimized bubble shielding layers, and demonstrated up to a 30% improvement in energy efficiency.</li>
+                </ul>
                 <button class="card-btn" onclick="showPasswordModal('figure3')">
                     <i class="fas fa-arrow-right"></i> More Info
                 </button>
             </div>
         </div>
 
+        <!-- CARD 4 -->
         <div class="card">
-            <img src="/Webpages/photos/Shunt_current.jpg" alt="Shunt current" class="card-img"
-                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+            <img src="/Webpages/photos/Shunt_current.jpg" alt="Shunt current" class="card-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
             <div class="card-img-fallback" style="display:none;"><i class="fas fa-water"></i></div>
             <div class="card-body">
                 <div class="card-tag">COMSOL · MATLAB · Python</div>
                 <h4>Shunt Current Calculation</h4>
-                <p>Multiphysics modeling of shunt current, pressure drop, and manifold optimization in an AWE stack. Simulations evaluate how manifold geometry and electrolyte flow affect current leakage, pressure distribution, and stack efficiency — highlighting trade-offs between large and small cell configurations to minimize energy loss.</p>
+                <ul>
+                    <li>**Target:** Reduce current leakage losses and balance manifold distribution within an operating AWE stack architecture.</li>
+                    <li>**Approach:** Integrated multiphysics modeling of shunt current paths and fluid pressure drop across diverse geometry ranges.</li>
+                    <li>**Achievements:** Identified trade-offs between large and small cell configurations to successfully minimize voltage and energy loss.</li>
+                </ul>
                 <button class="card-btn" onclick="showPasswordModal('figure4')">
                     <i class="fas fa-arrow-right"></i> More Info
                 </button>
             </div>
         </div>
 
+        <!-- CARD 5 -->
         <div class="card">
-            <img src="/Webpages/photos/AWE_COMSOL.jpg" alt="Zero-gap electrolyzer" class="card-img"
-                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+            <img src="/Webpages/photos/AWE_COMSOL.jpg" alt="Zero-gap electrolyzer" class="card-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
             <div class="card-img-fallback" style="display:none;"><i class="fas fa-wind"></i></div>
             <div class="card-body">
                 <div class="card-tag">Multiphase · HEM · Validation</div>
                 <h4>Multiphase Transport Model for Zero-Gap AWE</h4>
-                <p>A validated multiphase COMSOL model for a HEM electrolyzer comprising a hydroxide exchange membrane, nanostructured electrodes, porous foam layers, and 11 parallel flow channels. The 4 cm² active area system is evaluated across different flow rates to analyze fluid dynamics, bubble coverage, and electrochemical performance.</p>
+                <ul>
+                    <li>**Target:** Quantify multi-phase transport mechanisms and manage electrode bubble coverage configurations in zero-gap cells.</li>
+                    <li>**Approach:** Formulated a validated multiphase COMSOL model for a 4 cm² active area system featuring 11 parallel channels.</li>
+                    <li>**Achievements:** Mapped localized electrochemical performance and cross-flow dynamics across varied operational electrolyte velocities.</li>
+                </ul>
                 <button class="card-btn" onclick="showPasswordModal('figure5')">
                     <i class="fas fa-arrow-right"></i> More Info
                 </button>
             </div>
         </div>
 
+        <!-- CARD 6 -->
         <div class="card">
-            <img src="/Webpages/photos/gas_cross_over.jpg" alt="Gas cross-over" class="card-img"
-                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+            <img src="/Webpages/photos/gas_cross_over.jpg" alt="Gas cross-over" class="card-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
             <div class="card-img-fallback" style="display:none;"><i class="fas fa-chart-line"></i></div>
             <div class="card-body">
                 <div class="card-tag">CFD · Membrane Transport</div>
                 <h4>Gas Cross-Over Estimation in AWE Cell</h4>
-                <p>3D CFD models quantify gas transport through the membrane via diffusion, pressure-driven convection, and electro-osmotic drag. Key factors include separator thickness, porosity, current density, pressure, and temperature. Model fidelity spans 1D transient to full 3D CFD for detailed analysis of local gas–liquid interactions.</p>
+                <ul>
+                    <li>**Target:** Characterize gas crossover layers to minimize dangerous mixing of product hydrogen and oxygen streams.</li>
+                    <li>**Approach:** Engineered 3D CFD transport tracking configurations encompassing molecular diffusion, convection, and electro-osmotic drag effects.</li>
+                    <li>**Achievements:** Provided multi-scale modeling checking separator thickness, porosity, current density boundaries, and cell pressures.</li>
+                </ul>
                 <button class="card-btn" onclick="showPasswordModal('figure6')">
                     <i class="fas fa-arrow-right"></i> More Info
                 </button>
@@ -799,7 +867,7 @@
 
     </div>
 
-    <!-- ── ACHIEVEMENTS ── -->
+    <!-- ── KEY ACHIEVEMENTS ── -->
     <div class="section-head">
         <span class="label">03</span>
         <h2>Key Achievements</h2>
@@ -865,7 +933,7 @@
         </div>
     </div>
 
-</div><!-- /page -->
+</div>
 
 <!-- PASSWORD MODAL -->
 <div id="passwordModal" class="modal">
@@ -894,12 +962,11 @@
             <a href="https://linkedin.com/in/s-ali-atyabi" target="_blank"><i class="fab fa-linkedin-in"></i> LinkedIn</a>
             <a href="https://scholar.google.com/citations?user=MytiTgsAAAAJ" target="_blank"><i class="fas fa-graduation-cap"></i> Google Scholar</a>
         </div>
-        <div class="footer-copy">© 2025 Ali Atyabi · All rights reserved</div>
+        <div class="footer-copy">© 2026 Ali Atyabi · All rights reserved</div>
     </div>
 </footer>
 
 <script>
-    // ── VIDEO ────────────────────────────────────────────
     const YOUTUBE_ID = 'JYqvPE6mIGo';
 
     function loadVideo() {
@@ -913,7 +980,6 @@
         wrap.onclick = null;
     }
 
-    // ── MODAL ────────────────────────────────────────────
     const GENERAL_PASSWORD = 'ali';
 
     const fileConfig = {
