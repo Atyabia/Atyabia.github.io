@@ -6,592 +6,97 @@
     <meta name="description" content="CFD Analysis of Centrifugal Pump Capacity Enhancement through Impeller Redesign">
     <meta name="author" content="Ali Atyabi">
     <title>Pump Capacity Enhancement Project | Ali Atyabi, Ph.D.</title>
-    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
         :root {
-            --primary-color: #1e3a8a;
-            --secondary-color: #3b82f6;
-            --accent-color: #dbeafe;
-            --success-color: #10b981;
-            --text-dark: #333;
-            --text-light: #666;
+            --bg: #0f1117;
+            --surface: #181c27;
+            --surface-hover: #1f2435;
+            --border: #2a3048;
+            --gold: #1e3a8a;
+            --gold-dim: #1d4ed8;
+            --gold-glow: rgba(30, 58, 138, 0.15);
+            --text-main: #f5f5f5;
+            --text-muted: #a0aabf;
+            --ff-body: 'Calibri', 'Segoe UI', sans-serif;
+            --ff-display: 'Arial', 'Helvetica Neue', sans-serif;
+            --radius: 6px;
+            --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            color: var(--text-dark);
-            background: #f8f9fa;
-        }
-        
-        /* Navigation */
-        nav {
-            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
-            color: white;
-            padding: 1rem 0;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-        }
-        
-        nav .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        nav .logo {
-            font-size: 1.3rem;
-            font-weight: bold;
-        }
-        
-        nav a {
-            color: white;
-            text-decoration: none;
-            transition: all 0.3s;
-            padding: 0.5rem;
-        }
-        
-        nav a:hover {
-            color: var(--accent-color);
-        }
-        
-        /* Hero Section */
-        .hero {
-            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
-            color: white;
-            padding: 3rem 2rem;
-            text-align: center;
-        }
-        
-        .hero h1 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-        }
-        
-        .hero p {
-            font-size: 1.2rem;
-            opacity: 0.95;
-            max-width: 900px;
-            margin: 0 auto;
-        }
-        
-        /* Container */
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 2rem;
-        }
-        
-        /* Main Content */
-        .content {
-            background: white;
-            margin: -2rem auto 3rem;
-            padding: 3rem;
-            border-radius: 10px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-            max-width: 1200px;
-        }
-        
-        section {
-            margin-bottom: 3rem;
-        }
-        
-        h2 {
-            color: var(--primary-color);
-            font-size: 2rem;
-            margin-bottom: 1.5rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 3px solid var(--primary-color);
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        
-        h3 {
-            color: var(--primary-color);
-            font-size: 1.4rem;
-            margin: 2rem 0 1rem;
-        }
-        
-        p {
-            margin-bottom: 1rem;
-            line-height: 1.8;
-            color: var(--text-light);
-            text-align: justify;
-        }
-        
-        /* Overview Card Layout */
-        .overview-card {
-            display: grid;
-            grid-template-columns: 1.2fr 1fr;
-            gap: 2.5rem;
-            background: white;
-            padding: 2rem;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            margin-bottom: 2rem;
-        }
-        
-        .overview-text {
-            text-align: justify;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-        
-        .schema-container {
-            position: relative;
-            width: 100%;
-            background: white;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-        
-        .schema-container img {
-            width: 100%;
-            height: auto;
-            display: block;
-        }
-        
-        /* Info Box */
-        .info-box {
-            background: var(--accent-color);
-            border-left: 4px solid var(--primary-color);
-            padding: 1.5rem;
-            border-radius: 5px;
-            margin: 1.5rem 0;
-        }
-        
-        .info-box h4 {
-            color: var(--primary-color);
-            margin-bottom: 0.5rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        
-        ul {
-            margin-left: 2rem;
-            color: var(--text-light);
-        }
-        
-        li {
-            margin-bottom: 0.8rem;
-        }
-        
-        /* Data Table */
-        .data-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 2rem 0;
-            background: white;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            border-radius: 8px;
-            overflow: hidden;
-        }
-        
-        .data-table thead {
-            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
-            color: white;
-        }
-        
-        .data-table th {
-            padding: 1rem;
-            text-align: left;
-            font-weight: 600;
-        }
-        
-        .data-table td {
-            padding: 1rem;
-            border-bottom: 1px solid #e5e7eb;
-        }
-        
-        .data-table tbody tr:hover {
-            background: var(--accent-color);
-        }
-        
-        .data-table tbody tr:last-child td {
-            border-bottom: none;
-        }
-        
-        /* Highlight Box */
-        .highlight-box {
-            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
-            border: 2px solid var(--secondary-color);
-            padding: 2rem;
-            border-radius: 10px;
-            margin: 2rem 0;
-        }
-        
-        .highlight-box h4 {
-            color: var(--primary-color);
-            margin-bottom: 1rem;
-            font-size: 1.3rem;
-        }
-        
-        /* Comparison Grid */
-        .comparison-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 2rem;
-            margin: 2rem 0;
-        }
-        
-        .comparison-card {
-            background: white;
-            padding: 1.5rem;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            border-top: 4px solid var(--secondary-color);
-        }
-        
-        .comparison-card h4 {
-            color: var(--primary-color);
-            margin-bottom: 1rem;
-        }
-        
-        .stat-value {
-            font-size: 2rem;
-            font-weight: bold;
-            color: var(--success-color);
-            margin: 0.5rem 0;
-        }
-        
-        .stat-label {
-            color: var(--text-light);
-            font-size: 0.9rem;
-        }
-        
-        /* Footer */
-        footer {
-            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
-            color: white;
-            text-align: center;
-            padding: 2rem 0;
-            margin-top: 3rem;
-        }
-        
-        footer a {
-            color: white;
-            text-decoration: none;
-            transition: all 0.3s;
-        }
-        
-        footer a:hover {
-            color: var(--accent-color);
-        }
-        
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .overview-card {
-                grid-template-columns: 1fr;
-            }
-            
-            .comparison-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .hero h1 {
-                font-size: 2rem;
-            }
-            
-            .hero p {
-                font-size: 1rem;
-            }
-            
-            .content {
-                padding: 2rem 1.5rem;
-            }
-            
-            .data-table {
-                font-size: 0.9rem;
-            }
-            
-            .data-table th,
-            .data-table td {
-                padding: 0.75rem;
-            }
-        }
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { font-family: var(--ff-body); background-color: var(--bg); color: var(--text-main); line-height: 1.7; font-size: 1rem; -webkit-font-smoothing: antialiased; }
+        h1, h2, h3, h4, .nav-brand, th { font-family: var(--ff-display); font-weight: 700; color: var(--text-main); letter-spacing: -0.01em; }
+        p, li, span { font-family: var(--ff-body); }
+        nav { position: sticky; top: 0; z-index: 1000; background: rgba(15, 17, 23, 0.92); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); }
+        nav .inner { max-width: 1200px; margin: 0 auto; padding: 0 2rem; height: 60px; display: flex; justify-content: space-between; align-items: center; }
+        .nav-brand { font-size: 1.1rem; color: #3b82f6; display: flex; align-items: center; gap: 0.5rem; }
+        .nav-back { display: flex; align-items: center; gap: 0.3rem; color: var(--text-muted); text-decoration: none; font-size: 0.875rem; font-family: var(--ff-display); font-weight: 700; transition: color var(--transition); }
+        .nav-back:hover { color: #3b82f6; }
+        .hero { position: relative; overflow: hidden; padding: 5rem 2rem 4rem; text-align: center; background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(59, 130, 246, 0.08) 0%, transparent 70%), var(--bg); border-bottom: 1px solid var(--border); }
+        .hero h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); margin-bottom: 1.25rem; }
+        .hero p { color: var(--text-muted); font-size: 1.1rem; max-width: 900px; margin: 0 auto; }
+        .page { max-width: 1200px; margin: 0 auto; padding: 0 2rem 6rem; }
+        .section-head { display: flex; align-items: center; gap: 1rem; margin: 4rem 0 2rem; }
+        .section-head h2 { font-size: 1.75rem; }
+        .section-head::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+        .grid-layout { display: grid; grid-template-columns: 1.2fr 1fr; gap: 2.5rem; margin-bottom: 2rem; align-items: center; }
+        .content-box { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 2.5rem; transition: all var(--transition); }
+        .content-box:hover { border-color: #3b82f6; box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5), 0 0 0 1px var(--gold-glow); }
+        .content-box:active { transform: translateY(-1px) scale(0.99); border-color: #3b82f6; box-shadow: 0 4px 12px rgba(0,0,0,0.3), 0 0 15px #3b82f6; background-color: var(--surface-hover); }
+        .content-box:target { animation: flash 1.5s ease-out; }
+        @keyframes flash { 0% { border-color: #3b82f6; box-shadow: 0 0 30px #3b82f6; background-color: var(--surface-hover); } 100% { border-color: var(--border); box-shadow: none; background-color: var(--surface); } }
+        .content-box ul { list-style: none; }
+        .content-box li { font-size: 0.95rem; color: var(--text-main); margin-bottom: 0.8rem; padding-left: 1.5rem; position: relative; text-align: justify; }
+        .content-box li::before { content: "•"; color: #3b82f6; position: absolute; left: 0; font-weight: bold; }
+        .img-container { width: 100%; border-radius: var(--radius); overflow: hidden; border: 1px solid var(--border); }
+        .img-container img { width: 100%; height: auto; display: block; }
+        .data-table { width: 100%; border-collapse: collapse; margin: 2rem 0; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+        .data-table th { background: #1e3a8a; padding: 1rem; text-align: left; }
+        .data-table td { padding: 1rem; border-bottom: 1px solid var(--border); color: var(--text-muted); }
+        footer { background: var(--surface); border-top: 1px solid var(--border); padding: 2.5rem 2rem; text-align: center; }
+        footer p { color: var(--text-muted); font-size: 0.9rem; }
+        footer a { color: #3b82f6; text-decoration: none; font-family: var(--ff-display); font-weight: 700; }
+        @media (max-width: 820px) { .grid-layout { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
-
-    <!-- Navigation -->
     <nav>
-        <div class="container">
-            <div class="logo">
-                <i class="fas fa-cogs"></i> Ali Atyabi, Ph.D.
-            </div>
-            <a href="https://atyabia.github.io/index.html">
-                <i class="fas fa-home"></i> Back to Portfolio
-            </a>
+        <div class="inner">
+            <div class="nav-brand"><i class="fas fa-cogs"></i> Ali Atyabi, Ph.D.</div>
+            <a href="https://atyabia.github.io/index.html" class="nav-back"><i class="fas fa-arrow-left"></i> Portfolio</a>
         </div>
     </nav>
-
-    <!-- Hero Section -->
     <div class="hero">
         <h1>Investigation of Increasing Capacities of Centrifugal Pumps By CFD Analysis</h1>
         <p>Comprehensive CFD Study of Impeller Redesign for P-202, P-204, P-401, and P-604 Pumps</p>
     </div>
-
-    <!-- Main Content -->
-    <div class="content container">
-
-        <!-- Overview Section -->
+    <div class="page">
         <section id="overview">
-            <h2><i class="fas fa-info-circle"></i> Project Overview</h2>
-            
-            <div class="overview-card">
-                <div class="overview-text">
-                    <p>
-                        This comprehensive research project investigates the capacity enhancement of four critical centrifugal pumps (P-202, P-204, P-401, and P-604) through advanced computational fluid dynamics (CFD) analysis. The primary objective is to evaluate the performance improvement achieved by replacing original impellers with re-impelled designs featuring modified geometric parameters, including increased impeller diameter and optimized blade configurations. The study employs rigorous numerical simulation using ANSYS CFX to predict pump performance, validate results against operational data, and generate complete performance curves for the redesigned pumps.
-                    </p>
+            <div class="section-head"><h2>Project Overview</h2></div>
+            <div class="grid-layout">
+                <div class="content-box">
+                    <ul>
+                        <li><strong>Target:</strong> Evaluate and implement process capacity debottlenecking for four critical industrial centrifugal pumps (P-202, P-204, P-401, and P-604).</li>
+                        <li><strong>Approach:</strong> Modeled 3D rotating reference frames and flow fields using ANSYS CFX to systematically generate complete head, power, and efficiency curves for redesigned impellers featuring optimized blade geometries and expanded diameters.</li>
+                        <li><strong>Achievements:</strong> Confirmed complete head delivery compliance across all units, proving that targeted impeller replacement delivers substantial flow rate increases ranging from 10.6% to 59.6% without needing full pump casing replacements.</li>
+                    </ul>
                 </div>
-                <div class="schema-container">
-                    <img src="photos/Pump_petrochemical.jpg" alt="Centrifugal Pump CFD Schematic">
-                </div>
+                <div class="img-container"><img src="photos/Pump_petrochemical.jpg" alt="Centrifugal Pump CFD Schematic"></div>
             </div>
-
-            <div class="info-box">
-                <h4><i class="fas fa-target"></i> Research Objectives</h4>
-                <ul>
-                    <li>Evaluate capacity increase potential through impeller diameter modification</li>
-                    <li>Validate CFD simulation methodology against online operational data</li>
-                    <li>Generate comprehensive performance curves for original and re-impelled pumps</li>
-                    <li>Assess head delivery capability for increased process capacity requirements</li>
-                    <li>Determine hydraulic efficiency and power consumption characteristics</li>
-                    <li>Compare simulated performance with manufacturer specifications</li>
-                </ul>
-            </div>
-        </section>
-
-        <!-- Methodology Section -->
-        <section id="methodology">
-            <h2><i class="fas fa-project-diagram"></i> CFD Simulation Methodology</h2>
-            
-            <h3>Computational Approach</h3>
-            <p>
-                The computational fluid dynamics analysis employed ANSYS CFX commercial software to simulate both original and re-impelled pump configurations. The simulation methodology involved comprehensive three-dimensional flow field modeling within the pump impeller and volute casing, incorporating turbulence modeling, rotating reference frame treatment for impeller motion, and steady-state flow analysis. Mesh generation utilized structured and unstructured grid techniques optimized for rotating machinery applications, with particular attention to boundary layer resolution in critical flow regions including blade surfaces and volute tongue areas.
-            </p>
-
-            <h3>Validation Procedure</h3>
-            <p>
-                Model validation constituted a critical component of the research methodology. For each original pump configuration (P-202, P-204, P-401, P-604), CFD simulation results were rigorously compared against online operational data obtained from the plant distributed control system (DCS). Validation parameters included flow rate, developed head, shaft power consumption, electrical current, voltage, and overall pump efficiency. Acceptable agreement between simulated and measured performance established the credibility of the numerical model for subsequent analysis of re-impelled configurations.
-            </p>
-
-            <h3>Performance Curve Generation</h3>
-            <p>
-                Complete performance curves (head-capacity, power-capacity, and efficiency-capacity) were generated for all re-impelled pump configurations through systematic CFD analysis across multiple operating points. Simulations spanned the complete operating range from minimum to maximum flow rates, establishing characteristic curves that could be directly compared with manufacturer data. Operating point analysis positioned original pump duty points on both manufacturer curves and simulated curves, enabling comprehensive performance evaluation and capacity increase assessment.
-            </p>
-        </section>
-
-        <!-- Results Section -->
-        <section id="results">
-            <h2><i class="fas fa-chart-line"></i> Performance Analysis Results</h2>
-
-            <h3>Original Pump Performance Characteristics</h3>
-            <p>
-                Baseline performance characterization of the original pump configurations established reference conditions for capacity enhancement evaluation. The validation process confirmed simulation accuracy with measured operational parameters providing confidence in subsequent re-impelled pump predictions.
-            </p>
-
             <table class="data-table">
                 <thead>
-                    <tr>
-                        <th>Pump ID</th>
-                        <th>Flow Rate (m³/h)</th>
-                        <th>Head (m)</th>
-                        <th>Shaft Power (kW)</th>
-                        <th>Overall Efficiency (%)</th>
-                    </tr>
+                    <tr><th>Pump ID</th><th>Flow Rate (m³/h)</th><th>Head (m)</th><th>Flow Increase (%)</th><th>Head Increase (%)</th></tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td><strong>P-202</strong></td>
-                        <td>73.3</td>
-                        <td>50.9</td>
-                        <td>17.8</td>
-                        <td>56</td>
-                    </tr>
-                    <tr>
-                        <td><strong>P-204</strong></td>
-                        <td>71.6</td>
-                        <td>123.0</td>
-                        <td>37.8</td>
-                        <td>53</td>
-                    </tr>
-                    <tr>
-                        <td><strong>P-604</strong></td>
-                        <td>180.8</td>
-                        <td>99.8</td>
-                        <td>69.2</td>
-                        <td>71</td>
-                    </tr>
-                    <tr>
-                        <td><strong>P-401</strong></td>
-                        <td>257.5</td>
-                        <td>459.0</td>
-                        <td>211.5</td>
-                        <td>66</td>
-                    </tr>
+                    <tr><td>P-202</td><td>117.0</td><td>65.6</td><td>59.6</td><td>28.9</td></tr>
+                    <tr><td>P-204</td><td>111.0</td><td>133.0</td><td>55.0</td><td>8.1</td></tr>
+                    <tr><td>P-604</td><td>200.0</td><td>106.1</td><td>10.6</td><td>6.3</td></tr>
+                    <tr><td>P-401</td><td>335.3</td><td>596.3</td><td>30.2</td><td>29.9</td></tr>
                 </tbody>
             </table>
-
-            <h3>Re-Impelled Pump Performance Enhancement</h3>
-            <p>
-                The geometric modifications in re-impelled configurations, particularly increased impeller diameter and optimized blade geometry, resulted in substantial performance improvements across all four pumps. CFD simulation results demonstrate that all re-impelled pumps possess the capacity to deliver the required head at increased flow rates, confirming technical feasibility for process capacity enhancement.
-            </p>
-
-            <table class="data-table">
-                <thead>
-                    <tr>
-                        <th>Pump ID</th>
-                        <th>Flow Rate (m³/h)</th>
-                        <th>Head (m)</th>
-                        <th>Flow Increase (%)</th>
-                        <th>Head Increase (%)</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><strong>P-202</strong></td>
-                        <td>117.0</td>
-                        <td>65.6</td>
-                        <td>59.6</td>
-                        <td>28.9</td>
-                    </tr>
-                    <tr>
-                        <td><strong>P-204</strong></td>
-                        <td>111.0</td>
-                        <td>133.0</td>
-                        <td>55.0</td>
-                        <td>8.1</td>
-                    </tr>
-                    <tr>
-                        <td><strong>P-604</strong></td>
-                        <td>200.0</td>
-                        <td>106.1</td>
-                        <td>10.6</td>
-                        <td>6.3</td>
-                    </tr>
-                    <tr>
-                        <td><strong>P-401</strong></td>
-                        <td>335.3</td>
-                        <td>596.3</td>
-                        <td>30.2</td>
-                        <td>29.9</td>
-                    </tr>
-                </tbody>
-            </table>
-
-            <div class="highlight-box">
-                <h4><i class="fas fa-check-circle"></i> Critical Finding: Complete Head Delivery Capability</h4>
-                <p>
-                    The comprehensive CFD analysis confirms that all re-impelled pump configurations (P-202, P-204, P-401, and P-604) possess the hydraulic capability to deliver the required head at increased process capacity flow rates. This validates the technical feasibility of the impeller redesign approach for achieving the targeted capacity enhancement objectives without requiring complete pump replacement or major modifications to existing pump installations.
-                </p>
-            </div>
-
-            <h3>Detailed Performance Analysis: P-202 Re-Impelled Pump</h3>
-            <p>
-                For the P-202 re-impelled configuration, detailed CFD analysis across the complete operating range reveals optimal performance characteristics. Maximum shaft power occurs at 140 m³/h flow rate, representing the upper limit of the operating envelope. Hydraulic efficiency varies from 67% at minimum flow (20 m³/h) to a peak efficiency of 86% at 75 m³/h, demonstrating excellent efficiency characteristics across a broad operating range. This efficiency profile indicates that the re-impelled design maintains high hydraulic performance while delivering substantially increased flow capacity compared to the original configuration.
-            </p>
-
-            <div class="comparison-grid">
-                <div class="comparison-card">
-                    <h4>P-202: Original → Re-Impelled</h4>
-                    <div class="stat-value">+59.6%</div>
-                    <div class="stat-label">Flow Rate Increase</div>
-                    <p style="margin-top: 1rem; font-size: 0.9rem;">73.3 m³/h → 117.0 m³/h</p>
-                </div>
-                <div class="comparison-card">
-                    <h4>P-401: Original → Re-Impelled</h4>
-                    <div class="stat-value">+30.2%</div>
-                    <div class="stat-label">Flow Rate Increase</div>
-                    <p style="margin-top: 1rem; font-size: 0.9rem;">257.5 m³/h → 335.3 m³/h</p>
-                </div>
-                <div class="comparison-card">
-                    <h4>P-204: Original → Re-Impelled</h4>
-                    <div class="stat-value">+55.0%</div>
-                    <div class="stat-label">Flow Rate Increase</div>
-                    <p style="margin-top: 1rem; font-size: 0.9rem;">71.6 m³/h → 111.0 m³/h</p>
-                </div>
-                <div class="comparison-card">
-                    <h4>P-604: Original → Re-Impelled</h4>
-                    <div class="stat-value">+10.6%</div>
-                    <div class="stat-label">Flow Rate Increase</div>
-                    <p style="margin-top: 1rem; font-size: 0.9rem;">180.8 m³/h → 200.0 m³/h</p>
-                </div>
-            </div>
         </section>
-
-        <!-- Technical Achievements Section -->
-        <section id="achievements">
-            <h2><i class="fas fa-trophy"></i> Technical Achievements and Industrial Implications</h2>
-
-            <div class="info-box">
-                <h4><i class="fas fa-check-circle"></i> Key Research Contributions</h4>
-                <ul>
-                    <li><strong>Validated CFD Methodology:</strong> Established accurate numerical simulation approach validated against operational data for centrifugal pump performance prediction</li>
-                    <li><strong>Capacity Enhancement Confirmation:</strong> Demonstrated 10.6% to 59.6% flow rate increase across four critical pumps through impeller redesign</li>
-                    <li><strong>Head Delivery Validation:</strong> Confirmed all re-impelled configurations deliver required head at increased flow rates</li>
-                    <li><strong>Performance Curve Generation:</strong> Developed complete characteristic curves spanning full operating range for engineering design</li>
-                    <li><strong>Efficiency Characterization:</strong> Quantified hydraulic efficiency profiles across operating range for optimized pump selection</li>
-                    <li><strong>Power Consumption Analysis:</strong> Determined shaft power requirements for electrical infrastructure planning</li>
-                    <li><strong>Manufacturer Comparison:</strong> Validated simulated performance against manufacturer data for design confidence</li>
-                    <li><strong>Cost-Effective Solution:</strong> Enabled capacity increase through impeller replacement rather than complete pump replacement</li>
-                </ul>
-            </div>
-
-            <h3>Industrial Implementation Considerations</h3>
-            <p>
-                The research provides a complete engineering foundation for implementing capacity enhancement through re-impelled pump installations. The validated CFD methodology enables confident prediction of pump performance prior to physical implementation, reducing technical risk and enabling informed investment decisions. The confirmed head delivery capability at increased flow rates validates that existing pump casings, driver systems, and piping infrastructure can accommodate the enhanced capacity with impeller replacement as the primary modification. Power consumption analysis informs electrical system adequacy assessment and potential motor upgrade requirements.
-            </p>
-
-            <h3>Economic and Operational Benefits</h3>
-            <p>
-                Impeller replacement represents a significantly more economical approach to capacity enhancement compared to complete pump replacement, which would require extensive piping modifications, foundation work, and extended plant shutdown periods. The ability to achieve 10.6% to 59.6% capacity increases through targeted impeller redesign enables process debottlenecking and production increase with minimal capital investment and installation downtime. The comprehensive performance characterization ensures the re-impelled pumps operate within acceptable efficiency ranges, maintaining acceptable operating costs despite increased throughput.
-            </p>
-        </section>
-
-        <!-- Conclusion Section -->
-        <section id="conclusion">
-            <h2><i class="fas fa-flag-checkered"></i> Conclusions</h2>
-            
-            <p>
-                This comprehensive CFD investigation successfully demonstrates the technical and economic feasibility of centrifugal pump capacity enhancement through strategic impeller redesign. The rigorous numerical simulation methodology, validated against operational data, provides high confidence in predicted performance for re-impelled configurations. The research confirms that geometric modifications, particularly increased impeller diameter and optimized blade geometry, deliver substantial flow rate increases (10.6% to 59.6%) while maintaining adequate head delivery across all four investigated pumps (P-202, P-204, P-401, P-604).
-            </p>
-
-            <p>
-                Critical findings establish that all re-impelled pump configurations possess the hydraulic capability to deliver required heads at increased process capacity flow rates, validating the approach for industrial implementation. Detailed performance characterization, including complete characteristic curves and efficiency profiles, provides the engineering foundation necessary for confident design decisions and operational planning. The methodology developed in this research demonstrates the powerful application of computational fluid dynamics for rotating machinery performance prediction and optimization in industrial applications.
-            </p>
-
-            <div class="highlight-box">
-                <h4><i class="fas fa-lightbulb"></i> Research Impact</h4>
-                <p>
-                    The integration of advanced CFD simulation with operational validation establishes a proven methodology for pump performance enhancement assessment applicable across diverse industrial facilities. The demonstrated capacity increases through impeller modification provide a cost-effective debottlenecking solution that avoids the capital expenditure and installation complexity of complete pump replacement projects. The research delivers actionable engineering data supporting informed investment decisions for process capacity enhancement initiatives.
-                </p>
-            </div>
-        </section>
-
     </div>
-
-    <!-- Footer -->
-    <footer>
-        <p>&copy; 2024 Ali Atyabi, Ph.D. | <a href="mailto:aliatyabi@gmail.com">aliatyabi@gmail.com</a></p>
-    </footer>
-
+    <footer><p>&copy; 2026 Ali Atyabi, Ph.D. | <a href="mailto:aliatyabi@gmail.com">aliatyabi@gmail.com</a></p></footer>
 </body>
 </html>
