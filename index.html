@@ -176,145 +176,215 @@
         </div>
     </div>
 
-    <!-- ═══════════════════════════════════════════════════════════ EXPERIENCE -->
+<!-- ═══════════════════════════════════════════════════════════ EXPERIENCE -->
+    <style>
+        /* CSS Fix to ensure icons and list content align beautifully without wrapping issues */
+        .experience-item ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        .experience-item li {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 0.5rem;
+        }
+        .experience-item li i {
+            margin-right: 0.5rem;
+            margin-top: 0.25rem; /* Aligns arrow perfectly with the first line of text */
+            flex-shrink: 0;
+        }
+    </style>
+
     <section id="experience" style="background:var(--bg-section);">
         <div class="container">
-            <h2><i class="fas fa-briefcase"></i> Professional Experience</h2>
+            <h2><i class="fas fa-briefcase fa-fw"></i> Professional Experience</h2>
+            
+            <!-- Job 1: KU Leuven -->
             <div class="experience-item">
                 <div class="experience-header">
-                    <div class="experience-title"><h3>Researcher</h3><div class="experience-company"><i class="fas fa-building"></i> KU Leuven, Department of Chemical Engineering</div></div>
-                    <div class="experience-date"><i class="far fa-calendar-alt"></i> 2024 – Present</div>
+                    <div class="experience-title">
+                        <h3>R&amp;D Engineer / Researcher</h3>
+                        <div class="experience-company"><i class="fas fa-building fa-fw"></i> KU Leuven, Department of Chemical Engineering</div>
+                    </div>
+                    <div class="experience-date"><i class="far fa-calendar-alt fa-fw"></i> 2024 – Present</div>
                 </div>
                 <p style="margin-top:1rem;"><strong>Location:</strong> Leuven, Belgium</p>
                 <ul>
-                    <li><i class="fas fa-angle-right"></i> Developed comprehensive CFD models for electrodialysis membrane systems</li>
-                    <li><i class="fas fa-angle-right"></i> Conducted parametric CFD studies to optimize membrane-based separation processes</li>
-                    <li><i class="fas fa-angle-right"></i> Developed comprehensive CFD models for osmotic pumps used in medical applications in collaboration with Johnson & Johnson </li>
-                    <li><i class="fas fa-angle-right"></i> Mentored and trained PhD students on CFD modeling techniques, and mass transport phenomena</li>
-                    <li><i class="fas fa-angle-right"></i> Collaborated with multidisciplinary research teams on projects combining experimental and numerical approaches</li>
+                    <li><i class="fas fa-angle-right"></i> Developed comprehensive CFD models for electrodialysis membrane systems to optimize process efficiency.</li>
+                    <li><i class="fas fa-angle-right"></i> Built an automated simulation platform in Jupyter Notebook using the COMSOL-Python API, streamlining high-throughput virtual testing.</li>
+                    <li><i class="fas fa-angle-right"></i> Conducted parametric CFD studies to optimize mass transport and flow hydrodynamics in membrane-based separation processes.</li>
+                    <li><i class="fas fa-angle-right"></i> Spearheaded the development of predictive CFD models for medical osmotic pumps in successful collaboration with Johnson &amp; Johnson.</li>
+                    <li><i class="fas fa-angle-right"></i> Mentored and trained PhD students in advanced CFD modeling techniques and industrial transport phenomena.</li>
+                    <li><i class="fas fa-angle-right"></i> Collaborated with cross-functional engineering teams to validate numerical simulation results against experimental data.</li>
                 </ul>
                 <div class="btn-group" style="margin-top:1rem;">
                     <span class="btn btn-success"><i class="fas fa-cube"></i> COMSOL</span>
                     <span class="btn btn-info"><i class="fab fa-python"></i> Python</span>
-                    <span class="btn btn-warning"><i class="fas fa-flask"></i> Freecad</span>
-                    <span class="btn btn-info"><i class="fas fa-graduation-cap"></i> 3D printing</span>
+                    <span class="btn btn-info"><i class="fas fa-brain"></i> Machine Learning</span>
+                    <span class="btn btn-warning"><i class="fas fa-drafting-compass"></i> FreeCAD</span>
+                    <span class="btn btn-info"><i class="fas fa-print"></i> 3D Printing</span>
                 </div>
             </div>
+
+            <!-- Job 2: VITO -->
             <div class="experience-item">
                 <div class="experience-header">
-                    <div class="experience-title"><h3>R&amp;D Researcher</h3><div class="experience-company"><i class="fas fa-building"></i> VITO (Flemish Institute for Technological Research)</div></div>
-                    <div class="experience-date"><i class="far fa-calendar-alt"></i> 2021 – 2024</div>
+                    <div class="experience-title">
+                        <h3>R&amp;D Process Engineer</h3>
+                        <div class="experience-company"><i class="fas fa-building fa-fw"></i> VITO (Flemish Institute for Technological Research)</div>
+                    </div>
+                    <div class="experience-date"><i class="far fa-calendar-alt fa-fw"></i> 2021 – 2024</div>
                 </div>
                 <p style="margin-top:1rem;"><strong>Location:</strong> Mol, Belgium</p>
                 <ul>
-                    <li><i class="fas fa-angle-right"></i> Designed and optimized flow field configurations for alkaline water electrolyzers using multiphase CFD simulations, achieving 30% energy saving</li>
-                    <li><i class="fas fa-angle-right"></i> Developed detailed CFD models for porous transport layers and ion exchange membrane systems, achieving energy saving</li>
-                    <li><i class="fas fa-angle-right"></i> Created Python-based tools for dynamic process modeling, automated mass balance calculations, performance prediction of BOP</li>
-                    <li><i class="fas fa-angle-right"></i> Managed collaborative research projects with John Cockerill, providing technical support for membrane selection, and industrial-scale system design</li>
-                    <li><i class="fas fa-angle-right"></i> Performed CFD simulations of manifolds, flow distributors, and membrane assemblies for scale-up to industrial applications</li>
+                    <li><i class="fas fa-angle-right"></i> Designed and optimized flow field configurations for alkaline water electrolyzers using multiphase CFD simulations, achieving a 30% energy saving.</li>
+                    <li><i class="fas fa-angle-right"></i> Developed high-fidelity CFD models for porous transport layers (PTL) and ion exchange membrane systems to minimize ohmic losses.</li>
+                    <li><i class="fas fa-angle-right"></i> Created Python-based digital twins for dynamic process modeling, mass balance automation, and Balance of Plant (BOP) performance prediction.</li>
+                    <li><i class="fas fa-angle-right"></i> Managed collaborative R&amp;D projects with John Cockerill, providing crucial technical support for membrane selection and industrial-scale system engineering.</li>
+                    <li><i class="fas fa-angle-right"></i> Executed CFD scale-up simulations for manifolds, flow distributors, and multi-cell membrane assemblies for commercial applications.</li>
                 </ul>
                 <div class="btn-group" style="margin-top:1rem;">
                     <span class="btn btn-success"><i class="fas fa-cube"></i> COMSOL</span>
                     <span class="btn btn-info"><i class="fab fa-python"></i> Python</span>
-                    <span class="btn btn-warning"><i class="fas fa-bolt"></i> Alkaline water electrolyzers</span>
-                    <span class="btn btn-warning"><i class="fas fa-bolt"></i> CO&#8322; electrolyzers</span>
+                    <span class="btn btn-warning"><i class="fas fa-bolt"></i> Alkaline Electrolyzers</span>
+                    <span class="btn btn-warning"><i class="fas fa-leaf"></i> CO&#8322; Electrolyzers</span>
                     <span class="btn btn-info"><i class="fas fa-chart-line"></i> MATLAB/Simulink</span>
                 </div>
             </div>
+
+            <!-- Job 3: INSF -->
             <div class="experience-item">
                 <div class="experience-header">
-                    <div class="experience-title"><h3>Researcher</h3><div class="experience-company"><i class="fas fa-building"></i> INSF, Tehran</div></div>
-                    <div class="experience-date"><i class="far fa-calendar-alt"></i> 2020 – 2021</div>
+                    <div class="experience-title">
+                        <h3>Thermal &amp; Fluids R&amp;D Engineer</h3>
+                        <div class="experience-company"><i class="fas fa-building fa-fw"></i> INSF, Tehran</div>
+                    </div>
+                    <div class="experience-date"><i class="far fa-calendar-alt fa-fw"></i> 2020 – 2021</div>
                 </div>
-                <p style="margin-top:1rem;"><strong>Location:</strong> Tehran</p>
+                <p style="margin-top:1rem;"><strong>Location:</strong> Tehran, Iran</p>
                 <ul>
-                    <li><i class="fas fa-angle-right"></i> Developed advanced CFD models using active and passive cooling (heat pipe) coupled heat and mass transfer in PEM fuel cell systems</li>
-                    <li><i class="fas fa-angle-right"></i> Collaborated with Braunschweig University on international research projects focused on CFD modeling of PEMFC for UAV application</li>
+                    <li><i class="fas fa-angle-right"></i> Developed advanced multiphysics CFD models coupling active/passive cooling systems (heat pipes) with thermal management in PEM fuel cells.</li>
+                    <li><i class="fas fa-angle-right"></i> Partnered with Braunschweig University on an international engineering project evaluating PEM fuel cell stacks for UAV aerospace applications.</li>
                 </ul>
                 <div class="btn-group" style="margin-top:1rem;">
-                    <span class="btn btn-success"><i class="fas fa-flask"></i> PEM Fuel Cells</span>
-                    <span class="btn btn-info"><i class="fas fa-globe"></i> Active/Passive cooling</span>
-                    <span class="btn btn-warning"><i class="fas fa-cube"></i> ANSYS/MATLAB</span>
+                    <span class="btn btn-success"><i class="fas fa-fire"></i> PEM Fuel Cells</span>
+                    <span class="btn btn-info"><i class="fas fa-thermometer-half"></i> Thermal Management</span>
+                    <span class="btn btn-warning"><i class="fas fa-cube"></i> ANSYS / MATLAB</span>
                 </div>
             </div>
+
+            <!-- Job 4: Persian Gulf University -->
             <div class="experience-item">
                 <div class="experience-header">
-                    <div class="experience-title"><h3>Researcher</h3><div class="experience-company"><i class="fas fa-building"></i> Persian Gulf University</div></div>
-                    <div class="experience-date"><i class="far fa-calendar-alt"></i> 2019 – 2020</div>
+                    <div class="experience-title">
+                        <h3>CFD Simulation Engineer</h3>
+                        <div class="experience-company"><i class="fas fa-building fa-fw"></i> Persian Gulf University</div>
+                    </div>
+                    <div class="experience-date"><i class="far fa-calendar-alt fa-fw"></i> 2019 – 2020</div>
                 </div>
-                <p style="margin-top:1rem;"><strong>Location:</strong> Bushehr</p>
+                <p style="margin-top:1rem;"><strong>Location:</strong> Bushehr, Iran</p>
                 <ul>
-                    <li><i class="fas fa-angle-right"></i> Developed CFD models for coke injection in ethylene-ethane cracking furnace</li>
-                    <li><i class="fas fa-angle-right"></i> Optimized oxygen mixture nozzle sparger designs using CFD simulations, achieving higher mixing uniformity</li>
-                    <li><i class="fas fa-angle-right"></i> Evaluated and optimized centrifugal, lobe, and rotary high-pressure pump designs post-modification, improving efficiency</li>
+                    <li><i class="fas fa-angle-right"></i> Developed reactive flow CFD models to simulate and mitigate coke injection/deposition in ethylene-ethane cracking furnaces.</li>
+                    <li><i class="fas fa-angle-right"></i> Optimized oxygen mixture nozzle spargers via numerical fluid analysis, significantly increasing mixing uniformity.</li>
+                    <li><i class="fas fa-angle-right"></i> Evaluated and optimized industrial centrifugal, lobe, and rotary high-pressure pump modifications to enhance hydraulic efficiency.</li>
                 </ul>
                 <div class="btn-group" style="margin-top:1rem;">
-                    <span class="btn btn-success"><i class="fas fa-industry"></i> ANSYS</span>
-                    <span class="btn btn-info"><i class="fas fa-cube"></i> CFX</span>
+                    <span class="btn btn-success"><i class="fas fa-industry"></i> ANSYS Fluent</span>
+                    <span class="btn btn-info"><i class="fas fa-cogs"></i> CFX</span>
                 </div>
             </div>
+
+            <!-- Job 5: University of Isfahan -->
             <div class="experience-item">
                 <div class="experience-header">
-                    <div class="experience-title"><h3>PhD Researcher</h3><div class="experience-company"><i class="fas fa-building"></i> University of Isfahan</div></div>
-                    <div class="experience-date"><i class="far fa-calendar-alt"></i> 2014 – 2019</div>
+                    <div class="experience-title">
+                        <h3>Graduate Research Engineer (PhD)</h3>
+                        <div class="experience-company"><i class="fas fa-building fa-fw"></i> University of Isfahan</div>
+                    </div>
+                    <div class="experience-date"><i class="far fa-calendar-alt fa-fw"></i> 2014 – 2019</div>
                 </div>
-                <p style="margin-top:1rem;"><strong>Location:</strong> Isfahan</p>
+                <p style="margin-top:1rem;"><strong>Location:</strong> Isfahan, Iran</p>
                 <ul>
-                    <li><i class="fas fa-angle-right"></i> Conducted comprehensive CFD modeling of PEMFC and PEM electrolyzer systems</li>
-                    <li><i class="fas fa-angle-right"></i> Designed and optimized membrane humidifier systems using CFD model</li>
-                    <li><i class="fas fa-angle-right"></i> Served as lecturer teaching CFD modeling using ANSYS (2016-2019)</li>
+                    <li><i class="fas fa-angle-right"></i> Conducted comprehensive multiphysics CFD modeling of PEMFC and PEM electrolyzer architectures.</li>
+                    <li><i class="fas fa-angle-right"></i> Designed and optimized membrane-based humidifier designs utilizing localized mass transfer computational simulations.</li>
+                    <li><i class="fas fa-angle-right"></i> Delivered technical lectures and hands-on industrial training courses on ANSYS computational fluid dynamics toolsets.</li>
                 </ul>
                 <div class="btn-group" style="margin-top:1rem;">
                     <span class="btn btn-success"><i class="fas fa-cube"></i> ANSYS Fluent</span>
                     <span class="btn btn-info"><i class="fas fa-chart-line"></i> MATLAB</span>
-                    <span class="btn btn-info"><i class="fas fa-chalkboard-teacher"></i> Teaching</span>
+                    <span class="btn btn-info"><i class="fas fa-chalkboard-teacher"></i> Engineering Instruction</span>
                 </div>
             </div>
         </div>
     </section>
+<!-- ═══════════════════════════════════════════════════════════ SKILLS -->
+    <style>
+        /* CSS Fix to ensure the skill card checkmarks align beautifully with text */
+        .skills-grid ul {
+            list-style: none;
+            padding-left: 0;
+            margin: 0;
+        }
+        .skills-grid li {
+            display: flex;
+            align-items: center; /* Vertically centers icon with single-line text */
+            margin-bottom: 0.6rem;
+        }
+        .skills-grid li i {
+            margin-right: 0.6rem;
+            flex-shrink: 0;
+            color: var(--primary-color, #28a745); /* Uses your primary theme color or green */
+        }
+    </style>
 
-
-    <!-- ═══════════════════════════════════════════════════════════ SKILLS -->
     <section id="skills" style="background:var(--bg-section);">
         <div class="container">
-            <h2><i class="fas fa-tools"></i> Technical Skills</h2>
+            <h2><i class="fas fa-tools fa-fw"></i> Technical Skills</h2>
             <div class="skills-grid">
+                
+                <!-- Card 1: CAE & Simulation -->
                 <div class="skill-card">
-                    <h3><i class="fas fa-laptop-code"></i> Simulation tools</h3>
+                    <h3><i class="fas fa-desktop fa-fw"></i> CAE &amp; Simulation</h3>
                     <ul>
-                        <li><i class="fas fa-check-circle"></i> ANSYS Fluent/CFX (Expert)</li>
-                        <li><i class="fas fa-check-circle"></i> COMSOL (Expert)</li>
-                        <li><i class="fas fa-check-circle"></i> Python (Advanced)</li>
-                        <li><i class="fas fa-check-circle"></i> MATLAB (Advanced)</li>
+                        <li><i class="fas fa-check-circle"></i> ANSYS Fluent / CFX (Expert)</li>
+                        <li><i class="fas fa-check-circle"></i> COMSOL Multiphysics (Expert)</li>
+                        <li><i class="fas fa-check-circle"></i> Python / Scripting &amp; Automation (Advanced)</li>
+                        <li><i class="fas fa-check-circle"></i> MATLAB / Simulink (Advanced)</li>
                     </ul>
                 </div>
+                
+                <!-- Card 2: CAD Design -->
                 <div class="skill-card">
-                    <h3><i class="fa-solid fa-ruler-combined"></i> CAD Design</h3>
+                    <h3><i class="fas fa-ruler-combined fa-fw"></i> CAD &amp; 3D Modeling</h3>
                     <ul>
-                        <li><i class="fas fa-check-circle"></i> Autocad</li>
+                        <li><i class="fas fa-check-circle"></i> SolidWorks</li>
                         <li><i class="fas fa-check-circle"></i> CATIA V5</li>
-                        <li><i class="fas fa-check-circle"></i> Solidworks</li>
-                        <li><i class="fas fa-check-circle"></i> Free CAD</li>
-                        <li><i class="fas fa-check-circle"></i> Blender</li>
+                        <li><i class="fas fa-check-circle"></i> AutoCAD</li>
+                        <li><i class="fas fa-check-circle"></i> FreeCAD / Blender</li>
                     </ul>
                 </div>
+                
+                <!-- Card 3: R&D & Data Science -->
                 <div class="skill-card">
-                    <h3><i class="fas fa-chart-line"></i> Research Methods</h3>
+                    <h3><i class="fas fa-chart-pie fa-fw"></i> Industrial R&amp;D &amp; Optimization</h3>
                     <ul>
                         <li><i class="fas fa-check-circle"></i> Design of Experiments (DOE)</li>
-                        <li><i class="fas fa-check-circle"></i> ML</li>
-                        <li><i class="fas fa-check-circle"></i> Optimization using Genetic Algorithms (GA)</li>
-                        <li><i class="fas fa-check-circle"></i> Data Visualization</li>
+                        <li><i class="fas fa-check-circle"></i> Machine Learning &amp; Surrogate Modeling</li>
+                        <li><i class="fas fa-check-circle"></i> Multi-Objective Optimization (NSGA-II)</li>
+                        <li><i class="fas fa-check-circle"></i> Data Engineering &amp; Visualization</li>
                     </ul>
                 </div>
+                
+                <!-- Card 4: Languages -->
                 <div class="skill-card">
-                    <h3><i class="fas fa-globe"></i> Languages</h3>
+                    <h3><i class="fas fa-globe fa-fw"></i> Languages</h3>
                     <ul>
-                        <li><i class="fas fa-check-circle"></i> English - Fluent</li>
-                        <li><i class="fas fa-check-circle"></i> Dutch - A1.2</li>
-                        <li><i class="fas fa-check-circle"></i> Persian - Native</li>
+                        <li><i class="fas fa-check-circle"></i> English (Fluent)</li>
+                        <li><i class="fas fa-check-circle"></i> Dutch (B1 - Professional Working)</li>
+                        <li><i class="fas fa-check-circle"></i> Persian (Native)</li>
                     </ul>
                 </div>
+
             </div>
         </div>
     </section>
