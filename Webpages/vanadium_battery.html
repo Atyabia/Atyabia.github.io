@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vanadium Flow Battery Optimization | Ali Atyabi, Ph.D.</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg:        #0f1117;
+            --surface:   #181c27;
+            --surface2:  #1f2435;
+            --border:    #2a3048;
+            --blue:      #4ea8de;
+            --blue-dim:  #2a5f82;
+            --blue-glow: rgba(78,168,222,0.12);
+            --gold:      #c9a84c;
+            --gold-dim:  #8c6e2f;
+            --gold-glow: rgba(201,168,76,0.12);
+            --text:      #f5f5f5;
+            --muted:     #a0aabf;
+            --dim:       #566075;
+            --r:         6px;
+            --t:         0.22s cubic-bezier(0.4,0,0.2,1);
+        }
+        *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+        html{scroll-behavior:smooth}
+        body{font-family:'Calibri','Segoe UI',sans-serif;background:var(--bg);color:var(--text);line-height:1.72;-webkit-font-smoothing:antialiased}
+        ::-webkit-scrollbar{width:5px}
+        ::-webkit-scrollbar-track{background:var(--bg)}
+        ::-webkit-scrollbar-thumb{background:var(--blue-dim);border-radius:3px}
+
+        /* NAV */
+        nav{position:sticky;top:0;z-index:999;background:rgba(15,17,23,0.93);backdrop-filter:blur(14px);border-bottom:1px solid var(--border)}
+        .nav-in{max-width:1200px;margin:0 auto;padding:0 2rem;height:58px;display:flex;justify-content:space-between;align-items:center}
+        .nav-brand{font-family:'Arial',sans-serif;font-weight:700;font-size:1rem;color:var(--blue);display:flex;align-items:center;gap:.45rem}
+        .nav-back{display:flex;align-items:center;gap:.4rem;color:var(--muted);text-decoration:none;font-size:.83rem;font-weight:700;font-family:'Arial',sans-serif;transition:color var(--t)}
+        .nav-back:hover{color:var(--blue)}
+
+        /* HERO */
+        .hero{position:relative;overflow:hidden;padding:5rem 2rem 4rem;text-align:center;
+              background:radial-gradient(ellipse 70% 55% at 50% 0%,rgba(78,168,222,.08) 0%,transparent 65%),var(--bg);
+              border-bottom:1px solid var(--border)}
+        .hero::after{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:110px;height:1px;background:linear-gradient(90deg,transparent,var(--blue),transparent)}
+        .eyebrow{font-family:'Arial',sans-serif;font-size:.7rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--blue);margin-bottom:1rem}
+        .hero h1{font-family:'Arial',sans-serif;font-size:clamp(2rem,4.5vw,3rem);font-weight:700;line-height:1.18;margin-bottom:1.1rem}
+        .hero h1 em{font-style:normal;color:var(--blue)}
+        .hero-sub{color:var(--muted);font-size:1rem;max-width:640px;margin:0 auto}
+
+        /* PAGE */
+        .page{max-width:1200px;margin:0 auto;padding:0 2rem 6rem}
+
+        /* SECTION HEAD */
+        .sh{display:flex;align-items:center;gap:.9rem;margin:4rem 0 1.7rem}
+        .sh .pill{font-family:'Arial',sans-serif;font-size:.67rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--blue);background:var(--blue-glow);border:1px solid var(--blue-dim);border-radius:2px;padding:2px 8px;white-space:nowrap}
+        .sh h2{font-family:'Arial',sans-serif;font-size:1.6rem;font-weight:700;color:var(--text)}
+        .sh::after{content:'';flex:1;height:1px;background:var(--border)}
+
+        /* OVERVIEW */
+        .ov{display:grid;grid-template-columns:1fr .85fr;gap:2.5rem;align-items:start}
+        .ov-copy p{color:var(--muted);margin-bottom:.9rem;font-size:.95rem;text-align:justify}
+        .kpis{display:flex;gap:.9rem;margin-top:1.6rem;flex-wrap:wrap}
+        .kpi{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:.75rem 1.1rem;text-align:center;min-width:80px;transition:border-color var(--t),box-shadow var(--t)}
+        .kpi:hover{border-color:var(--blue-dim);box-shadow:0 0 14px var(--blue-glow)}
+        .kpi .n{display:block;font-family:'Arial',sans-serif;font-size:1.4rem;font-weight:700;color:var(--blue);line-height:1}
+        .kpi .l{display:block;font-size:.64rem;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-top:4px}
+
+        /* VRFB SCHEMATIC PANEL */
+        .schema-panel{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:1.3rem}
+        .schema-label{font-family:'Arial',sans-serif;font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.13em;color:var(--blue);margin-bottom:.9rem}
+
+        /* THREE PILLARS */
+        .pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:1.3rem}
+        .pillar{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;display:flex;flex-direction:column;transition:border-color var(--t),transform var(--t),box-shadow var(--t)}
+        .pillar:hover{border-color:var(--blue-dim);transform:translateY(-4px);box-shadow:0 12px 28px rgba(0,0,0,.4)}
+        .pillar-top{padding:1.5rem 1.5rem .8rem;display:flex;align-items:center;gap:.9rem}
+        .p-icon{width:44px;height:44px;border-radius:50%;background:var(--blue-glow);border:1px solid var(--blue-dim);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+        .p-icon i{font-size:1.1rem;color:var(--blue)}
+        .p-num{font-family:'Arial',sans-serif;font-size:1.8rem;font-weight:700;color:var(--blue);opacity:.15;margin-left:auto;line-height:1}
+        .pillar-body{padding:0 1.5rem 1.5rem;flex:1;display:flex;flex-direction:column}
+        .p-tag{font-family:'Arial',sans-serif;font-size:.65rem;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--blue);margin-bottom:.35rem}
+        .pillar-body h4{font-family:'Arial',sans-serif;font-size:.98rem;font-weight:700;color:var(--text);margin-bottom:.6rem;line-height:1.3}
+        .pillar-body p{font-size:.86rem;color:var(--muted);text-align:justify;flex:1}
+        .pillar-body ul{list-style:none;margin-top:.65rem}
+        .pillar-body li{font-size:.83rem;color:var(--muted);padding-left:1rem;position:relative;margin-bottom:.4rem;text-align:justify}
+        .pillar-body li::before{content:'›';position:absolute;left:0;color:var(--blue);font-weight:700}
+        .p-bar{height:2px;background:linear-gradient(90deg,var(--blue),transparent);margin-top:1.1rem;opacity:.35;border-radius:1px}
+
+        /* ACHIEVEMENTS */
+        .achs{display:flex;flex-direction:column;gap:.8rem}
+        .ach{display:flex;gap:1.1rem;align-items:flex-start;background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:1rem 1.3rem;transition:border-color var(--t),transform var(--t)}
+        .ach:hover{border-color:var(--blue-dim);transform:translateX(3px)}
+        .a-ico{width:32px;height:32px;border-radius:50%;flex-shrink:0;background:var(--blue-glow);border:1px solid var(--blue-dim);display:flex;align-items:center;justify-content:center;color:var(--blue);font-size:.78rem}
+        .a-text strong{display:block;font-family:'Arial',sans-serif;font-size:.88rem;font-weight:700;color:var(--text);margin-bottom:.18rem}
+        .a-text span{font-size:.82rem;color:var(--muted)}
+
+        /* SKILLS */
+        .sgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(195px,1fr));gap:.85rem}
+        .schip{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:.85rem 1rem;display:flex;gap:.6rem;align-items:center;transition:border-color var(--t)}
+        .schip:hover{border-color:var(--blue-dim)}
+        .schip i{color:var(--blue);font-size:.9rem;flex-shrink:0;width:16px;text-align:center}
+        .schip strong{display:block;font-family:'Arial',sans-serif;font-size:.82rem;font-weight:700;color:var(--text)}
+        .schip span{font-size:.72rem;color:var(--muted)}
+
+        /* COLLAB */
+        .collab{background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--blue);border-radius:var(--r);padding:1.6rem 2rem;margin-top:1rem}
+        .collab p{color:var(--muted);font-size:.92rem;margin-bottom:1.2rem}
+        .btn{display:inline-flex;align-items:center;gap:.45rem;padding:.62rem 1.3rem;background:var(--blue);color:#0f1117;border-radius:var(--r);text-decoration:none;font-family:'Arial',sans-serif;font-weight:700;font-size:.86rem;transition:background var(--t),transform var(--t)}
+        .btn:hover{background:#6bbde8;transform:translateY(-2px)}
+
+        /* FOOTER */
+        footer{background:var(--surface);border-top:1px solid var(--border);padding:2.2rem 2rem;text-align:center}
+        .fi{max-width:1200px;margin:0 auto}
+        .fn{font-family:'Arial',sans-serif;font-weight:700;font-size:.96rem;color:var(--blue);margin-bottom:.65rem}
+        .flinks{display:flex;justify-content:center;gap:1.4rem;flex-wrap:wrap;margin-bottom:.8rem}
+        .flinks a{color:var(--muted);text-decoration:none;font-size:.83rem;display:flex;align-items:center;gap:.3rem;transition:color var(--t)}
+        .flinks a:hover{color:var(--blue)}
+        .fc{font-size:.73rem;color:var(--dim)}
+
+        @media(max-width:860px){.ov,.pillars{grid-template-columns:1fr}.sh h2{font-size:1.3rem}}
+        @media(max-width:480px){.page{padding:0 1rem 4rem}.collab{padding:1.3rem}}
+    </style>
+</head>
+<body>
+
+<nav>
+    <div class="nav-in">
+        <div class="nav-brand"><i class="fas fa-battery-full"></i> Ali Atyabi, Ph.D.</div>
+        <a href="https://atyabia.github.io/index.html" class="nav-back"><i class="fas fa-arrow-left"></i> Portfolio</a>
+    </div>
+</nav>
+
+<div class="hero">
+    <div class="eyebrow">CFD · Machine Learning · Membrane Optimization · KU Leuven</div>
+    <h1>Vanadium Redox Flow Battery<br><em>Simulation &amp; ML Optimization</em></h1>
+    <p class="hero-sub">2D multiphysics CFD modeling, multi-ion membrane transport, and ML-driven membrane design optimization for grid-scale energy storage.</p>
+</div>
+
+<div class="page">
+
+    <!-- 01 OVERVIEW -->
+    <div class="sh"><span class="pill">01</span><h2>Overview</h2></div>
+
+    <div class="ov">
+        <div class="ov-copy">
+            <p>Vanadium redox flow batteries (VRFBs) are a leading technology for long-duration grid storage — but their performance hinges critically on membrane properties. This project builds a complete physics-to-optimization pipeline: a 2D COMSOL CFD model with multi-ion membrane transport, validated against experimental charge–discharge data, then coupled to machine learning surrogates for membrane design optimization.</p>
+            <p>A database of 70 membranes across three types (CEM, AEM, AIEM) was analyzed using Mutual Information, Random Forest, and Gradient Boosting Regressor. GBR was selected as the NSGA-II surrogate based on LOO-CV evidence, targeting simultaneous maximization of Coulombic, Voltage, and Energy efficiency while constraining vanadium crossover.</p>
+            <div class="kpis">
+                <div class="kpi"><span class="n">70</span><span class="l">Membranes</span></div>
+                <div class="kpi"><span class="n">2D</span><span class="l">CFD Model</span></div>
+                <div class="kpi"><span class="n">GBR</span><span class="l">Surrogate</span></div>
+                <div class="kpi"><span class="n">NSGA-II</span><span class="l">Optimizer</span></div>
+            </div>
+        </div>
+
+        <!-- VRFB Schematic -->
+        <div class="schema-panel">
+            <div class="schema-label"><i class="fas fa-project-diagram" style="margin-right:.4rem"></i>VRFB Architecture</div>
+            <svg viewBox="0 0 380 240" xmlns="http://www.w3.org/2000/svg" style="width:100%">
+                <defs>
+                    <marker id="arr" markerWidth="5" markerHeight="5" refX="5" refY="2.5" orient="auto"><path d="M0,0L5,2.5L0,5Z" fill="#4ea8de" opacity=".8"/></marker>
+                    <marker id="arre" markerWidth="5" markerHeight="5" refX="5" refY="2.5" orient="auto"><path d="M0,0L5,2.5L0,5Z" fill="#c9a84c" opacity=".8"/></marker>
+                </defs>
+                <!-- Anolyte tank -->
+                <rect x="8" y="70" width="72" height="100" rx="4" fill="#1a2035" stroke="#2a3048" stroke-width="1.2"/>
+                <text x="44" y="112" text-anchor="middle" fill="#4ea8de" font-size="8.5" font-family="Arial,sans-serif" font-weight="700">Anolyte</text>
+                <text x="44" y="124" text-anchor="middle" fill="#566075" font-size="7.5" font-family="Arial,sans-serif">V²⁺/V³⁺</text>
+                <rect x="18" y="130" width="52" height="22" rx="2" fill="#4ea8de" opacity=".15"/>
+                <!-- Catholyte tank -->
+                <rect x="300" y="70" width="72" height="100" rx="4" fill="#1a2035" stroke="#2a3048" stroke-width="1.2"/>
+                <text x="336" y="112" text-anchor="middle" fill="#c9a84c" font-size="8.5" font-family="Arial,sans-serif" font-weight="700">Catholyte</text>
+                <text x="336" y="124" text-anchor="middle" fill="#566075" font-size="7.5" font-family="Arial,sans-serif">VO²⁺/VO₂⁺</text>
+                <rect x="310" y="130" width="52" height="22" rx="2" fill="#c9a84c" opacity=".12"/>
+                <!-- Stack cell -->
+                <rect x="108" y="40" width="164" height="160" rx="5" fill="#131826" stroke="#2a3048" stroke-width="1.2"/>
+                <!-- Anode electrode -->
+                <rect x="113" y="48" width="36" height="144" rx="2" fill="#1a2035" stroke="#4ea8de" stroke-width=".8" opacity=".6"/>
+                <text x="131" y="123" text-anchor="middle" fill="#4ea8de" font-size="7" font-family="Arial,sans-serif" transform="rotate(-90,131,123)">Anode electrode</text>
+                <!-- Membrane -->
+                <rect x="172" y="48" width="16" height="144" rx="1" fill="#4ea8de" opacity=".18" stroke="#4ea8de" stroke-width=".8" opacity=".5"/>
+                <text x="180" y="125" text-anchor="middle" fill="#4ea8de" font-size="7" font-family="Arial,sans-serif" transform="rotate(-90,180,125)">Membrane</text>
+                <!-- Cathode electrode -->
+                <rect x="211" y="48" width="36" height="144" rx="2" fill="#1a2035" stroke="#c9a84c" stroke-width=".8" opacity=".6"/>
+                <text x="229" y="123" text-anchor="middle" fill="#c9a84c" font-size="7" font-family="Arial,sans-serif" transform="rotate(-90,229,123)">Cathode electrode</text>
+                <!-- Ribs suggestion -->
+                <line x1="113" y1="75" x2="149" y2="75" stroke="#2a3048" stroke-width=".8" stroke-dasharray="3,3"/>
+                <line x1="113" y1="105" x2="149" y2="105" stroke="#2a3048" stroke-width=".8" stroke-dasharray="3,3"/>
+                <line x1="113" y1="135" x2="149" y2="135" stroke="#2a3048" stroke-width=".8" stroke-dasharray="3,3"/>
+                <line x1="211" y1="75" x2="247" y2="75" stroke="#2a3048" stroke-width=".8" stroke-dasharray="3,3"/>
+                <line x1="211" y1="105" x2="247" y2="105" stroke="#2a3048" stroke-width=".8" stroke-dasharray="3,3"/>
+                <line x1="211" y1="135" x2="247" y2="135" stroke="#2a3048" stroke-width=".8" stroke-dasharray="3,3"/>
+                <!-- Stack label -->
+                <text x="190" y="210" text-anchor="middle" fill="#566075" font-size="8" font-family="Arial,sans-serif">Stack</text>
+                <!-- Flow arrows anolyte -->
+                <line x1="80" y1="100" x2="106" y2="100" stroke="#4ea8de" stroke-width="1.3" marker-end="url(#arr)"/>
+                <line x1="106" y1="135" x2="80" y2="135" stroke="#4ea8de" stroke-width="1.3" marker-end="url(#arr)"/>
+                <!-- Pump anolyte -->
+                <circle cx="44" cy="195" r="12" fill="#1a2035" stroke="#4ea8de" stroke-width="1" opacity=".6"/>
+                <text x="44" y="199" text-anchor="middle" fill="#4ea8de" font-size="7.5" font-family="Arial,sans-serif">⟳</text>
+                <line x1="44" y1="170" x2="44" y2="183" stroke="#4ea8de" stroke-width="1" opacity=".5"/>
+                <line x1="44" y1="207" x2="44" y2="220" stroke="#4ea8de" stroke-width="1" opacity=".5" marker-end="url(#arr)"/>
+                <!-- Flow arrows catholyte -->
+                <line x1="274" y1="100" x2="298" y2="100" stroke="#c9a84c" stroke-width="1.3" marker-end="url(#arre)"/>
+                <line x1="298" y1="135" x2="274" y2="135" stroke="#c9a84c" stroke-width="1.3" marker-end="url(#arre)"/>
+                <!-- Pump catholyte -->
+                <circle cx="336" cy="195" r="12" fill="#1a2035" stroke="#c9a84c" stroke-width="1" opacity=".6"/>
+                <text x="336" y="199" text-anchor="middle" fill="#c9a84c" font-size="7.5" font-family="Arial,sans-serif">⟳</text>
+                <line x1="336" y1="170" x2="336" y2="183" stroke="#c9a84c" stroke-width="1" opacity=".5"/>
+                <line x1="336" y1="207" x2="336" y2="220" stroke="#c9a84c" stroke-width="1" opacity=".5" marker-end="url(#arre)"/>
+                <!-- electron flow -->
+                <line x1="131" y1="40" x2="229" y2="40" stroke="#f5f5f5" stroke-width="1" stroke-dasharray="4,3" opacity=".3"/>
+                <text x="180" y="35" text-anchor="middle" fill="#566075" font-size="7.5" font-family="Arial,sans-serif">e⁻ flow (external circuit)</text>
+                <!-- Pump labels -->
+                <text x="44" y="228" text-anchor="middle" fill="#566075" font-size="7" font-family="Arial,sans-serif">Pump</text>
+                <text x="336" y="228" text-anchor="middle" fill="#566075" font-size="7" font-family="Arial,sans-serif">Pump</text>
+            </svg>
+            <div style="display:flex;gap:1.2rem;margin-top:.7rem;flex-wrap:wrap">
+                <span style="font-size:.68rem;color:var(--dim);display:flex;align-items:center;gap:.3rem"><span style="width:8px;height:8px;border-radius:50%;background:var(--blue);opacity:.6;display:inline-block"></span>Anolyte</span>
+                <span style="font-size:.68rem;color:var(--dim);display:flex;align-items:center;gap:.3rem"><span style="width:8px;height:8px;border-radius:50%;background:var(--gold);opacity:.6;display:inline-block"></span>Catholyte</span>
+                <span style="font-size:.68rem;color:var(--dim);display:flex;align-items:center;gap:.3rem"><span style="display:inline-block;width:12px;height:3px;background:var(--blue);opacity:.4"></span>Membrane</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 02 THREE PILLARS -->
+    <div class="sh"><span class="pill">02</span><h2>Modeling &amp; Optimization Workflow</h2></div>
+
+    <div class="pillars">
+
+        <div class="pillar">
+            <div class="pillar-top">
+                <div class="p-icon"><i class="fas fa-water"></i></div>
+                <span class="p-num">01</span>
+            </div>
+            <div class="pillar-body">
+                <div class="p-tag">COMSOL · CFD · Multi-ion</div>
+                <h4>2D Multiphysics CFD Model</h4>
+                <p>Physics-based 2D model couples Navier–Stokes flow, convection–diffusion species transport, Nernst–Planck multi-ion membrane transport, and Butler–Volmer electrochemistry — validated against experimental charge–discharge curves.</p>
+                <ul>
+                    <li>Model reduction: 3D short-stack → 2D domain — reduces cost while preserving ion-exchange membrane (IEM) physics impossible in 3D</li>
+                    <li>Isothermal, incompressible electrolyte; 60% pump efficiency; full boundary condition set at ribs, membrane, and outlet</li>
+                    <li>Performance metrics: CE, VE, EE, and net power accounting for pump overhead</li>
+                </ul>
+                <div class="p-bar"></div>
+            </div>
+        </div>
+
+        <div class="pillar">
+            <div class="pillar-top">
+                <div class="p-icon"><i class="fas fa-robot"></i></div>
+                <span class="p-num">02</span>
+            </div>
+            <div class="pillar-body">
+                <div class="p-tag">Random Forest · GBR · LOO-CV</div>
+                <h4>ML Surrogate Selection</h4>
+                <p>A database of 70 membranes (CEM, AEM, AIEM) was analyzed. Mutual Information identified IEC as the dominant driver of CE, VE, and EE. Random Forest and Gradient Boosting Regressors were compared via Leave-One-Out Cross-Validation on the small dataset.</p>
+                <ul>
+                    <li>Non-linear signals detected: Spearman vs Pearson divergence ruled out linear models</li>
+                    <li>Both RF and GBR split first on IEC — validating the physics-driven feature signal</li>
+                    <li>GBR selected: tighter LOO-CV residuals, higher explained variance, cleaner error distribution — optimal for embedding in NSGA-II</li>
+                </ul>
+                <div class="p-bar"></div>
+            </div>
+        </div>
+
+        <div class="pillar">
+            <div class="pillar-top">
+                <div class="p-icon"><i class="fas fa-sliders-h"></i></div>
+                <span class="p-num">03</span>
+            </div>
+            <div class="pillar-body">
+                <div class="p-tag">NSGA-II · Pareto · LHS</div>
+                <h4>Multi-Objective Membrane Optimization</h4>
+                <p>GBR surrogate feeds NSGA-II multi-objective optimizer targeting the CE–VE–EE Pareto front with vanadium permeability (D<sub>r</sub>) as a hard constraint. Latin Hypercube Sampling (LHS) seeds the design space for COMSOL parametric studies.</p>
+                <ul>
+                    <li>Three design levers: IEC (primary, 34–37% importance), thickness (resistance control, 43–47%), water uptake (bounded window 20–50%)</li>
+                    <li>Benchmark target: SPEEK/ZC-GO-2 profile — EE 91.4%, CE 98.5%, VE 92.3%, D<sub>r</sub> 0.189</li>
+                    <li>Design rule: maximize EE as objective, use D<sub>r</sub> as constraint — not CE-only screening</li>
+                </ul>
+                <div class="p-bar"></div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- 03 KEY RESULTS -->
+    <div class="sh"><span class="pill">03</span><h2>Key Results</h2></div>
+
+    <div class="achs">
+        <div class="ach">
+            <div class="a-ico"><i class="fas fa-check-circle"></i></div>
+            <div class="a-text">
+                <strong>CFD model validated against experimental charge–discharge data</strong>
+                <span>2D COMSOL model with multi-ion Nernst–Planck membrane transport reproduces experimental CE, VE, and EE profiles across flow rates and current densities.</span>
+            </div>
+        </div>
+        <div class="ach">
+            <div class="a-ico"><i class="fas fa-lightbulb"></i></div>
+            <div class="a-text">
+                <strong>IEC identified as dominant membrane performance driver</strong>
+                <span>Mutual Information analysis across 70 membranes ranked IEC highest for CE, VE, and EE. Both RF and GBR tree splits confirmed the physics — IEC anchors the design signal.</span>
+            </div>
+        </div>
+        <div class="ach">
+            <div class="a-ico"><i class="fas fa-trophy"></i></div>
+            <div class="a-text">
+                <strong>GBR selected as NSGA-II surrogate via LOO-CV evidence</strong>
+                <span>Six-metric LOO-CV comparison favoured GBR: tighter absolute-error distribution, higher explained variance, unbiased residuals — providing the strongest out-of-sample generalisation in the small-data setting.</span>
+            </div>
+        </div>
+        <div class="ach">
+            <div class="a-ico"><i class="fas fa-bullseye"></i></div>
+            <div class="a-text">
+                <strong>Design playbook derived from 70-membrane dataset</strong>
+                <span>Water uptake 20–50%, IEC tuned not maximised, filler-driven tortuosity (GO/ZrO₂), and EE as objective with D<sub>r</sub> as constraint — four gates that convert correlation evidence into actionable membrane choices.</span>
+            </div>
+        </div>
+        <div class="ach">
+            <div class="a-ico"><i class="fas fa-code"></i></div>
+            <div class="a-text">
+                <strong>LHS-seeded COMSOL parametric pipeline automated in Python</strong>
+                <span>Latin Hypercube Sampling generates the CFD design space; Python drives COMSOL via API for automated simulation, result extraction, and surrogate training dataset construction.</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 04 SKILLS -->
+    <div class="sh"><span class="pill">04</span><h2>Skills Demonstrated</h2></div>
+
+    <div class="sgrid">
+        <div class="schip"><i class="fas fa-water"></i><div><strong>Multiphysics CFD</strong><span>COMSOL · Nernst–Planck · Butler–Volmer</span></div></div>
+        <div class="schip"><i class="fas fa-robot"></i><div><strong>ML Surrogate</strong><span>GBR · Random Forest · LOO-CV</span></div></div>
+        <div class="schip"><i class="fas fa-sliders-h"></i><div><strong>Multi-objective Opt.</strong><span>NSGA-II · Pareto · LHS</span></div></div>
+        <div class="schip"><i class="fas fa-chart-bar"></i><div><strong>Feature Analysis</strong><span>Mutual Information · Pearson/Spearman</span></div></div>
+        <div class="schip"><i class="fas fa-code"></i><div><strong>Python Automation</strong><span>Jupyter · COMSOL API · Scikit-Learn</span></div></div>
+        <div class="schip"><i class="fas fa-atom"></i><div><strong>Electrochemistry</strong><span>Ion transport · Crossover · IEC</span></div></div>
+        <div class="schip"><i class="fas fa-database"></i><div><strong>Materials Database</strong><span>70 membranes · CEM / AEM / AIEM</span></div></div>
+        <div class="schip"><i class="fas fa-layer-group"></i><div><strong>Model Reduction</strong><span>3D → 2D · Boundary conditions</span></div></div>
+    </div>
+
+    <!-- COLLAB -->
+    <div class="sh"><span class="pill">05</span><h2>Collaboration</h2></div>
+    <div class="collab">
+        <p>Open to collaboration in flow battery simulation, ML-driven materials optimization, and electrochemical systems modeling.</p>
+        <a href="mailto:atyabi902@gmail.com" class="btn"><i class="far fa-envelope"></i> Get in Touch</a>
+    </div>
+
+</div>
+
+<footer>
+    <div class="fi">
+        <div class="fn">Ali Atyabi, Ph.D.</div>
+        <div class="flinks">
+            <a href="mailto:atyabi902@gmail.com"><i class="far fa-envelope"></i> Email</a>
+            <a href="https://linkedin.com/in/s-ali-atyabi" target="_blank"><i class="fab fa-linkedin-in"></i> LinkedIn</a>
+            <a href="https://scholar.google.com/citations?user=MytiTgsAAAAJ" target="_blank"><i class="fas fa-graduation-cap"></i> Google Scholar</a>
+        </div>
+        <div class="fc">© 2026 Ali Atyabi · All rights reserved</div>
+    </div>
+</footer>
+
+</body>
+</html>
