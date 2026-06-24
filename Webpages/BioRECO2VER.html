@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="CO₂ Electrolyzer Optimization - Advanced 3D Multiphysics Modeling for Carbon Utilization">
+    <meta name="author" content="Ali Atyabi">
+    <title>CO₂ Electrolyzer Optimization | Ali Atyabi, Ph.D.</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg:          #0f1117;
+            --surface:     #181c27;
+            --surface-hover:#1f2435;
+            --border:      #2a3048;
+            --gold:        #c9a84c;
+            --gold-dim:    #8c6e2f;
+            --gold-glow:   rgba(201,168,76,0.15);
+            --text-main:   #f5f5f5;
+            --text-muted:  #a0aabf;
+            --ff-body:     'Calibri','Segoe UI',sans-serif;
+            --ff-display:  'Arial','Helvetica Neue',sans-serif;
+            --radius:      6px;
+            --transition:  0.25s cubic-bezier(0.4,0,0.2,1);
+        }
+
+        *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+        html{scroll-behavior:smooth}
+        body{font-family:var(--ff-body);background-color:var(--bg);color:var(--text-main);line-height:1.7;font-size:1rem;-webkit-font-smoothing:antialiased}
+        h1,h2,h3,h4,.nav-brand,.download-btn{font-family:var(--ff-display);font-weight:700;color:var(--text-main);letter-spacing:-0.01em}
+        ::-webkit-scrollbar{width:6px}
+        ::-webkit-scrollbar-track{background:var(--bg)}
+        ::-webkit-scrollbar-thumb{background:var(--gold-dim);border-radius:3px}
+
+        /* NAV */
+        nav{position:sticky;top:0;z-index:1000;background:rgba(15,17,23,0.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
+        nav .inner{max-width:1200px;margin:0 auto;padding:0 2rem;height:60px;display:flex;justify-content:space-between;align-items:center}
+        .nav-brand{font-size:1.1rem;color:var(--gold);display:flex;align-items:center;gap:0.5rem}
+        .nav-back{display:flex;align-items:center;gap:0.3rem;color:var(--text-muted);text-decoration:none;font-size:0.875rem;font-family:var(--ff-display);font-weight:700;transition:color var(--transition)}
+        .nav-back:hover{color:var(--gold)}
+
+        /* HERO */
+        .hero{position:relative;overflow:hidden;padding:5rem 2rem 4rem;text-align:center;background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(201,168,76,0.08) 0%,transparent 70%),var(--bg);border-bottom:1px solid var(--border)}
+        .hero::after{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:120px;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent)}
+        .hero-eyebrow{font-family:var(--ff-display);font-weight:700;font-size:0.75rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem}
+        .hero h1{font-size:clamp(1.9rem,4.5vw,3rem);margin-bottom:1.1rem;line-height:1.18}
+        .hero h1 em{font-style:normal;color:var(--gold)}
+        .hero p{color:var(--text-muted);font-size:1.05rem;max-width:700px;margin:0 auto}
+
+        /* PAGE */
+        .page{max-width:1200px;margin:0 auto;padding:0 2rem 6rem}
+
+        /* SECTION HEAD */
+        .section-head{display:flex;align-items:center;gap:1rem;margin:4rem 0 2rem}
+        .section-head .label{font-family:var(--ff-display);font-weight:700;font-size:0.7rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);background:var(--gold-glow);border:1px solid var(--gold-dim);border-radius:2px;padding:2px 8px;white-space:nowrap}
+        .section-head h2{font-size:1.75rem}
+        .section-head::after{content:'';flex:1;height:1px;background:var(--border)}
+
+        /* OVERVIEW GRID */
+        .overview-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:2.5rem;align-items:start}
+        .content-box{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:2rem 2.2rem;transition:all var(--transition)}
+        .content-box:hover{border-color:var(--gold-dim);box-shadow:0 12px 32px rgba(0,0,0,0.5),0 0 0 1px var(--gold-glow)}
+        .content-box ul{list-style:none}
+        .content-box li{font-size:0.94rem;color:var(--text-main);margin-bottom:0.85rem;padding-left:1.4rem;position:relative;text-align:justify}
+        .content-box li::before{content:"•";color:var(--gold);position:absolute;left:0;font-weight:bold}
+        .content-box li strong{color:var(--gold)}
+        .img-container{width:100%;border-radius:var(--radius);overflow:hidden;border:1px solid var(--border)}
+        .img-container img{width:100%;height:auto;display:block}
+
+        /* VIDEO EMBED */
+        .video-wrap{position:relative;width:100%;padding-bottom:56.25%;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;cursor:pointer;transition:border-color var(--transition),box-shadow var(--transition)}
+        .video-wrap:hover{border-color:var(--gold);box-shadow:0 0 24px rgba(201,168,76,0.12)}
+        .video-thumb{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+        .play-overlay{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.75rem;background:rgba(0,0,0,0.45)}
+        .play-btn-circle{width:72px;height:72px;border-radius:50%;background:rgba(0,0,0,0.75);border:2px solid var(--gold);display:flex;align-items:center;justify-content:center;transition:background var(--transition),transform var(--transition)}
+        .video-wrap:hover .play-btn-circle{background:rgba(201,168,76,0.2);transform:scale(1.08)}
+        .play-btn-circle i{font-size:2rem;color:#FF0000;margin-left:4px}
+        .video-caption{font-family:var(--ff-display);font-size:0.78rem;font-weight:700;color:var(--text-muted);letter-spacing:0.08em;text-transform:uppercase}
+        .video-wrap iframe{position:absolute;inset:0;width:100%;height:100%;border:none}
+        .video-wrap.loaded .play-overlay{display:none}
+
+        /* DOWNLOAD BTN */
+        .download-btn{display:flex;align-items:center;justify-content:center;gap:0.5rem;width:100%;padding:0.7rem;background:transparent;border:1px solid var(--gold-dim);border-radius:var(--radius);color:var(--gold);font-size:0.85rem;cursor:pointer;transition:all var(--transition);text-decoration:none;margin-top:1.2rem}
+        .download-btn:hover{background:var(--gold-glow);border-color:var(--gold);color:var(--text-main)}
+
+        /* CFD ROLE CARDS */
+        .cfd-intro{color:var(--text-muted);font-size:0.97rem;margin-bottom:2rem;max-width:800px;text-align:justify}
+        .cfd-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+        .cfd-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;display:flex;flex-direction:column;transition:border-color var(--transition),transform var(--transition),box-shadow var(--transition)}
+        .cfd-card:hover{border-color:var(--gold-dim);transform:translateY(-4px);box-shadow:0 12px 32px rgba(0,0,0,0.4)}
+
+        .cfd-card-icon{padding:1.8rem 1.8rem 1rem;display:flex;align-items:center;gap:1rem}
+        .icon-circle{width:48px;height:48px;border-radius:50%;background:var(--gold-glow);border:1px solid var(--gold-dim);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+        .icon-circle i{font-size:1.2rem;color:var(--gold)}
+        .card-num{font-family:var(--ff-display);font-size:2rem;font-weight:700;color:var(--gold);opacity:0.18;line-height:1;margin-left:auto}
+
+        .cfd-card-body{padding:0 1.8rem 1.8rem;flex:1;display:flex;flex-direction:column}
+        .cfd-card-tag{font-family:var(--ff-display);font-size:0.68rem;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold);margin-bottom:0.4rem}
+        .cfd-card-body h4{font-family:var(--ff-display);font-size:1rem;font-weight:700;color:var(--text-main);margin-bottom:0.75rem;line-height:1.3}
+        .cfd-card-body p{font-size:0.88rem;color:var(--text-muted);text-align:justify;flex:1}
+
+        /* highlight bullets inside cfd cards */
+        .cfd-card-body ul{list-style:none;margin-top:0.7rem}
+        .cfd-card-body li{font-size:0.86rem;color:var(--text-muted);padding-left:1.1rem;position:relative;margin-bottom:0.5rem;text-align:justify}
+        .cfd-card-body li::before{content:"›";position:absolute;left:0;color:var(--gold);font-weight:700}
+
+        /* divider bar at bottom of card */
+        .cfd-card-bar{height:2px;background:linear-gradient(90deg,var(--gold),transparent);margin-top:1.2rem;border-radius:1px;opacity:0.4}
+
+        /* VIDEO SECTION — full width with description above */
+        .video-section-copy{margin-bottom:1.5rem}
+        .video-section-copy h3{font-family:var(--ff-display);font-size:1.1rem;font-weight:700;color:var(--text-main);margin-bottom:0.7rem}
+        .video-section-copy p{font-size:0.93rem;color:var(--text-muted);text-align:justify}
+
+        /* MODAL */
+        .modal{display:none;position:fixed;inset:0;z-index:2000;background:rgba(0,0,0,0.7);backdrop-filter:blur(4px);animation:fadeIn 0.2s ease}
+        @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+        .modal-content{background:var(--surface);border:1px solid var(--border);border-top:2px solid var(--gold);border-radius:var(--radius);width:90%;max-width:420px;margin:12% auto;padding:2rem;animation:slideUp 0.25s ease}
+        @keyframes slideUp{from{transform:translateY(30px);opacity:0}to{transform:translateY(0);opacity:1}}
+        .modal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem}
+        .modal-header h3{font-size:1.1rem;display:flex;align-items:center;gap:0.5rem}
+        .modal-header h3 i{color:var(--gold)}
+        .close{background:none;border:none;color:var(--text-muted);font-size:1.5rem;cursor:pointer;line-height:1}
+        .close:hover{color:var(--gold)}
+        .modal-body label{display:block;font-size:0.85rem;color:var(--text-muted);margin-bottom:0.5rem}
+        .modal-body input{width:100%;padding:0.75rem 1rem;background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);color:var(--text-main);outline:none;font-family:var(--ff-body)}
+        .modal-body input:focus{border-color:var(--gold)}
+        .error-message{font-size:0.82rem;margin-top:0.5rem;color:#e05c5c;display:none}
+        .success-message{font-size:0.82rem;margin-top:0.5rem;color:#5ce07a;display:none}
+        .modal-footer{display:flex;gap:0.75rem;justify-content:flex-end;margin-top:1.5rem}
+        .modal-btn{padding:0.65rem 1.3rem;border-radius:var(--radius);font-size:0.9rem;font-weight:700;cursor:pointer;border:none;font-family:var(--ff-display)}
+        .modal-btn-secondary{background:var(--surface-hover);color:var(--text-muted)}
+        .modal-btn-primary{background:var(--gold);color:#0f1117}
+
+        /* FOOTER */
+        footer{background:var(--surface);border-top:1px solid var(--border);padding:2.5rem 2rem;text-align:center}
+        .footer-inner{max-width:1200px;margin:0 auto}
+        .footer-name{font-family:var(--ff-display);font-weight:700;font-size:1.1rem;color:var(--gold);margin-bottom:0.75rem}
+        .footer-links{display:flex;justify-content:center;gap:1.5rem;flex-wrap:wrap;margin-bottom:1rem}
+        .footer-links a{color:var(--text-muted);text-decoration:none;font-size:0.88rem;display:flex;align-items:center;gap:0.35rem;transition:color var(--transition)}
+        .footer-links a:hover{color:var(--gold)}
+        .footer-copy{font-size:0.78rem;color:var(--text-muted);opacity:0.7}
+
+        /* RESPONSIVE */
+        @media(max-width:900px){.overview-grid,.video-section-grid{grid-template-columns:1fr}.cfd-grid{grid-template-columns:1fr}}
+        @media(max-width:480px){.page{padding:0 1rem 4rem}}
+    </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+    <div class="inner">
+        <div class="nav-brand"><i class="fas fa-atom"></i> Ali Atyabi, Ph.D.</div>
+        <a href="https://atyabia.github.io/index.html" class="nav-back"><i class="fas fa-arrow-left"></i> Portfolio</a>
+    </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+    <div class="hero-eyebrow">Multiphysics CFD · Carbon Utilization · BioRECO₂VER</div>
+    <h1>CO₂ Electrolyzer<br><em>Optimization</em></h1>
+    <p>Advanced 3D multiphysics modeling for enhanced carbon utilization and sustainable chemical production at industrial scale</p>
+</div>
+
+<div class="page">
+
+    <!-- 01 PROJECT OVERVIEW -->
+    <div class="section-head">
+        <span class="label">01</span>
+        <h2>Project Overview</h2>
+    </div>
+
+    <div class="overview-grid">
+        <div class="content-box">
+            <ul>
+                <li><strong>Target:</strong> Characterize gas diffusion electrode (GDE) microstructures and optimize flow configurations for scaled-up industrial CO₂ electrolyzer systems targeting a 50 kW cell stack.</li>
+                <li><strong>Approach:</strong> Developed 3D finite element simulations coupling fluid dynamics and electrical current pathways to map effective parameters — conductivity, permeability, and active area — across varied carbon particle matrices and electrode architectures.</li>
+                <li><strong>Achievements:</strong> Validated numerical homogenization metrics against Bruggeman correlations and nickel foam experimental benchmarks, achieving under 10% error margin. Contributed directly to optimizing gas–liquid transport dynamics for the BioRECO₂VER project stack.</li>
+            </ul>
+            <button class="download-btn" onclick="showPasswordModal('figure1')">
+                <i class="fas fa-lock"></i> Secure Access — Project Files
+            </button>
+        </div>
+
+        <div class="img-container">
+            <img src="/Webpages/photos/co2_flow_field.jpg" alt="CO₂ Electrolyzer System Schematic">
+        </div>
+    </div>
+
+    <!-- 02 ROLE OF CFD IN STACK DESIGN -->
+    <div class="section-head">
+        <span class="label">02</span>
+        <h2>Role of CFD in Stack Design</h2>
+    </div>
+
+    <p class="cfd-intro">
+        The CO₂ electrolyzer stack simultaneously handles liquid electrolyte (KOH) and multiple gaseous products — hydrogen, oxygen, carbon monoxide, and ethylene. Managing these complex two-phase flows is not an engineering afterthought; it is the central design problem. Three distinct CFD-driven analyses shaped the final 50 kW stack architecture.
+    </p>
+
+    <div class="cfd-grid">
+
+        <!-- Card 1: Two-Phase Flow -->
+        <div class="cfd-card">
+            <div class="cfd-card-icon">
+                <div class="icon-circle"><i class="fas fa-wind"></i></div>
+                <span class="card-num">01</span>
+            </div>
+            <div class="cfd-card-body">
+                <div class="cfd-card-tag">Fluid Dynamics · Multiphase</div>
+                <h4>Two-Phase Flow Modeling</h4>
+                <p>Because the system simultaneously handles liquid electrolyte and gaseous products, the internals must manage complex two-phase flows within thin channels.</p>
+                <ul>
+                    <li>Fluid modeling predicts how gas bubbles interact with the liquid stream inside the channel geometry</li>
+                    <li>Ensures gas moves smoothly without blanketing the catalyst layer — which would otherwise choke the electrochemical reaction</li>
+                </ul>
+                <div class="cfd-card-bar"></div>
+            </div>
+        </div>
+
+        <!-- Card 2: Pressure Drop -->
+        <div class="cfd-card">
+            <div class="cfd-card-icon">
+                <div class="icon-circle"><i class="fas fa-compress-arrows-alt"></i></div>
+                <span class="card-num">02</span>
+            </div>
+            <div class="cfd-card-body">
+                <div class="cfd-card-tag">Flow Distribution · Manifold</div>
+                <h4>Pressure Drop Balance &amp; Distribution</h4>
+                <p>Fluid mechanics simulations solve a balancing act across flow fields — a challenge that becomes critical at 100-cell stack scale.</p>
+                <ul>
+                    <li><strong style="color:var(--gold)">Intra-cell:</strong> pressure drop from top to bottom must stay low enough for free liquid circulation without excess pumping power</li>
+                    <li><strong style="color:var(--gold)">Manifold:</strong> sufficient drop must be maintained to push flow uniformly into every cell — safely reaching the last cell in a 100-cell stack</li>
+                </ul>
+                <div class="cfd-card-bar"></div>
+            </div>
+        </div>
+
+        <!-- Card 3: Gravity Orientation -->
+        <div class="cfd-card">
+            <div class="cfd-card-icon">
+                <div class="icon-circle"><i class="fas fa-drafting-compass"></i></div>
+                <span class="card-num">03</span>
+            </div>
+            <div class="cfd-card-body">
+                <div class="cfd-card-tag">Buoyancy · Stack Orientation</div>
+                <h4>Gravity-Driven Evacuation &amp; Orientation</h4>
+                <p>Flow modeling directly dictated the physical positioning of the stack — an outcome that could not have been determined without simulation.</p>
+                <ul>
+                    <li>Buoyancy vs. weight simulations revealed dead zones when the stack was purely horizontal or vertical</li>
+                    <li>Stack designed at a specific <strong style="color:var(--gold)">tilted angle</strong> — using gravity to drain liquid from the cathode while buoyant gas bubbles rise rapidly from the anode, eliminating stagnant pockets</li>
+                </ul>
+                <div class="cfd-card-bar"></div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- 03 VIDEO DEEP DIVE -->
+    <div class="section-head">
+        <span class="label">03</span>
+        <h2>Video: CFD in Stack Design</h2>
+    </div>
+
+    <div class="video-section-copy">
+        <h3>From simulation to a 50 kW stack</h3>
+        <p>This video covers the BioRECO₂VER project — including the role of computational fluid dynamics in designing a CO₂ electrolyzer stack from fundamental electrode characterization up to full stack scale. Key themes: two-phase flow management, pressure distribution across a multi-cell manifold, and how simulation results directly informed the physical tilt angle of the final stack assembly.</p>
+    </div>
+
+    <div class="video-wrap" id="videoContainer2" onclick="loadVideo2()">
+        <img src="https://img.youtube.com/vi/isl7ev247z4/maxresdefault.jpg"
+             onerror="this.src='https://img.youtube.com/vi/isl7ev247z4/hqdefault.jpg'"
+             alt="CFD in CO₂ Electrolyzer Stack Design" class="video-thumb">
+        <div class="play-overlay">
+            <div class="play-btn-circle"><i class="fab fa-youtube"></i></div>
+            <span class="video-caption">Watch: CFD in Stack Design</span>
+        </div>
+    </div>
+
+</div>
+
+<!-- PASSWORD MODAL -->
+<div id="passwordModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3><i class="fas fa-lock"></i> Secure Access</h3>
+            <button class="close" onclick="closePasswordModal()">×</button>
+        </div>
+        <div class="modal-body">
+            <label for="password">Enter password to access project files:</label>
+            <input type="password" id="password" placeholder="Password">
+            <div class="error-message" id="errorMessage">Incorrect password. Please try again.</div>
+            <div class="success-message" id="successMessage">Correct! Opening resource…</div>
+        </div>
+        <div class="modal-footer">
+            <button class="modal-btn modal-btn-secondary" onclick="closePasswordModal()">Cancel</button>
+            <button class="modal-btn modal-btn-primary" onclick="verifyPassword()">Confirm</button>
+        </div>
+    </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+    <div class="footer-inner">
+        <div class="footer-name">Ali Atyabi, Ph.D.</div>
+        <div class="footer-links">
+            <a href="mailto:atyabi902@gmail.com"><i class="far fa-envelope"></i> Email</a>
+            <a href="https://linkedin.com/in/s-ali-atyabi" target="_blank"><i class="fab fa-linkedin-in"></i> LinkedIn</a>
+            <a href="https://scholar.google.com/citations?user=MytiTgsAAAAJ" target="_blank"><i class="fas fa-graduation-cap"></i> Google Scholar</a>
+        </div>
+        <div class="footer-copy">© 2026 Ali Atyabi · All rights reserved</div>
+    </div>
+</footer>
+
+<script>
+    const YOUTUBE_ID = 'isl7ev247z4';
+    const GENERAL_PASSWORD = 'ali';
+    const fileConfig = { figure1: { url: 'https://example.com/files/figure1_geometry.comsol' } };
+    let currentFileId = null;
+
+    function loadVideo2() {
+        const wrap = document.getElementById('videoContainer2');
+        const iframe = document.createElement('iframe');
+        iframe.src = `https://www.youtube.com/embed/${YOUTUBE_ID}?autoplay=1&rel=0`;
+        iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+        iframe.allowFullscreen = true;
+        wrap.appendChild(iframe);
+        wrap.classList.add('loaded');
+        wrap.onclick = null;
+    }
+
+    function showPasswordModal(fileId) {
+        currentFileId = fileId;
+        document.getElementById('passwordModal').style.display = 'block';
+        document.getElementById('password').value = '';
+        document.getElementById('errorMessage').style.display = 'none';
+        document.getElementById('successMessage').style.display = 'none';
+        setTimeout(() => document.getElementById('password').focus(), 100);
+    }
+
+    function closePasswordModal() {
+        document.getElementById('passwordModal').style.display = 'none';
+        currentFileId = null;
+    }
+
+    function verifyPassword() {
+        const val = document.getElementById('password').value;
+        if (val === GENERAL_PASSWORD) {
+            document.getElementById('errorMessage').style.display = 'none';
+            document.getElementById('successMessage').style.display = 'block';
+            setTimeout(() => {
+                window.open(fileConfig[currentFileId].url, '_blank');
+                closePasswordModal();
+            }, 900);
+        } else {
+            document.getElementById('successMessage').style.display = 'none';
+            document.getElementById('errorMessage').style.display = 'block';
+            document.getElementById('password').value = '';
+            document.getElementById('password').focus();
+        }
+    }
+
+    document.getElementById('password').addEventListener('keydown', e => {
+        if (e.key === 'Enter') verifyPassword();
+    });
+
+    window.addEventListener('click', e => {
+        if (e.target === document.getElementById('passwordModal')) closePasswordModal();
+    });
+</script>
+</body>
+</html>
