@@ -1,674 +1,457 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TAR-200 CFD & AI-driven Optimization | Ali Atyabi, Ph.D.</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        :root {
-            --bg:        #0b0f1a;
-            --surface:   #131826;
-            --surface2:  #1a2035;
-            --border:    #232c44;
-            --border-hi: #2e3a58;
-            --teal:      #2ec4b6;
-            --teal-dim:  #1a7a72;
-            --teal-glow: rgba(46,196,182,0.11);
-            --gold:      #c9a84c;
-            --gold-dim:  #8c6e2f;
-            --gold-glow: rgba(201,168,76,0.10);
-            --text:      #eef1f7;
-            --muted:     #8a96b0;
-            --dim:       #4e5a72;
-            --r:         7px;
-            --t:         0.2s cubic-bezier(0.4,0,0.2,1);
-        }
-        *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-        html{scroll-behavior:smooth}
-        body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.7;-webkit-font-smoothing:antialiased}
-        ::-webkit-scrollbar{width:5px}
-        ::-webkit-scrollbar-track{background:var(--bg)}
-        ::-webkit-scrollbar-thumb{background:var(--teal-dim);border-radius:3px}
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TAR-200 CFD & ML Optimization | Ali Atyabi, Ph.D.</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:      #0b0f1a;
+  --surf:    #131826;
+  --surf2:   #1a2035;
+  --border:  #232c44;
+  --bhi:     #2e3a58;
+  --teal:    #2ec4b6;
+  --tdim:    #1a7a72;
+  --tglow:   rgba(46,196,182,.10);
+  --gold:    #c9a84c;
+  --gdim:    #8c6e2f;
+  --text:    #eef1f7;
+  --muted:   #8a96b0;
+  --dim:     #4e5a72;
+  --r:       6px;
+  --t:       0.18s ease;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);line-height:1.65;-webkit-font-smoothing:antialiased}
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-thumb{background:var(--tdim);border-radius:2px}
 
-        /* NAV */
-        nav{position:sticky;top:0;z-index:999;background:rgba(11,15,26,0.94);backdrop-filter:blur(14px);border-bottom:1px solid var(--border)}
-        .nav-in{max-width:1160px;margin:0 auto;padding:0 2rem;height:56px;display:flex;justify-content:space-between;align-items:center}
-        .nav-brand{font-weight:700;font-size:.95rem;color:var(--teal);display:flex;align-items:center;gap:.45rem}
-        .nav-back{display:flex;align-items:center;gap:.4rem;color:var(--muted);text-decoration:none;font-size:.82rem;font-weight:500;transition:color var(--t)}
-        .nav-back:hover{color:var(--teal)}
+/* NAV */
+nav{position:sticky;top:0;z-index:99;background:rgba(11,15,26,.95);backdrop-filter:blur(14px);border-bottom:1px solid var(--border)}
+.nav-in{max-width:1080px;margin:0 auto;padding:0 1.5rem;height:52px;display:flex;justify-content:space-between;align-items:center}
+.nav-brand{font-weight:700;font-size:.88rem;color:var(--teal)}
+.nav-back{display:flex;align-items:center;gap:.35rem;color:var(--muted);text-decoration:none;font-size:.8rem;font-weight:500;transition:color var(--t)}
+.nav-back:hover{color:var(--teal)}
 
-        /* HERO */
-        .hero{position:relative;overflow:hidden;padding:5rem 2rem 4rem;text-align:center;
-              background:radial-gradient(ellipse 65% 50% at 25% 0%,rgba(46,196,182,.07) 0%,transparent 65%),
-                          radial-gradient(ellipse 45% 40% at 78% 5%,rgba(201,168,76,.05) 0%,transparent 60%),var(--bg);
-              border-bottom:1px solid var(--border)}
-        .hero::after{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:100px;height:1px;background:linear-gradient(90deg,transparent,var(--teal),transparent)}
-        .eyebrow{font-size:.68rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--teal);margin-bottom:1rem}
-        .hero h1{font-size:clamp(1.9rem,4.5vw,3rem);font-weight:700;line-height:1.18;margin-bottom:1.1rem}
-        .hero h1 em{font-style:normal;color:var(--teal)}
-        .hero-sub{color:var(--muted);font-size:.97rem;max-width:600px;margin:0 auto 1.8rem}
-        .badge{display:inline-flex;align-items:center;gap:.45rem;padding:.38rem .9rem;background:rgba(201,168,76,.07);border:1px solid var(--gold-dim);border-radius:100px;font-size:.74rem;color:var(--gold);letter-spacing:.04em}
+/* HERO */
+.hero{padding:4rem 1.5rem 3rem;text-align:center;
+  background:radial-gradient(ellipse 60% 45% at 20% 0%,rgba(46,196,182,.06),transparent 60%),
+             radial-gradient(ellipse 40% 35% at 80% 5%,rgba(201,168,76,.04),transparent 55%),var(--bg);
+  border-bottom:1px solid var(--border);position:relative}
+.eyebrow{font-size:.65rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--teal);margin-bottom:.9rem}
+.hero h1{font-size:clamp(1.7rem,4vw,2.7rem);font-weight:700;line-height:1.2;margin-bottom:.9rem}
+.hero h1 em{font-style:normal;color:var(--teal)}
+.hero-sub{color:var(--muted);font-size:.9rem;max-width:540px;margin:0 auto 1.4rem}
+.badge{display:inline-flex;align-items:center;gap:.4rem;padding:.32rem .8rem;background:rgba(201,168,76,.07);border:1px solid var(--gdim);border-radius:100px;font-size:.7rem;color:var(--gold)}
 
-        /* LAYOUT */
-        .page{max-width:1160px;margin:0 auto;padding:0 2rem 6rem}
+/* PAGE */
+.page{max-width:1080px;margin:0 auto;padding:0 1.5rem 5rem}
 
-        /* SECTION HEAD */
-        .sh{display:flex;align-items:center;gap:.9rem;margin:4rem 0 1.6rem}
-        .sh .pill{font-size:.65rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--teal);background:rgba(46,196,182,.07);border:1px solid var(--teal-dim);border-radius:3px;padding:2px 8px;white-space:nowrap}
-        .sh h2{font-size:1.5rem;font-weight:700;color:var(--text)}
-        .sh::after{content:'';flex:1;height:1px;background:var(--border)}
+/* SECTION HEADER */
+.sh{display:flex;align-items:center;gap:.75rem;margin:3.5rem 0 1.4rem}
+.sh .pill{font-size:.62rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);background:rgba(46,196,182,.07);border:1px solid var(--tdim);border-radius:3px;padding:2px 7px;white-space:nowrap}
+.sh h2{font-size:1.2rem;font-weight:700}
+.sh::after{content:'';flex:1;height:1px;background:var(--border)}
 
-        /* OVERVIEW */
-        .ov-grid{display:grid;grid-template-columns:1fr .9fr;gap:2.5rem;align-items:start}
-        .ov-copy p{color:var(--muted);margin-bottom:.9rem;font-size:.94rem;text-align:justify}
-        .kpis{display:flex;gap:.85rem;margin-top:1.6rem;flex-wrap:wrap}
-        .kpi{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:.75rem 1.1rem;text-align:center;min-width:80px;transition:border-color var(--t),box-shadow var(--t)}
-        .kpi:hover{border-color:var(--teal-dim);box-shadow:0 0 14px var(--teal-glow)}
-        .kpi .n{display:block;font-size:1.4rem;font-weight:700;color:var(--teal);line-height:1}
-        .kpi .l{display:block;font-size:.64rem;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-top:4px}
+/* OVERVIEW */
+.ov-grid{display:grid;grid-template-columns:1fr .85fr;gap:2rem;align-items:start}
+.ov-copy p{color:var(--muted);font-size:.88rem;margin-bottom:.75rem}
+.kpis{display:flex;gap:.7rem;margin-top:1.3rem;flex-wrap:wrap}
+.kpi{background:var(--surf);border:1px solid var(--border);border-radius:var(--r);padding:.65rem 1rem;text-align:center;min-width:70px;transition:border-color var(--t)}
+.kpi:hover{border-color:var(--tdim)}
+.kpi .n{display:block;font-size:1.25rem;font-weight:700;color:var(--teal);line-height:1}
+.kpi .l{display:block;font-size:.62rem;text-transform:uppercase;letter-spacing:.09em;color:var(--muted);margin-top:3px}
 
-        /* DEVICE PANEL */
-        .dev-panel{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:1.3rem}
-        .dev-panel .pl{font-size:.68rem;text-transform:uppercase;letter-spacing:.13em;color:var(--teal);font-weight:600;margin-bottom:.9rem}
-        .dev-legend{display:flex;gap:1.2rem;flex-wrap:wrap;margin-top:.7rem}
-        .dev-legend span{font-size:.68rem;color:var(--dim);display:flex;align-items:center;gap:.3rem}
-        .dot{width:7px;height:7px;border-radius:50%;display:inline-block}
+/* DEVICE PANEL */
+.dev-panel{background:var(--surf);border:1px solid var(--border);border-radius:var(--r);padding:1.1rem}
+.dev-panel .pl{font-size:.65rem;text-transform:uppercase;letter-spacing:.12em;color:var(--teal);font-weight:600;margin-bottom:.75rem}
+.dev-legend{display:flex;gap:1rem;flex-wrap:wrap;margin-top:.5rem}
+.dev-legend span{font-size:.65rem;color:var(--dim);display:flex;align-items:center;gap:.28rem}
+.dot{width:6px;height:6px;border-radius:50%;display:inline-block}
 
-        /* TWO COL */
-        .two{display:grid;grid-template-columns:1fr 1fr;gap:1.3rem}
-        .icard{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:1.4rem 1.6rem;transition:border-color var(--t)}
-        .icard:hover{border-color:var(--border-hi)}
-        .icard.ct{border-top:2px solid var(--teal)}
-        .icard.cg{border-top:2px solid var(--gold)}
-        .icard h4{font-size:.88rem;font-weight:700;color:var(--text);margin-bottom:.85rem;display:flex;align-items:center;gap:.45rem}
-        .icard h4 i{font-size:.8rem;color:var(--teal)}
-        .icard h4 i.g{color:var(--gold)}
-        .icard ul{list-style:none}
-        .icard li{font-size:.84rem;color:var(--muted);padding:.4rem 0 .4rem 1.1rem;border-bottom:1px solid rgba(255,255,255,.04);position:relative}
-        .icard li:last-child{border-bottom:none}
-        .icard li::before{content:'›';position:absolute;left:0;color:var(--teal);font-weight:700}
+/* CHALLENGE / APPROACH */
+.two{display:grid;grid-template-columns:1fr 1fr;gap:1.1rem}
+.icard{background:var(--surf);border:1px solid var(--border);border-radius:var(--r);padding:1.2rem 1.4rem}
+.icard.ct{border-top:2px solid var(--teal)}
+.icard.cg{border-top:2px solid var(--gold)}
+.icard h4{font-size:.84rem;font-weight:700;margin-bottom:.75rem;display:flex;align-items:center;gap:.4rem}
+.icard h4 .ico{font-size:.95rem}
+.icard ul{list-style:none}
+.icard li{font-size:.81rem;color:var(--muted);padding:.32rem 0 .32rem 1rem;border-bottom:1px solid rgba(255,255,255,.04);position:relative}
+.icard li:last-child{border-bottom:none}
+.icard li::before{content:'›';position:absolute;left:0;color:var(--teal);font-weight:700}
 
-        /* CARDS */
-        .cgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:1.3rem}
-        .mc{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;display:flex;flex-direction:column;transition:border-color var(--t),transform var(--t),box-shadow var(--t)}
-        .mc:hover{border-color:var(--teal-dim);transform:translateY(-3px);box-shadow:0 12px 30px rgba(0,0,0,.4)}
-        .mc-vis{width:100%;height:170px;background:var(--surface2);display:flex;align-items:center;justify-content:center;overflow:hidden}
-        .mc-vis svg{width:100%;height:100%}
-        .mc-body{padding:1.2rem 1.4rem;flex:1;display:flex;flex-direction:column}
-        .mc-tag{font-size:.65rem;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--teal);margin-bottom:.4rem}
-        .mc-body h4{font-size:.96rem;font-weight:700;color:var(--text);line-height:1.35;margin-bottom:.65rem}
-        .mc-body p{font-size:.83rem;color:var(--muted);flex:1;margin-bottom:1rem;text-align:justify}
-        .mc-foot{display:flex;align-items:center;justify-content:space-between;padding-top:.7rem;border-top:1px solid var(--border)}
-        .tags{display:flex;gap:.35rem;flex-wrap:wrap}
-        .tag{font-size:.62rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;padding:2px 6px;background:rgba(46,196,182,.07);border:1px solid rgba(46,196,182,.18);border-radius:3px;color:var(--teal)}
-        .lock{font-size:.65rem;color:var(--dim);display:flex;align-items:center;gap:.3rem}
-        .lock i{font-size:.58rem;color:var(--gold)}
+/* PHASE GRID */
+.pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:1.1rem}
+.pc{background:var(--surf);border:1px solid var(--border);border-radius:var(--r);padding:1.1rem 1.3rem;transition:border-color var(--t),transform var(--t)}
+.pc:hover{border-color:var(--tdim);transform:translateY(-2px)}
+.pc-head{display:flex;align-items:center;gap:.6rem;margin-bottom:.55rem}
+.pc-icon{font-size:1.1rem;width:32px;text-align:center;flex-shrink:0}
+.pc-tag{font-size:.62rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--teal)}
+.pc h4{font-size:.86rem;font-weight:700;margin-bottom:.4rem}
+.pc p{font-size:.8rem;color:var(--muted);line-height:1.5}
+.pc-tags{display:flex;gap:.3rem;flex-wrap:wrap;margin-top:.7rem}
+.tag{font-size:.6rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:1px 5px;background:rgba(46,196,182,.07);border:1px solid rgba(46,196,182,.18);border-radius:3px;color:var(--teal)}
+.lock{font-size:.62rem;color:var(--dim);display:inline-flex;align-items:center;gap:.25rem;margin-left:auto;flex-shrink:0}
 
-        /* PIPELINE */
-        .pipe{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:1.8rem 2rem}
-        .pipe-intro{color:var(--muted);font-size:.88rem;margin-bottom:1.8rem}
-        .steps{display:flex;gap:0;overflow-x:auto;padding-bottom:.3rem}
-        .step{flex:1;min-width:120px;text-align:center;padding:1rem .6rem;position:relative}
-        .step::after{content:'→';position:absolute;right:-12px;top:42%;color:var(--teal-dim);font-size:1rem}
-        .step:last-child::after{display:none}
-        .s-icon{width:46px;height:46px;border-radius:50%;background:rgba(46,196,182,.07);border:1px solid var(--teal-dim);display:flex;align-items:center;justify-content:center;color:var(--teal);font-size:1.05rem;margin:0 auto .6rem;transition:background var(--t),box-shadow var(--t)}
-        .step:hover .s-icon{background:var(--teal-glow);box-shadow:0 0 16px var(--teal-glow)}
-        .s-num{font-size:.58rem;text-transform:uppercase;letter-spacing:.12em;color:var(--teal);font-weight:700}
-        .s-title{font-size:.82rem;font-weight:600;color:var(--text);margin:.2rem 0}
-        .s-desc{font-size:.73rem;color:var(--muted);line-height:1.45}
+/* PIPELINE */
+.pipe{background:var(--surf);border:1px solid var(--border);border-radius:var(--r);padding:1.5rem 1.8rem}
+.steps{display:flex;gap:0;overflow-x:auto;padding-bottom:.2rem}
+.step{flex:1;min-width:110px;text-align:center;padding:.9rem .5rem;position:relative}
+.step::after{content:'→';position:absolute;right:-10px;top:40%;color:var(--tdim);font-size:.9rem}
+.step:last-child::after{display:none}
+.s-icon{width:40px;height:40px;border-radius:50%;background:rgba(46,196,182,.07);border:1px solid var(--tdim);display:flex;align-items:center;justify-content:center;font-size:.95rem;margin:0 auto .5rem;transition:box-shadow var(--t)}
+.step:hover .s-icon{box-shadow:0 0 14px var(--tglow)}
+.s-num{font-size:.56rem;text-transform:uppercase;letter-spacing:.12em;color:var(--teal);font-weight:700}
+.s-title{font-size:.78rem;font-weight:600;margin:.15rem 0}
+.s-desc{font-size:.7rem;color:var(--muted);line-height:1.4}
 
-        /* ACHIEVEMENTS */
-        .achs{display:flex;flex-direction:column;gap:.8rem}
-        .ach{display:flex;gap:1.1rem;align-items:flex-start;background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:1rem 1.3rem;transition:border-color var(--t),transform var(--t)}
-        .ach:hover{border-color:var(--teal-dim);transform:translateX(3px)}
-        .a-icon{width:32px;height:32px;border-radius:50%;flex-shrink:0;background:rgba(46,196,182,.07);border:1px solid var(--teal-dim);display:flex;align-items:center;justify-content:center;color:var(--teal);font-size:.8rem}
-        .a-text strong{display:block;font-size:.88rem;color:var(--text);margin-bottom:.2rem}
-        .a-text span{font-size:.81rem;color:var(--muted)}
+/* RESULTS */
+.achs{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
+.ach{display:flex;gap:.9rem;align-items:flex-start;background:var(--surf);border:1px solid var(--border);border-radius:var(--r);padding:.9rem 1.1rem;transition:border-color var(--t)}
+.ach:hover{border-color:var(--tdim)}
+.a-icon{font-size:1.05rem;flex-shrink:0;width:28px;text-align:center;padding-top:.1rem}
+.a-text strong{display:block;font-size:.82rem;color:var(--text);margin-bottom:.15rem}
+.a-text span{font-size:.77rem;color:var(--muted);line-height:1.45}
 
-        /* SKILLS */
-        .sgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:.9rem}
-        .schip{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:.85rem 1rem;display:flex;gap:.65rem;align-items:center;transition:border-color var(--t)}
-        .schip:hover{border-color:var(--teal-dim)}
-        .schip i{color:var(--teal);font-size:.95rem;flex-shrink:0;width:18px;text-align:center}
-        .schip strong{display:block;font-size:.82rem;color:var(--text)}
-        .schip span{font-size:.72rem;color:var(--muted)}
+/* SKILLS */
+.sgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:.75rem}
+.schip{background:var(--surf);border:1px solid var(--border);border-radius:var(--r);padding:.75rem .9rem;display:flex;gap:.55rem;align-items:center;transition:border-color var(--t)}
+.schip:hover{border-color:var(--tdim)}
+.schip .ico{font-size:1rem;flex-shrink:0;width:20px;text-align:center}
+.schip strong{display:block;font-size:.79rem;color:var(--text)}
+.schip span{font-size:.69rem;color:var(--muted)}
 
-        /* CONF BOX */
-        .cbox{background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--gold);border-radius:var(--r);padding:1.3rem 1.7rem}
-        .cbox p{font-size:.86rem;color:var(--muted)}
-        .cbox p+p{margin-top:.5rem}
-        .cbox strong{color:var(--gold)}
+/* NOTE */
+.cbox{background:var(--surf);border:1px solid var(--border);border-left:3px solid var(--gold);border-radius:var(--r);padding:1.1rem 1.4rem}
+.cbox p{font-size:.84rem;color:var(--muted)}
+.cbox strong{color:var(--gold)}
 
-        /* COLLAB */
-        .collab{background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--teal);border-radius:var(--r);padding:1.6rem 2rem;margin-top:1rem}
-        .collab p{color:var(--muted);font-size:.92rem;margin-bottom:1.2rem}
-        .btn{display:inline-flex;align-items:center;gap:.45rem;padding:.62rem 1.3rem;background:var(--teal);color:#0b0f1a;border-radius:var(--r);text-decoration:none;font-weight:600;font-size:.86rem;transition:background var(--t),transform var(--t)}
-        .btn:hover{background:#3dd8ca;transform:translateY(-2px)}
+/* COLLAB */
+.collab{background:var(--surf);border:1px solid var(--border);border-left:3px solid var(--teal);border-radius:var(--r);padding:1.3rem 1.6rem;margin-top:.9rem;display:flex;align-items:center;justify-content:space-between;gap:1.5rem;flex-wrap:wrap}
+.collab p{color:var(--muted);font-size:.86rem}
+.btn{display:inline-flex;align-items:center;gap:.4rem;padding:.55rem 1.1rem;background:var(--teal);color:#0b0f1a;border-radius:var(--r);text-decoration:none;font-weight:600;font-size:.82rem;white-space:nowrap;transition:background var(--t),transform var(--t)}
+.btn:hover{background:#3dd8ca;transform:translateY(-1px)}
 
-        /* FOOTER */
-        footer{background:var(--surface);border-top:1px solid var(--border);padding:2.2rem 2rem;text-align:center}
-        .fi{max-width:1160px;margin:0 auto}
-        .fn{font-weight:700;font-size:.96rem;color:var(--teal);margin-bottom:.65rem}
-        .flinks{display:flex;justify-content:center;gap:1.4rem;flex-wrap:wrap;margin-bottom:.8rem}
-        .flinks a{color:var(--muted);text-decoration:none;font-size:.83rem;display:flex;align-items:center;gap:.3rem;transition:color var(--t)}
-        .flinks a:hover{color:var(--teal)}
-        .fc{font-size:.73rem;color:var(--dim)}
+/* FOOTER */
+footer{background:var(--surf);border-top:1px solid var(--border);padding:1.8rem 1.5rem;text-align:center}
+.fi{max-width:1080px;margin:0 auto}
+.fn{font-weight:700;font-size:.9rem;color:var(--teal);margin-bottom:.5rem}
+.flinks{display:flex;justify-content:center;gap:1.2rem;flex-wrap:wrap;margin-bottom:.6rem}
+.flinks a{color:var(--muted);text-decoration:none;font-size:.8rem;display:flex;align-items:center;gap:.28rem;transition:color var(--t)}
+.flinks a:hover{color:var(--teal)}
+.fc{font-size:.7rem;color:var(--dim)}
 
-        @media(max-width:820px){.ov-grid,.two{grid-template-columns:1fr}.cgrid{grid-template-columns:1fr}.steps{flex-direction:column}.step::after{content:'↓';right:auto;left:50%;transform:translateX(-50%);bottom:-14px;top:auto}.sh h2{font-size:1.25rem}}
-        @media(max-width:480px){.page{padding:0 1rem 4rem}.pipe,.collab{padding:1.3rem}}
-    </style>
+@media(max-width:780px){
+  .ov-grid,.two,.achs{grid-template-columns:1fr}
+  .steps{flex-direction:column}
+  .step::after{content:'↓';right:auto;left:50%;transform:translateX(-50%);bottom:-12px;top:auto}
+  .collab{flex-direction:column;align-items:flex-start}
+}
+@media(max-width:480px){.page{padding:0 1rem 3rem}}
+</style>
 </head>
 <body>
 
 <nav>
-    <div class="nav-in">
-        <div class="nav-brand"><i class="fas fa-flask"></i> Ali Atyabi, Ph.D.</div>
-        <a href="https://atyabia.github.io/index.html" class="nav-back"><i class="fas fa-arrow-left"></i> Portfolio</a>
-    </div>
+  <div class="nav-in">
+    <div class="nav-brand">⚗️ Ali Atyabi, Ph.D.</div>
+    <a href="https://atyabia.github.io/index.html" class="nav-back">← Portfolio</a>
+  </div>
 </nav>
 
 <!-- HERO -->
 <div class="hero">
-    <div class="eyebrow">Multiphysics CFD · Python Automation · ML Surrogate</div>
-    <h1>Osmotic pump device<br><em>CFD &amp; ML Optimization</em></h1>
-    <p class="hero-sub">2D multiphysics CFD modeling, automated parametric optimization, and machine learning surrogate development for controlled release prediction in the osmotic pump drug delivery device fro medical applications.</p>
-    <span class="badge"><i class="fas fa-lock"></i> Industrial collaboration: Johnson & Johnson</span>
+  <div class="eyebrow">Multiphysics CFD · Python Automation · ML Surrogate</div>
+  <h1>Osmotic Pump Device<br><em>CFD &amp; ML Optimization</em></h1>
+  <p class="hero-sub">2D multiphysics CFD modeling, automated parametric optimization, and ML surrogate development for controlled drug release prediction — in collaboration with Johnson &amp; Johnson.</p>
+  <span class="badge">🔒 Industrial Collaboration: Johnson &amp; Johnson</span>
 </div>
 
 <div class="page">
 
-    <!-- 01 OVERVIEW -->
-    <div class="sh"><span class="pill">01</span><h2>Overview</h2></div>
+  <!-- 01 OVERVIEW -->
+  <div class="sh"><span class="pill">01</span><h2>Overview</h2></div>
 
-    <div class="ov-grid">
-        <div class="ov-copy">
-            <p>The osmsotic pump device is a drug delivery device in which release kinetics are governed by the interplay of osmotic pressure, dissolution, convective and diffusion mass transport, across two distinct internal regions connected by an orifice.</p>
-            <p>A 2D multiphysics CFD model was developed in COMSOL and coupled to a Python automation (mph library), enabling systematic parametric studies, RMSE-based accuracy evaluation against experimental data, and a Bayesian smart optimization loop that feeds a machine learning surrogate pipeline (RFR and GBR).</p>
-            <p>The work spanned six iterative research phases, culminating in the identification of a  transport mechanism and a fully automated CFD-to-ML framework.</p>
-            <div class="kpis">
-                <div class="kpi"><span class="n">6</span><span class="l">Phases</span></div>
-                <div class="kpi"><span class="n">2D</span><span class="l">CFD Model</span></div>
-                <div class="kpi"><span class="n">Auto</span><span class="l">Pipeline</span></div>
-                <div class="kpi"><span class="n">ML</span><span class="l">Surrogate</span></div>
-            </div>
-        </div>
-
-        <div class="dev-panel">
-            <div class="pl"><i class="fas fa-drafting-compass" style="margin-right:.4rem"></i>TAR-200 — 2D Schematic</div>
-            <svg viewBox="0 0 400 190" xmlns="http://www.w3.org/2000/svg" style="width:100%">
-                <!-- tube outline -->
-                <rect x="8" y="62" width="384" height="76" rx="38" fill="#131826" stroke="#2e3a58" stroke-width="1.5"/>
-                <!-- osmotic left -->
-                <rect x="12" y="66" width="108" height="68" rx="34" fill="#1a2035"/>
-                <text x="66" y="102" text-anchor="middle" fill="#8a96b0" font-size="9" font-family="Inter,sans-serif" font-weight="600">Osmotic</text>
-                <text x="66" y="114" text-anchor="middle" fill="#4e5a72" font-size="7.5" font-family="Inter,sans-serif">High-osmolarity agent</text>
-                <circle cx="38" cy="90" r="4" fill="#2ec4b6" opacity=".25"/>
-                <circle cx="55" cy="82" r="3" fill="#2ec4b6" opacity=".2"/>
-                <circle cx="82" cy="96" r="4.5" fill="#2ec4b6" opacity=".3"/>
-                <circle cx="98" cy="85" r="3" fill="#2ec4b6" opacity=".2"/>
-                <!-- active -->
-                <rect x="136" y="66" width="128" height="68" fill="#0e1420" stroke="#232c44" stroke-width="1"/>
-                <text x="200" y="100" text-anchor="middle" fill="#8a96b0" font-size="9" font-family="Inter,sans-serif" font-weight="600">Active Region</text>
-                <text x="200" y="113" text-anchor="middle" fill="#4e5a72" font-size="7.5" font-family="Inter,sans-serif">Release zone</text>
-                <circle cx="162" cy="90" r="4" fill="#c9a84c" opacity=".28"/>
-                <circle cx="185" cy="104" r="3" fill="#c9a84c" opacity=".22"/>
-                <circle cx="215" cy="88" r="4" fill="#c9a84c" opacity=".25"/>
-                <circle cx="235" cy="103" r="3" fill="#c9a84c" opacity=".2"/>
-                <!-- osmotic right -->
-                <rect x="280" y="66" width="108" height="68" rx="34" fill="#1a2035"/>
-                <text x="334" y="102" text-anchor="middle" fill="#8a96b0" font-size="9" font-family="Inter,sans-serif" font-weight="600">Osmotic</text>
-                <text x="334" y="114" text-anchor="middle" fill="#4e5a72" font-size="7.5" font-family="Inter,sans-serif">High-osmolarity agent</text>
-                <circle cx="300" cy="88" r="3.5" fill="#2ec4b6" opacity=".22"/>
-                <circle cx="320" cy="100" r="4" fill="#2ec4b6" opacity=".28"/>
-                <circle cx="355" cy="90" r="3" fill="#2ec4b6" opacity=".2"/>
-                <circle cx="370" cy="103" r="4" fill="#2ec4b6" opacity=".25"/>
-                <!-- dividers -->
-                <line x1="136" y1="66" x2="136" y2="134" stroke="#2ec4b6" stroke-width=".8" opacity=".4" stroke-dasharray="3,2"/>
-                <line x1="264" y1="66" x2="264" y2="134" stroke="#2ec4b6" stroke-width=".8" opacity=".4" stroke-dasharray="3,2"/>
-                <!-- orifice -->
-                <rect x="193" y="134" width="14" height="22" rx="2" fill="#2ec4b6" opacity=".65"/>
-                <text x="200" y="172" text-anchor="middle" fill="#2ec4b6" font-size="7.5" font-family="Inter,sans-serif">Orifice ⌀150 µm</text>
-                <!-- water arrows -->
-                <defs>
-                    <marker id="a1" markerWidth="5" markerHeight="5" refX="5" refY="2.5" orient="auto"><path d="M0,0L5,2.5L0,5Z" fill="#2ec4b6" opacity=".7"/></marker>
-                </defs>
-                <line x1="66" y1="50" x2="66" y2="62" stroke="#2ec4b6" stroke-width="1.2" marker-end="url(#a1)" opacity=".6"/>
-                <line x1="334" y1="50" x2="334" y2="62" stroke="#2ec4b6" stroke-width="1.2" marker-end="url(#a1)" opacity=".6"/>
-                <text x="66" y="45" text-anchor="middle" fill="#4e5a72" font-size="7.5" font-family="Inter,sans-serif">Water influx</text>
-                <text x="334" y="45" text-anchor="middle" fill="#4e5a72" font-size="7.5" font-family="Inter,sans-serif">Water influx</text>
-                <!-- membrane label -->
-                <text x="200" y="57" text-anchor="middle" fill="#4e5a72" font-size="7.5" font-family="Inter,sans-serif">Semipermeable membrane · th = 215 µm</text>
-                <!-- gravity -->
-                <line x1="388" y1="72" x2="388" y2="128" stroke="#4e5a72" stroke-width="1" marker-end="url(#a1)" opacity=".5"/>
-                <text x="388" y="103" text-anchor="middle" fill="#4e5a72" font-size="7" font-family="Inter,sans-serif" transform="rotate(90,388,103)">g</text>
-            </svg>
-            <div class="dev-legend">
-                <span><span class="dot" style="background:var(--teal);opacity:.6"></span> Osmotic agent</span>
-                <span><span class="dot" style="background:var(--gold);opacity:.6"></span> Active payload</span>
-                <span><span style="display:inline-block;width:12px;height:2px;background:var(--teal);opacity:.5"></span> Water flux</span>
-            </div>
-        </div>
+  <div class="ov-grid">
+    <div class="ov-copy">
+      <p>The osmotic pump device controls drug release through interplay of osmotic pressure, dissolution, and convective/diffusive mass transport across two compartments connected by a micro-orifice.</p>
+      <p>A 2D COMSOL multiphysics model was coupled to a Python automation pipeline — enabling parametric sweeps, RMSE-based validation, and Bayesian-guided ML surrogate training (Random Forest + PINN) across six iterative research phases.</p>
+      <div class="kpis">
+        <div class="kpi"><span class="n">6</span><span class="l">Phases</span></div>
+        <div class="kpi"><span class="n">2D</span><span class="l">CFD Model</span></div>
+        <div class="kpi"><span class="n">Auto</span><span class="l">Pipeline</span></div>
+        <div class="kpi"><span class="n">ML</span><span class="l">Surrogate</span></div>
+      </div>
     </div>
 
-    <!-- 02 CHALLENGE & APPROACH -->
-    <div class="sh"><span class="pill">02</span><h2>Challenge &amp; Approach</h2></div>
-    <div class="two">
-        <div class="icard ct">
-            <h4><i class="fas fa-exclamation-triangle"></i> Challenges</h4>
-            <ul>
-                <li>Standard CFD systematically underpredicted release rates — root cause unknown across multiple modeling iterations</li>
-                <li>Dynamic solid–liquid interface during dissolution changes the fluid cross-section over time, altering convective flux</li>
-                <li>Release kinetics depend on multiple coupled, time-varying physical properties</li>
-                <li>Large parameter space makes exhaustive CFD sweeps computationally prohibitive</li>
-                <li>Industry-proposed transport hypothesis required rigorous force-balance verification</li>
-            </ul>
-        </div>
-        <div class="icard cg">
-            <h4><i class="fas fa-lightbulb g"></i> Approach</h4>
-            <ul>
-                <li>Built a 2D COMSOL model coupling Navier–Stokes, convection–diffusion, dissolution ODEs, and osmotic pressure</li>
-                <li>Derived a time-dependent convective flux modifier from the evolving solid-liquid interface</li>
-                <li>Introduced dynamic property functions replacing fixed scalar assumptions</li>
-                <li>Automated full simulation pipeline via Python–COMSOL API with RMSE evaluation at each iteration</li>
-                <li>Designed Bayesian optimization loop → ML surrogate layer (Random Forest ) to replace expensive CFD runs</li>
-            </ul>
-        </div>
+    <div class="dev-panel">
+      <div class="pl">🔩 TAR-200 — 2D Schematic</div>
+      <svg viewBox="0 0 400 190" xmlns="http://www.w3.org/2000/svg" style="width:100%">
+        <rect x="8" y="62" width="384" height="76" rx="38" fill="#131826" stroke="#2e3a58" stroke-width="1.5"/>
+        <rect x="12" y="66" width="108" height="68" rx="34" fill="#1a2035"/>
+        <text x="66" y="102" text-anchor="middle" fill="#8a96b0" font-size="9" font-family="Inter,sans-serif" font-weight="600">Osmotic</text>
+        <text x="66" y="114" text-anchor="middle" fill="#4e5a72" font-size="7.5" font-family="Inter,sans-serif">High-osmolarity agent</text>
+        <circle cx="38" cy="90" r="4" fill="#2ec4b6" opacity=".25"/>
+        <circle cx="55" cy="82" r="3" fill="#2ec4b6" opacity=".2"/>
+        <circle cx="82" cy="96" r="4.5" fill="#2ec4b6" opacity=".3"/>
+        <circle cx="98" cy="85" r="3" fill="#2ec4b6" opacity=".2"/>
+        <rect x="136" y="66" width="128" height="68" fill="#0e1420" stroke="#232c44" stroke-width="1"/>
+        <text x="200" y="100" text-anchor="middle" fill="#8a96b0" font-size="9" font-family="Inter,sans-serif" font-weight="600">Active Region</text>
+        <text x="200" y="113" text-anchor="middle" fill="#4e5a72" font-size="7.5" font-family="Inter,sans-serif">Release zone</text>
+        <circle cx="162" cy="90" r="4" fill="#c9a84c" opacity=".28"/>
+        <circle cx="185" cy="104" r="3" fill="#c9a84c" opacity=".22"/>
+        <circle cx="215" cy="88" r="4" fill="#c9a84c" opacity=".25"/>
+        <circle cx="235" cy="103" r="3" fill="#c9a84c" opacity=".2"/>
+        <rect x="280" y="66" width="108" height="68" rx="34" fill="#1a2035"/>
+        <text x="334" y="102" text-anchor="middle" fill="#8a96b0" font-size="9" font-family="Inter,sans-serif" font-weight="600">Osmotic</text>
+        <text x="334" y="114" text-anchor="middle" fill="#4e5a72" font-size="7.5" font-family="Inter,sans-serif">High-osmolarity agent</text>
+        <circle cx="300" cy="88" r="3.5" fill="#2ec4b6" opacity=".22"/>
+        <circle cx="320" cy="100" r="4" fill="#2ec4b6" opacity=".28"/>
+        <circle cx="355" cy="90" r="3" fill="#2ec4b6" opacity=".2"/>
+        <circle cx="370" cy="103" r="4" fill="#2ec4b6" opacity=".25"/>
+        <line x1="136" y1="66" x2="136" y2="134" stroke="#2ec4b6" stroke-width=".8" opacity=".4" stroke-dasharray="3,2"/>
+        <line x1="264" y1="66" x2="264" y2="134" stroke="#2ec4b6" stroke-width=".8" opacity=".4" stroke-dasharray="3,2"/>
+        <rect x="193" y="134" width="14" height="22" rx="2" fill="#2ec4b6" opacity=".65"/>
+        <text x="200" y="172" text-anchor="middle" fill="#2ec4b6" font-size="7.5" font-family="Inter,sans-serif">Orifice ⌀150 µm</text>
+        <defs>
+          <marker id="a1" markerWidth="5" markerHeight="5" refX="5" refY="2.5" orient="auto"><path d="M0,0L5,2.5L0,5Z" fill="#2ec4b6" opacity=".7"/></marker>
+        </defs>
+        <line x1="66" y1="50" x2="66" y2="62" stroke="#2ec4b6" stroke-width="1.2" marker-end="url(#a1)" opacity=".6"/>
+        <line x1="334" y1="50" x2="334" y2="62" stroke="#2ec4b6" stroke-width="1.2" marker-end="url(#a1)" opacity=".6"/>
+        <text x="66" y="45" text-anchor="middle" fill="#4e5a72" font-size="7.5" font-family="Inter,sans-serif">Water influx</text>
+        <text x="334" y="45" text-anchor="middle" fill="#4e5a72" font-size="7.5" font-family="Inter,sans-serif">Water influx</text>
+        <text x="200" y="57" text-anchor="middle" fill="#4e5a72" font-size="7.5" font-family="Inter,sans-serif">Semipermeable membrane · th = 215 µm</text>
+      </svg>
+      <div class="dev-legend">
+        <span><span class="dot" style="background:var(--teal);opacity:.6"></span> Osmotic agent</span>
+        <span><span class="dot" style="background:var(--gold);opacity:.6"></span> Active payload</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 02 CHALLENGE & APPROACH -->
+  <div class="sh"><span class="pill">02</span><h2>Challenge &amp; Approach</h2></div>
+  <div class="two">
+    <div class="icard ct">
+      <h4><span class="ico">⚠️</span> Challenges</h4>
+      <ul>
+        <li>CFD systematically underpredicted release rates — root cause unknown</li>
+        <li>Dissolving solid changes fluid cross-section over time, altering convective flux</li>
+        <li>Coupled, time-varying physical properties govern kinetics</li>
+        <li>Large parameter space makes exhaustive CFD sweeps expensive</li>
+        <li>Industry-proposed transport hypothesis required force-balance verification</li>
+      </ul>
+    </div>
+    <div class="icard cg">
+      <h4><span class="ico">💡</span> Approach</h4>
+      <ul>
+        <li>2D COMSOL model coupling Navier–Stokes, convection–diffusion, PBM, and osmotic pressure</li>
+        <li>Time-dependent convective flux modifier derived from the evolving S–L interface</li>
+        <li>Dynamic property functions replacing fixed scalar assumptions</li>
+        <li>Python–COMSOL API pipeline with RMSE evaluation at each iteration</li>
+        <li>Bayesian optimization loop feeding RF + PINN surrogate layer</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 03 MODELING PHASES -->
+  <div class="sh"><span class="pill">03</span><h2>Modeling Phases</h2></div>
+  <div class="pgrid">
+
+    <div class="pc">
+      <div class="pc-head">
+        <span class="pc-icon">🔲</span>
+        <span class="pc-tag">COMSOL · CFD · PBM</span>
+      </div>
+      <h4>2D Multiphysics Model</h4>
+      <p>Navier–Stokes flow, convection–diffusion mass transport, and Population Balance dissolution — all within a 2576-element structured mesh capturing both compartments and the orifice.</p>
+      <div class="pc-tags"><span class="tag">COMSOL</span><span class="tag">N–S</span><span class="tag">PBM</span><span class="lock">🔒 Confidential</span></div>
     </div>
 
-    <!-- 03 MODELING ACTIVITIES -->
-    <div class="sh"><span class="pill">03</span><h2>Modeling Activities</h2></div>
-    <div class="cgrid">
-
-        <!-- M1 -->
-        <div class="mc">
-            <div class="mc-vis">
-                <svg viewBox="0 0 340 170" xmlns="http://www.w3.org/2000/svg">
-                    <rect width="340" height="170" fill="#0e1420"/>
-                    <!-- mesh grid -->
-                    <g opacity=".12" stroke="#2ec4b6" stroke-width=".5">
-                        <line x1="45" y1="25" x2="290" y2="25"/><line x1="45" y1="55" x2="290" y2="55"/>
-                        <line x1="45" y1="85" x2="290" y2="85"/><line x1="45" y1="115" x2="290" y2="115"/>
-                        <line x1="45" y1="145" x2="290" y2="145"/>
-                        <line x1="75" y1="15" x2="75" y2="155"/><line x1="115" y1="15" x2="115" y2="155"/>
-                        <line x1="155" y1="15" x2="155" y2="155"/><line x1="195" y1="15" x2="195" y2="155"/>
-                        <line x1="235" y1="15" x2="235" y2="155"/><line x1="275" y1="15" x2="275" y2="155"/>
-                    </g>
-                    <defs>
-                        <linearGradient id="cg1" x1="0%" y1="0%" x2="100%" y2="0%">
-                            <stop offset="0%" stop-color="#2ec4b6" stop-opacity=".35"/>
-                            <stop offset="48%" stop-color="#c9a84c" stop-opacity=".2"/>
-                            <stop offset="100%" stop-color="#2ec4b6" stop-opacity=".12"/>
-                        </linearGradient>
-                    </defs>
-                    <rect x="45" y="25" width="70" height="120" fill="#1a2035" stroke="#2ec4b6" stroke-width=".8" opacity=".6"/>
-                    <rect x="115" y="25" width="120" height="120" fill="#0b0f1a" stroke="#c9a84c" stroke-width=".8" opacity=".5"/>
-                    <rect x="235" y="25" width="55" height="120" fill="#1a2035" stroke="#2ec4b6" stroke-width=".8" opacity=".6"/>
-                    <rect x="45" y="25" width="245" height="120" fill="url(#cg1)" opacity=".45"/>
-                    <rect x="150" y="145" width="20" height="16" fill="#2ec4b6" opacity=".5"/>
-                    <text x="80" y="88" text-anchor="middle" fill="#2ec4b6" font-size="8.5" font-family="Inter,sans-serif" opacity=".8">Osmotic</text>
-                    <text x="175" y="85" text-anchor="middle" fill="#c9a84c" font-size="8.5" font-family="Inter,sans-serif" opacity=".8">Active</text>
-                    <text x="262" y="88" text-anchor="middle" fill="#2ec4b6" font-size="8" font-family="Inter,sans-serif" opacity=".7">Os.</text>
-                    <text x="160" y="167" text-anchor="middle" fill="#4e5a72" font-size="7.5" font-family="Inter,sans-serif">2576 elements · refined at interfaces</text>
-                </svg>
-            </div>
-            <div class="mc-body">
-                <div class="mc-tag">COMSOL · CFD · PBM</div>
-                <h4>2D Multiphysics Model</h4>
-                <p>Reduced 3D geometry to a validated 2D representation. Coupled Navier–Stokes flow, convection–diffusion mass transport, and Population Balance Model (PBM) for particle dissolution and erosion — all within a 2576-element structured mesh.</p>
-                <div class="mc-foot">
-                    <div class="tags"><span class="tag">COMSOL</span><span class="tag">N-S</span><span class="tag">PBM</span></div>
-                    <span class="lock"><i class="fas fa-lock"></i> Confidential</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- M2 -->
-        <div class="mc">
-            <div class="mc-vis">
-                <svg viewBox="0 0 340 170" xmlns="http://www.w3.org/2000/svg">
-                    <rect width="340" height="170" fill="#0e1420"/>
-                    <!-- day 2 -->
-                    <rect x="15" y="15" width="145" height="145" rx="4" fill="#131826" stroke="#232c44" stroke-width="1"/>
-                    <text x="87" y="32" text-anchor="middle" fill="#4e5a72" font-size="8" font-family="Inter,sans-serif">Day 2</text>
-                    <rect x="25" y="40" width="125" height="58" rx="2" fill="#2ec4b6" opacity=".14" stroke="#2ec4b6" stroke-width=".8" opacity=".4" stroke-dasharray="3,2"/>
-                    <text x="87" y="72" text-anchor="middle" fill="#2ec4b6" font-size="8" font-family="Inter,sans-serif" opacity=".7">Solid region</text>
-                    <rect x="25" y="100" width="125" height="22" rx="1" fill="#2ec4b6" opacity=".3"/>
-                    <text x="87" y="115" text-anchor="middle" fill="#eef1f7" font-size="7.5" font-family="Inter,sans-serif">Narrow fluid gap</text>
-                    <defs>
-                        <marker id="ca" markerWidth="5" markerHeight="5" refX="5" refY="2.5" orient="auto"><path d="M0,0L5,2.5L0,5Z" fill="#c9a84c"/></marker>
-                    </defs>
-                    <line x1="40" y1="135" x2="130" y2="135" stroke="#c9a84c" stroke-width="2" marker-end="url(#ca)"/>
-                    <text x="87" y="150" text-anchor="middle" fill="#c9a84c" font-size="7" font-family="Inter,sans-serif">High v → high convection</text>
-                    <!-- day 3 -->
-                    <rect x="180" y="15" width="145" height="145" rx="4" fill="#131826" stroke="#232c44" stroke-width="1"/>
-                    <text x="252" y="32" text-anchor="middle" fill="#4e5a72" font-size="8" font-family="Inter,sans-serif">Day 3</text>
-                    <rect x="190" y="40" width="125" height="30" rx="2" fill="#2ec4b6" opacity=".1" stroke="#2ec4b6" stroke-width=".8" opacity=".3" stroke-dasharray="3,2"/>
-                    <text x="252" y="58" text-anchor="middle" fill="#2ec4b6" font-size="7.5" font-family="Inter,sans-serif" opacity=".6">Solid (reduced)</text>
-                    <rect x="190" y="73" width="125" height="50" rx="1" fill="#2ec4b6" opacity=".18"/>
-                    <text x="252" y="102" text-anchor="middle" fill="#eef1f7" font-size="7.5" font-family="Inter,sans-serif">Wider fluid channel</text>
-                    <line x1="205" y1="135" x2="270" y2="135" stroke="#c9a84c" stroke-width="1.2" marker-end="url(#ca)" opacity=".6"/>
-                    <text x="252" y="150" text-anchor="middle" fill="#c9a84c" font-size="7" font-family="Inter,sans-serif">Lower v → less convection</text>
-                    <text x="165" y="90" text-anchor="middle" fill="#4e5a72" font-size="13">→</text>
-                </svg>
-            </div>
-            <div class="mc-body">
-                <div class="mc-tag">Novel Mechanism · Transport</div>
-                <h4>S–L Interface Discovery</h4>
-                <p>Identified a previously unmodeled mechanism: as solid material dissolves, the fluid cross-section widens over time — dynamically changing convective flux. A time-dependent modifier function derived from this resolves the systematic underprediction.</p>
-                <div class="mc-foot">
-                    <div class="tags"><span class="tag">COMSOL</span><span class="tag">Transport</span></div>
-                    <span class="lock"><i class="fas fa-lock"></i> Confidential</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- M3 -->
-        <div class="mc">
-            <div class="mc-vis">
-                <svg viewBox="0 0 340 170" xmlns="http://www.w3.org/2000/svg">
-                    <rect width="340" height="170" fill="#0e1420"/>
-                    <rect x="14" y="14" width="312" height="142" rx="5" fill="#0b0f1a" stroke="#232c44" stroke-width="1"/>
-                    <g fill="#4e5a72" font-size="7.5" font-family="JetBrains Mono,monospace">
-                        <text x="24" y="36">01</text><text x="24" y="52">02</text>
-                        <text x="24" y="68">03</text><text x="24" y="84">04</text>
-                        <text x="24" y="100">05</text><text x="24" y="116">06</text>
-                        <text x="24" y="132">07</text><text x="24" y="148">08</text>
-                    </g>
-                    <g font-size="7.8" font-family="JetBrains Mono,monospace">
-                        <text x="50" y="36" fill="#4e5a72"># Python → COMSOL automation</text>
-                        <text x="50" y="52"><tspan fill="#2ec4b6">import</tspan><tspan fill="#8a96b0"> mph</tspan></text>
-                        <text x="50" y="68" fill="#8a96b0">client = mph.<tspan fill="#c9a84c">Client</tspan>()</text>
-                        <text x="50" y="84" fill="#8a96b0">model  = client.<tspan fill="#c9a84c">load</tspan>(<tspan fill="#2ec4b6">'tar200.mph'</tspan>)</text>
-                        <text x="50" y="100" fill="#4e5a72"># parametric sweep</text>
-                        <text x="50" y="116"><tspan fill="#2ec4b6">for</tspan><tspan fill="#8a96b0"> p </tspan><tspan fill="#2ec4b6">in</tspan><tspan fill="#8a96b0"> param_space:</tspan></text>
-                        <text x="50" y="132" fill="#8a96b0">    model.<tspan fill="#c9a84c">param</tspan>(<tspan fill="#2ec4b6">'D'</tspan>, p)</text>
-                        <text x="50" y="148" fill="#8a96b0">    rmse = <tspan fill="#c9a84c">evaluate</tspan>(model, exp)</text>
-                    </g>
-                    <rect x="228" y="140" width="5" height="8" fill="#2ec4b6" opacity=".8"><animate attributeName="opacity" values=".8;0;.8" dur="1.1s" repeatCount="indefinite"/></rect>
-                </svg>
-            </div>
-            <div class="mc-body">
-                <div class="mc-tag">Python · COMSOL API · Jupyter</div>
-                <h4>Automated Parametric Pipeline</h4>
-                <p>Python–COMSOL API integration runs full simulations without manual steps — sweeping parameter lists or ranges, computing RMSE against experimental data, and auto-archiving .mph files and plots at each iteration.</p>
-                <div class="mc-foot">
-                    <div class="tags"><span class="tag">Python</span><span class="tag">API</span><span class="tag">RMSE</span></div>
-                    <span class="lock"><i class="fas fa-lock"></i> Confidential</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- M4 -->
-        <div class="mc">
-            <div class="mc-vis">
-                <svg viewBox="0 0 340 170" xmlns="http://www.w3.org/2000/svg">
-                    <rect width="340" height="170" fill="#0e1420"/>
-                    <line x1="38" y1="18" x2="38" y2="142" stroke="#2e3a58" stroke-width="1"/>
-                    <line x1="38" y1="142" x2="310" y2="142" stroke="#2e3a58" stroke-width="1"/>
-                    <text x="174" y="160" text-anchor="middle" fill="#4e5a72" font-size="8" font-family="Inter,sans-serif">Time (days)</text>
-                    <text x="13" y="82" text-anchor="middle" fill="#4e5a72" font-size="8" font-family="Inter,sans-serif" transform="rotate(-90,13,82)">Release Rate</text>
-                    <g fill="#4e5a72" font-size="7" font-family="Inter,sans-serif" text-anchor="middle">
-                        <text x="78" y="153">2</text><text x="128" y="153">4</text>
-                        <text x="178" y="153">7</text><text x="228" y="153">14</text><text x="285" y="153">21</text>
-                    </g>
-                    <!-- exp dots -->
-                    <g fill="#eef1f7" opacity=".8">
-                        <circle cx="78" cy="48" r="3.5"/><circle cx="128" cy="72" r="3.5"/>
-                        <circle cx="178" cy="90" r="3.5"/><circle cx="228" cy="114" r="3.5"/>
-                        <circle cx="285" cy="133" r="3.5"/>
-                    </g>
-                    <!-- constant (worse) -->
-                    <polyline points="38,138 78,62 128,84 178,102 228,124 285,138" fill="none" stroke="#4e5a72" stroke-width="1.4" stroke-dasharray="4,3"/>
-                    <!-- variable (better) -->
-                    <polyline points="38,137 78,50 128,74 178,92 228,115 285,133" fill="none" stroke="#2ec4b6" stroke-width="2"/>
-                    <!-- legend -->
-                    <circle cx="55" cy="168" r="3" fill="#eef1f7" opacity=".7"/>
-                    <text x="62" y="171" fill="#8a96b0" font-size="7" font-family="Inter,sans-serif">Exp.</text>
-                    <line x1="90" y1="168" x2="106" y2="168" stroke="#2ec4b6" stroke-width="2"/>
-                    <text x="110" y="171" fill="#8a96b0" font-size="7" font-family="Inter,sans-serif">Variable properties</text>
-                    <line x1="210" y1="168" x2="226" y2="168" stroke="#4e5a72" stroke-width="1.4" stroke-dasharray="3,2"/>
-                    <text x="230" y="171" fill="#8a96b0" font-size="7" font-family="Inter,sans-serif">Constant properties</text>
-                </svg>
-            </div>
-            <div class="mc-body">
-                <div class="mc-tag">Validation · RMSE · Properties</div>
-                <h4>Variable Property Modeling</h4>
-                <p>Replaced fixed scalar property assumptions with dynamic functions of local concentration, time, and operating conditions. Variable property models achieved lower RMSE for both compartment release profiles and closed the mass balance.</p>
-                <div class="mc-foot">
-                    <div class="tags"><span class="tag">COMSOL</span><span class="tag">Python</span><span class="tag">RMSE</span></div>
-                    <span class="lock"><i class="fas fa-lock"></i> Confidential</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- M5 -->
-        <div class="mc">
-            <div class="mc-vis">
-                <svg viewBox="0 0 340 170" xmlns="http://www.w3.org/2000/svg">
-                    <rect width="340" height="170" fill="#0e1420"/>
-                    <rect x="55" y="35" width="230" height="90" rx="45" fill="#131826" stroke="#2e3a58" stroke-width="1.5"/>
-                    <rect x="59" y="39" width="222" height="82" rx="41" fill="#0b0f1a" opacity=".6"/>
-                    <!-- particle -->
-                    <circle cx="170" cy="100" r="15" fill="#2ec4b6" opacity=".18" stroke="#2ec4b6" stroke-width="1.2" opacity=".6"/>
-                    <text x="170" y="104" text-anchor="middle" fill="#2ec4b6" font-size="7.5" font-family="Inter,sans-serif">particle</text>
-                    <defs>
-                        <marker id="fg" markerWidth="5" markerHeight="5" refX="5" refY="2.5" orient="auto"><path d="M0,0L5,2.5L0,5Z" fill="#c9a84c"/></marker>
-                        <marker id="fb" markerWidth="5" markerHeight="5" refX="5" refY="2.5" orient="auto"><path d="M0,0L5,2.5L0,5Z" fill="#4e5a72"/></marker>
-                        <marker id="fp" markerWidth="5" markerHeight="5" refX="5" refY="2.5" orient="auto"><path d="M0,0L5,2.5L0,5Z" fill="#2ec4b6"/></marker>
-                    </defs>
-                    <!-- gravity down (bigger) -->
-                    <line x1="170" y1="116" x2="170" y2="138" stroke="#c9a84c" stroke-width="2.2" marker-end="url(#fg)"/>
-                    <text x="178" y="136" fill="#c9a84c" font-size="7.5" font-family="Inter,sans-serif">F_gravity</text>
-                    <!-- buoyancy up (smaller) -->
-                    <line x1="152" y1="87" x2="152" y2="68" stroke="#4e5a72" stroke-width="1.5" marker-end="url(#fb)"/>
-                    <text x="112" y="67" fill="#4e5a72" font-size="7.5" font-family="Inter,sans-serif">F_buoy &lt; F_g</text>
-                    <!-- pressure right -->
-                    <line x1="186" y1="100" x2="212" y2="100" stroke="#2ec4b6" stroke-width="1.8" marker-end="url(#fp)"/>
-                    <text x="216" y="98" fill="#2ec4b6" font-size="7.5" font-family="Inter,sans-serif">F_pressure</text>
-                    <text x="170" y="157" text-anchor="middle" fill="#4e5a72" font-size="7.5" font-family="Inter,sans-serif">ρ_particle &gt; ρ_fluid → particle settles (non-buoyant)</text>
-                    <text x="170" y="168" text-anchor="middle" fill="#4e5a72" font-size="7" font-family="Inter,sans-serif">Pressure-driven flow dominates at orifice (ΔP ≈ 65 Pa)</text>
-                </svg>
-            </div>
-            <div class="mc-body">
-                <div class="mc-tag">Force Analysis · Hypothesis Testing</div>
-                <h4>Particle Transport Verification</h4>
-                <p>Rigorously evaluated a proposed transport mechanism via force balance (gravity, buoyancy, pressure). Analysis showed the particles are non-buoyant — gravity exceeds buoyancy — contradicting the hypothesis and redirecting modeling focus to convective flow.</p>
-                <div class="mc-foot">
-                    <div class="tags"><span class="tag">Physics</span><span class="tag">Analysis</span></div>
-                    <span class="lock"><i class="fas fa-lock"></i> Confidential</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- M6 -->
-        <div class="mc">
-            <div class="mc-vis">
-                <svg viewBox="0 0 340 170" xmlns="http://www.w3.org/2000/svg">
-                    <rect width="340" height="170" fill="#0e1420"/>
-                    <!-- input nodes -->
-                    <circle cx="44" cy="45" r="9" fill="#1a2035" stroke="#2ec4b6" stroke-width="1.2" opacity=".8"/>
-                    <circle cx="44" cy="85" r="9" fill="#1a2035" stroke="#2ec4b6" stroke-width="1.2" opacity=".8"/>
-                    <circle cx="44" cy="125" r="9" fill="#1a2035" stroke="#2ec4b6" stroke-width="1.2" opacity=".8"/>
-                    <text x="44" y="158" text-anchor="middle" fill="#4e5a72" font-size="7.5" font-family="Inter,sans-serif">Inputs</text>
-                    <!-- h1 -->
-                    <circle cx="118" cy="30" r="9" fill="#1a2035" stroke="#2ec4b6" stroke-width="1" opacity=".6"/>
-                    <circle cx="118" cy="65" r="9" fill="#1a2035" stroke="#2ec4b6" stroke-width="1" opacity=".6"/>
-                    <circle cx="118" cy="100" r="9" fill="#1a2035" stroke="#2ec4b6" stroke-width="1" opacity=".6"/>
-                    <circle cx="118" cy="135" r="9" fill="#1a2035" stroke="#2ec4b6" stroke-width="1" opacity=".6"/>
-                    <!-- h2 -->
-                    <circle cx="196" cy="47" r="9" fill="#1a2035" stroke="#c9a84c" stroke-width="1" opacity=".6"/>
-                    <circle cx="196" cy="85" r="9" fill="#1a2035" stroke="#c9a84c" stroke-width="1" opacity=".6"/>
-                    <circle cx="196" cy="123" r="9" fill="#1a2035" stroke="#c9a84c" stroke-width="1" opacity=".6"/>
-                    <!-- outputs -->
-                    <circle cx="276" cy="65" r="11" fill="#2ec4b6" opacity=".2" stroke="#2ec4b6" stroke-width="1.5"/>
-                    <circle cx="276" cy="105" r="11" fill="#c9a84c" opacity=".15" stroke="#c9a84c" stroke-width="1.5"/>
-                    <text x="276" y="155" text-anchor="middle" fill="#4e5a72" font-size="7.5" font-family="Inter,sans-serif">Outputs</text>
-                    <!-- connections -->
-                    <g stroke="#2e3a58" stroke-width=".7" opacity=".45">
-                        <line x1="53" y1="45" x2="109" y2="30"/><line x1="53" y1="45" x2="109" y2="65"/>
-                        <line x1="53" y1="85" x2="109" y2="65"/><line x1="53" y1="85" x2="109" y2="100"/>
-                        <line x1="53" y1="125" x2="109" y2="100"/><line x1="53" y1="125" x2="109" y2="135"/>
-                        <line x1="127" y1="30" x2="187" y2="47"/><line x1="127" y1="65" x2="187" y2="47"/>
-                        <line x1="127" y1="65" x2="187" y2="85"/><line x1="127" y1="100" x2="187" y2="85"/>
-                        <line x1="127" y1="100" x2="187" y2="123"/><line x1="127" y1="135" x2="187" y2="123"/>
-                        <line x1="205" y1="47" x2="265" y2="65"/><line x1="205" y1="85" x2="265" y2="65"/>
-                        <line x1="205" y1="85" x2="265" y2="105"/><line x1="205" y1="123" x2="265" y2="105"/>
-                    </g>
-                    <!-- labels -->
-                    <text x="15" y="47" fill="#4e5a72" font-size="6.5" font-family="Inter,sans-serif">param₁</text>
-                    <text x="15" y="87" fill="#4e5a72" font-size="6.5" font-family="Inter,sans-serif">param₂</text>
-                    <text x="15" y="127" fill="#4e5a72" font-size="6.5" font-family="Inter,sans-serif">param₃</text>
-                    <text x="293" y="67" fill="#2ec4b6" font-size="6.5" font-family="Inter,sans-serif">Zone A</text>
-                    <text x="293" y="107" fill="#c9a84c" font-size="6.5" font-family="Inter,sans-serif">Zone B</text>
-                    <text x="170" y="168" text-anchor="middle" fill="#4e5a72" font-size="7.5" font-family="Inter,sans-serif">CFD-generated data → RF + PINN surrogate</text>
-                </svg>
-            </div>
-            <div class="mc-body">
-                <div class="mc-tag">ML · Random Forest · PINN</div>
-                <h4>ML Surrogate Architecture</h4>
-                <p>CFD parametric sweep outputs serve as labeled training data for supervised learning. Random Forest captures nonlinear parameter relationships; PINNs embed governing equations as loss constraints — enabling real-time design space exploration without running FEM.</p>
-                <div class="mc-foot">
-                    <div class="tags"><span class="tag">Scikit-Learn</span><span class="tag">TensorFlow</span><span class="tag">PINN</span></div>
-                    <span class="lock"><i class="fas fa-lock"></i> Confidential</span>
-                </div>
-            </div>
-        </div>
-
+    <div class="pc">
+      <div class="pc-head">
+        <span class="pc-icon">🔍</span>
+        <span class="pc-tag">Novel Mechanism</span>
+      </div>
+      <h4>S–L Interface Discovery</h4>
+      <p>As solid dissolves, the fluid cross-section widens — dynamically reducing convective velocity. A time-dependent modifier derived from this mechanism resolved the persistent underprediction.</p>
+      <div class="pc-tags"><span class="tag">Transport</span><span class="tag">COMSOL</span><span class="lock">🔒 Confidential</span></div>
     </div>
 
-    <!-- 04 PIPELINE -->
-    <div class="sh"><span class="pill">04</span><h2>Optimization Pipeline</h2></div>
-    <div class="pipe">
-        <p class="pipe-intro">End-to-end automated framework — from physical simulation to ML-accelerated convergence on the target release profile.</p>
-        <div class="steps">
-            <div class="step">
-                <div class="s-icon"><i class="fas fa-sliders-h"></i></div>
-                <div class="s-num">01</div>
-                <div class="s-title">Parameter Space</div>
-                <div class="s-desc">Define sweep ranges for physical properties and geometry</div>
-            </div>
-            <div class="step">
-                <div class="s-icon"><i class="fas fa-plug"></i></div>
-                <div class="s-num">02</div>
-                <div class="s-title">Python → COMSOL</div>
-                <div class="s-desc">API bridge executes simulations fully automatically</div>
-            </div>
-            <div class="step">
-                <div class="s-icon"><i class="fas fa-brain"></i></div>
-                <div class="s-num">03</div>
-                <div class="s-title">Smart Sampling</div>
-                <div class="s-desc">Bayesian optimizer selects the next high-value simulation point</div>
-            </div>
-            <div class="step">
-                <div class="s-icon"><i class="fas fa-chart-line"></i></div>
-                <div class="s-num">04</div>
-                <div class="s-title">RMSE Evaluation</div>
-                <div class="s-desc">CFD output vs. experiment — target &lt; 0.5 mg/day error</div>
-            </div>
-            <div class="step">
-                <div class="s-icon"><i class="fas fa-robot"></i></div>
-                <div class="s-num">05</div>
-                <div class="s-title">ML Surrogate</div>
-                <div class="s-desc">RF + PINN trained on CFD data replaces expensive FEM runs</div>
-            </div>
-            <div class="step">
-                <div class="s-icon"><i class="fas fa-check-circle"></i></div>
-                <div class="s-num">06</div>
-                <div class="s-title">Convergence</div>
-                <div class="s-desc">Best-fit parameters saved with full results and iteration history</div>
-            </div>
-        </div>
+    <div class="pc">
+      <div class="pc-head">
+        <span class="pc-icon">⚙️</span>
+        <span class="pc-tag">Python · COMSOL API</span>
+      </div>
+      <h4>Automated Parametric Pipeline</h4>
+      <p>Python–COMSOL API bridge runs full simulations without manual steps — sweeping parameters, computing RMSE against experimental data, and auto-archiving results at each iteration.</p>
+      <div class="pc-tags"><span class="tag">Python</span><span class="tag">API</span><span class="tag">RMSE</span><span class="lock">🔒 Confidential</span></div>
     </div>
 
-    <!-- 05 KEY RESULTS -->
-    <div class="sh"><span class="pill">05</span><h2>Key Results</h2></div>
-    <div class="achs">
-        <div class="ach">
-            <div class="a-icon"><i class="fas fa-layer-group"></i></div>
-            <div class="a-text">
-                <strong>Full-physics 2D model validated against experimental data</strong>
-                <span>Navier–Stokes, convection–diffusion, PBM dissolution, and osmotic pressure all coupled within a 2576-element structured mesh — with mass balance satisfied for both device compartments.</span>
-            </div>
-        </div>
-        <div class="ach">
-            <div class="a-icon"><i class="fas fa-lightbulb"></i></div>
-            <div class="a-text">
-                <strong>Novel S–L interface mechanism identified &amp; resolved</strong>
-                <span>Time-dependent convective flux modifier derived from the evolving solid–liquid interface resolved the systematic underprediction that persisted across all prior modeling iterations.</span>
-            </div>
-        </div>
-        <div class="ach">
-            <div class="a-icon"><i class="fas fa-terminal"></i></div>
-            <div class="a-text">
-                <strong>Zero-intervention parametric pipeline built</strong>
-                <span>Python–COMSOL API integration enables fully automated sweeps over any parameter space — with RMSE tracking and file archiving at every iteration, removing all manual overhead.</span>
-            </div>
-        </div>
-        <div class="ach">
-            <div class="a-icon"><i class="fas fa-balance-scale"></i></div>
-            <div class="a-text">
-                <strong>Mass balance closed via variable property modeling</strong>
-                <span>Replacing scalar property assumptions with dynamic functions of local state reduced RMSE and closed a previously open mass balance discrepancy in the osmotic compartment.</span>
-            </div>
-        </div>
-        <div class="ach">
-            <div class="a-icon"><i class="fas fa-microscope"></i></div>
-            <div class="a-text">
-                <strong>Transport hypothesis tested &amp; mechanistically resolved</strong>
-                <span>Force balance analysis (gravity, buoyancy, pressure) disproved an industry-proposed particle transport mechanism, redirecting focus and improving model accuracy.</span>
-            </div>
-        </div>
-        <div class="ach">
-            <div class="a-icon"><i class="fas fa-rocket"></i></div>
-            <div class="a-text">
-                <strong>ML surrogate architecture designed for CFD acceleration</strong>
-                <span>Random Forest + PINN surrogate roadmapped to replace expensive finite-element parametric runs — enabling real-time design space exploration once training data is sufficient.</span>
-            </div>
-        </div>
+    <div class="pc">
+      <div class="pc-head">
+        <span class="pc-icon">📈</span>
+        <span class="pc-tag">Validation · Properties</span>
+      </div>
+      <h4>Variable Property Modeling</h4>
+      <p>Replaced fixed scalars with dynamic functions of local concentration and time. Variable properties reduced RMSE for both compartment profiles and closed a previously open mass balance.</p>
+      <div class="pc-tags"><span class="tag">COMSOL</span><span class="tag">Python</span><span class="tag">RMSE</span><span class="lock">🔒 Confidential</span></div>
     </div>
 
-    <!-- 06 SKILLS -->
-    <div class="sh"><span class="pill">06</span><h2>Skills Demonstrated</h2></div>
-    <div class="sgrid">
-        <div class="schip"><i class="fas fa-water"></i><div><strong>Multiphysics CFD</strong><span>COMSOL · Navier–Stokes · PBM</span></div></div>
-        <div class="schip"><i class="fas fa-code"></i><div><strong>Python Automation</strong><span>Jupyter · COMSOL API · Scripting</span></div></div>
-        <div class="schip"><i class="fas fa-robot"></i><div><strong>ML Surrogate Modeling</strong><span>Random Forest · PINN · TensorFlow</span></div></div>
-        <div class="schip"><i class="fas fa-brain"></i><div><strong>Bayesian Optimization</strong><span>Adaptive sampling · RMSE targeting</span></div></div>
-        <div class="schip"><i class="fas fa-atom"></i><div><strong>Transport Phenomena</strong><span>Diffusion · Convection · Osmosis</span></div></div>
-        <div class="schip"><i class="fas fa-chart-bar"></i><div><strong>Quantitative Validation</strong><span>RMSE · Mass balance · Exp. data</span></div></div>
-        <div class="schip"><i class="fas fa-flask"></i><div><strong>Hypothesis Testing</strong><span>Force balance · Mechanism analysis</span></div></div>
-        <div class="schip"><i class="fas fa-drafting-compass"></i><div><strong>Model Reduction</strong><span>3D → 2D · Mesh design · BCs</span></div></div>
+    <div class="pc">
+      <div class="pc-head">
+        <span class="pc-icon">⚖️</span>
+        <span class="pc-tag">Force Analysis</span>
+      </div>
+      <h4>Particle Transport Verification</h4>
+      <p>Force balance (gravity, buoyancy, ΔP ≈ 65 Pa pressure) showed particles are non-buoyant — gravity exceeds buoyancy — disproving an industry-proposed mechanism and refocusing on convective flow.</p>
+      <div class="pc-tags"><span class="tag">Physics</span><span class="tag">Analysis</span><span class="lock">🔒 Confidential</span></div>
     </div>
 
-    <!-- CONFIDENTIALITY -->
-    <div class="sh" style="margin-top:3.5rem"><span class="pill" style="color:var(--gold);border-color:var(--gold-dim);background:rgba(201,168,76,.06)">Note</span><h2>Confidentiality</h2></div>
-    <div class="cbox">
-        <p>This project was conducted under an industrial collaboration agreement. <strong>All simulation files, experimental datasets, quantitative results, and device specifications are confidential</strong> and cannot be publicly disclosed.</p>
+    <div class="pc">
+      <div class="pc-head">
+        <span class="pc-icon">🤖</span>
+        <span class="pc-tag">ML · RF · PINN</span>
+      </div>
+      <h4>ML Surrogate Architecture</h4>
+      <p>CFD sweep outputs serve as labeled training data. Random Forest captures nonlinear parameter relationships; PINNs embed governing equations as loss constraints — enabling real-time design exploration.</p>
+      <div class="pc-tags"><span class="tag">Scikit-Learn</span><span class="tag">TensorFlow</span><span class="tag">PINN</span><span class="lock">🔒 Confidential</span></div>
     </div>
 
-    <!-- COLLAB -->
-    <div class="sh"><span class="pill">07</span><h2>Collaboration</h2></div>
-    <div class="collab">
-        <p>Open to collaboration in CFD–ML integration, surrogate-accelerated optimization, and multiphysics modeling for device and process engineering applications.</p>
-        <a href="mailto:atyabi902@gmail.com" class="btn"><i class="far fa-envelope"></i> Get in Touch</a>
+  </div>
+
+  <!-- 04 PIPELINE -->
+  <div class="sh"><span class="pill">04</span><h2>Optimization Pipeline</h2></div>
+  <div class="pipe">
+    <div class="steps">
+      <div class="step">
+        <div class="s-icon">🎛️</div>
+        <div class="s-num">01</div>
+        <div class="s-title">Parameter Space</div>
+        <div class="s-desc">Define sweep ranges for properties &amp; geometry</div>
+      </div>
+      <div class="step">
+        <div class="s-icon">🔌</div>
+        <div class="s-num">02</div>
+        <div class="s-title">Python → COMSOL</div>
+        <div class="s-desc">API bridge runs simulations automatically</div>
+      </div>
+      <div class="step">
+        <div class="s-icon">🧠</div>
+        <div class="s-num">03</div>
+        <div class="s-title">Smart Sampling</div>
+        <div class="s-desc">Bayesian optimizer picks next high-value point</div>
+      </div>
+      <div class="step">
+        <div class="s-icon">📊</div>
+        <div class="s-num">04</div>
+        <div class="s-title">RMSE Evaluation</div>
+        <div class="s-desc">CFD vs. experiment — target &lt; 0.5 mg/day error</div>
+      </div>
+      <div class="step">
+        <div class="s-icon">🤖</div>
+        <div class="s-num">05</div>
+        <div class="s-title">ML Surrogate</div>
+        <div class="s-desc">RF + PINN trained on CFD data replaces FEM</div>
+      </div>
+      <div class="step">
+        <div class="s-icon">✅</div>
+        <div class="s-num">06</div>
+        <div class="s-title">Convergence</div>
+        <div class="s-desc">Best-fit parameters saved with full iteration history</div>
+      </div>
     </div>
+  </div>
+
+  <!-- 05 KEY RESULTS -->
+  <div class="sh"><span class="pill">05</span><h2>Key Results</h2></div>
+  <div class="achs">
+    <div class="ach">
+      <div class="a-icon">🏗️</div>
+      <div class="a-text">
+        <strong>Full-physics 2D model validated</strong>
+        <span>N–S, convection–diffusion, PBM dissolution, and osmotic pressure coupled in a 2576-element mesh with mass balance satisfied for both compartments.</span>
+      </div>
+    </div>
+    <div class="ach">
+      <div class="a-icon">💡</div>
+      <div class="a-text">
+        <strong>Novel S–L interface mechanism resolved</strong>
+        <span>Time-dependent flux modifier derived from the dissolving solid–liquid interface fixed the systematic underprediction across all prior iterations.</span>
+      </div>
+    </div>
+    <div class="ach">
+      <div class="a-icon">🖥️</div>
+      <div class="a-text">
+        <strong>Zero-intervention parametric pipeline</strong>
+        <span>Python–COMSOL API integration automates full sweeps — RMSE tracking and file archiving at every step, no manual overhead.</span>
+      </div>
+    </div>
+    <div class="ach">
+      <div class="a-icon">⚖️</div>
+      <div class="a-text">
+        <strong>Mass balance closed via dynamic properties</strong>
+        <span>Replacing scalar assumptions with concentration/time-dependent functions reduced RMSE and closed a previously open mass balance discrepancy.</span>
+      </div>
+    </div>
+    <div class="ach">
+      <div class="a-icon">🔬</div>
+      <div class="a-text">
+        <strong>Transport hypothesis tested &amp; disproved</strong>
+        <span>Force balance analysis showed particles are non-buoyant, redirecting modeling focus and improving accuracy.</span>
+      </div>
+    </div>
+    <div class="ach">
+      <div class="a-icon">🚀</div>
+      <div class="a-text">
+        <strong>ML surrogate roadmapped for CFD acceleration</strong>
+        <span>RF + PINN architecture designed to replace finite-element runs and enable real-time design space exploration.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 06 SKILLS -->
+  <div class="sh"><span class="pill">06</span><h2>Skills</h2></div>
+  <div class="sgrid">
+    <div class="schip"><span class="ico">🌊</span><div><strong>Multiphysics CFD</strong><span>COMSOL · Navier–Stokes · PBM</span></div></div>
+    <div class="schip"><span class="ico">💻</span><div><strong>Python Automation</strong><span>Jupyter · COMSOL API · Scripting</span></div></div>
+    <div class="schip"><span class="ico">🤖</span><div><strong>ML Surrogate Modeling</strong><span>Random Forest · PINN · TensorFlow</span></div></div>
+    <div class="schip"><span class="ico">🧠</span><div><strong>Bayesian Optimization</strong><span>Adaptive sampling · RMSE targeting</span></div></div>
+    <div class="schip"><span class="ico">⚗️</span><div><strong>Transport Phenomena</strong><span>Diffusion · Convection · Osmosis</span></div></div>
+    <div class="schip"><span class="ico">📐</span><div><strong>Quantitative Validation</strong><span>RMSE · Mass balance · Exp. data</span></div></div>
+    <div class="schip"><span class="ico">🔬</span><div><strong>Hypothesis Testing</strong><span>Force balance · Mechanism analysis</span></div></div>
+    <div class="schip"><span class="ico">📏</span><div><strong>Model Reduction</strong><span>3D → 2D · Mesh design · BCs</span></div></div>
+  </div>
+
+  <!-- CONFIDENTIALITY -->
+  <div class="sh" style="margin-top:3rem"><span class="pill" style="color:var(--gold);border-color:var(--gdim);background:rgba(201,168,76,.06)">Note</span><h2>Confidentiality</h2></div>
+  <div class="cbox">
+    <p>This project was conducted under an industrial collaboration agreement. <strong>All simulation files, experimental datasets, quantitative results, and device specifications are confidential</strong> and cannot be publicly disclosed.</p>
+  </div>
+
+  <!-- 07 COLLABORATION -->
+  <div class="sh"><span class="pill">07</span><h2>Collaboration</h2></div>
+  <div class="collab">
+    <p>Open to collaboration in CFD–ML integration, surrogate-accelerated optimization, and multiphysics modeling for device and process engineering.</p>
+    <a href="mailto:atyabi902@gmail.com" class="btn">✉️ Get in Touch</a>
+  </div>
 
 </div>
 
 <footer>
-    <div class="fi">
-        <div class="fn">Ali Atyabi, Ph.D.</div>
-        <div class="flinks">
-            <a href="mailto:atyabi902@gmail.com"><i class="far fa-envelope"></i> Email</a>
-            <a href="https://linkedin.com/in/s-ali-atyabi" target="_blank"><i class="fab fa-linkedin-in"></i> LinkedIn</a>
-            <a href="https://scholar.google.com/citations?user=MytiTgsAAAAJ" target="_blank"><i class="fas fa-graduation-cap"></i> Scholar</a>
-        </div>
-        <div class="fc">© 2026 Ali Atyabi · All rights reserved</div>
+  <div class="fi">
+    <div class="fn">Ali Atyabi, Ph.D.</div>
+    <div class="flinks">
+      <a href="mailto:atyabi902@gmail.com">✉️ Email</a>
+      <a href="https://linkedin.com/in/s-ali-atyabi" target="_blank">🔗 LinkedIn</a>
+      <a href="https://scholar.google.com/citations?user=MytiTgsAAAAJ" target="_blank">🎓 Scholar</a>
     </div>
+    <div class="fc">© 2026 Ali Atyabi · All rights reserved</div>
+  </div>
 </footer>
 
 </body>
