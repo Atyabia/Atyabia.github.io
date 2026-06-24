@@ -1,0 +1,1138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="ML-Accelerated Osmotic Pump Drug Delivery – CFD Modeling & Surrogate Optimization | Ali Atyabi, Ph.D.">
+    <title>ML Drug Delivery Optimization | Ali Atyabi, Ph.D.</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* ── TOKENS ─────────────────────────────────── */
+        :root {
+            --bg:           #0b0f1a;
+            --surface:      #131826;
+            --surface2:     #1a2035;
+            --surface-hover:#1e2540;
+            --border:       #232c44;
+            --border-bright:#2e3a58;
+
+            --teal:         #2ec4b6;
+            --teal-dim:     #1a7a72;
+            --teal-glow:    rgba(46,196,182,0.12);
+            --teal-glow2:   rgba(46,196,182,0.06);
+
+            --gold:         #c9a84c;
+            --gold-dim:     #8c6e2f;
+            --gold-glow:    rgba(201,168,76,0.12);
+
+            --text-main:    #eef1f7;
+            --text-muted:   #8a96b0;
+            --text-dim:     #566075;
+
+            --ff-body:      'Inter', system-ui, sans-serif;
+            --ff-mono:      'JetBrains Mono', monospace;
+
+            --radius:       8px;
+            --radius-sm:    5px;
+            --tr:           0.22s cubic-bezier(0.4,0,0.2,1);
+        }
+
+        *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+        html { scroll-behavior:smooth; }
+        body {
+            font-family: var(--ff-body);
+            background: var(--bg);
+            color: var(--text-main);
+            line-height: 1.75;
+            font-size: 1rem;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        ::-webkit-scrollbar { width:5px; }
+        ::-webkit-scrollbar-track { background: var(--bg); }
+        ::-webkit-scrollbar-thumb { background: var(--teal-dim); border-radius:3px; }
+
+        /* ── NAV ─────────────────────────────────────── */
+        nav {
+            position:sticky; top:0; z-index:1000;
+            background: rgba(11,15,26,0.93);
+            backdrop-filter: blur(14px);
+            border-bottom: 1px solid var(--border);
+        }
+        nav .inner {
+            max-width:1200px; margin:0 auto;
+            padding:0 2rem; height:58px;
+            display:flex; justify-content:space-between; align-items:center;
+        }
+        .nav-brand {
+            font-weight:600; font-size:1rem;
+            color: var(--teal); display:flex; align-items:center; gap:0.5rem;
+            letter-spacing:0.01em;
+        }
+        .nav-brand i { font-size:0.9rem; }
+        .nav-back {
+            display:flex; align-items:center; gap:0.45rem;
+            color:var(--text-muted); text-decoration:none;
+            font-size:0.85rem; font-weight:500;
+            transition: color var(--tr);
+        }
+        .nav-back:hover { color:var(--teal); }
+
+        /* ── HERO ────────────────────────────────────── */
+        .hero {
+            position:relative; overflow:hidden;
+            padding:5.5rem 2rem 4.5rem;
+            text-align:center;
+            background:
+                radial-gradient(ellipse 70% 55% at 30% 0%, rgba(46,196,182,0.07) 0%, transparent 65%),
+                radial-gradient(ellipse 50% 40% at 75% 10%, rgba(201,168,76,0.05) 0%, transparent 60%),
+                var(--bg);
+            border-bottom:1px solid var(--border);
+        }
+
+        /* floating molecule dots */
+        .hero-dots {
+            position:absolute; inset:0; pointer-events:none; overflow:hidden;
+        }
+        .hero-dots span {
+            position:absolute;
+            width:3px; height:3px;
+            border-radius:50%;
+            background: var(--teal);
+            opacity:0.25;
+            animation: floatDot 8s ease-in-out infinite;
+        }
+        .hero-dots span:nth-child(1)  { top:15%; left:10%; animation-delay:0s;   opacity:0.3; }
+        .hero-dots span:nth-child(2)  { top:30%; left:22%; animation-delay:1.2s; }
+        .hero-dots span:nth-child(3)  { top:20%; left:80%; animation-delay:0.5s; opacity:0.2; width:5px; height:5px; }
+        .hero-dots span:nth-child(4)  { top:60%; left:88%; animation-delay:2s;   }
+        .hero-dots span:nth-child(5)  { top:75%; left:15%; animation-delay:3s;   opacity:0.15; width:4px; height:4px; }
+        .hero-dots span:nth-child(6)  { top:45%; left:5%;  animation-delay:1.8s; }
+        .hero-dots span:nth-child(7)  { top:10%; left:55%; animation-delay:2.5s; opacity:0.2; }
+        .hero-dots span:nth-child(8)  { top:80%; left:60%; animation-delay:0.8s; width:2px; height:2px; }
+
+        @keyframes floatDot {
+            0%,100% { transform: translateY(0px); }
+            50%      { transform: translateY(-12px); }
+        }
+
+        .hero-eyebrow {
+            font-size:0.72rem; font-weight:600;
+            letter-spacing:0.22em; text-transform:uppercase;
+            color:var(--teal); margin-bottom:1.1rem;
+        }
+
+        .hero h1 {
+            font-size: clamp(2rem,5vw,3.1rem);
+            font-weight:700; line-height:1.15;
+            color:var(--text-main); margin-bottom:1.2rem;
+        }
+        .hero h1 em {
+            font-style:normal; color:var(--teal);
+        }
+        .hero-sub {
+            color:var(--text-muted); font-size:1.02rem;
+            max-width:660px; margin:0 auto 2rem;
+        }
+
+        /* confidential badge */
+        .conf-badge {
+            display:inline-flex; align-items:center; gap:0.5rem;
+            padding:0.45rem 1rem;
+            background: rgba(201,168,76,0.08);
+            border:1px solid var(--gold-dim);
+            border-radius:100px;
+            font-size:0.78rem; color:var(--gold);
+            letter-spacing:0.05em;
+        }
+        .conf-badge i { font-size:0.7rem; }
+
+        /* ── LAYOUT ──────────────────────────────────── */
+        .page { max-width:1200px; margin:0 auto; padding:0 2rem 6rem; }
+
+        /* ── SECTION HEAD ────────────────────────────── */
+        .section-head {
+            display:flex; align-items:center; gap:1rem;
+            margin:4.5rem 0 2rem;
+        }
+        .section-head .pill {
+            font-size:0.68rem; font-weight:600;
+            letter-spacing:0.16em; text-transform:uppercase;
+            color:var(--teal);
+            background:var(--teal-glow2);
+            border:1px solid var(--teal-dim);
+            border-radius:3px; padding:2px 9px;
+            white-space:nowrap;
+        }
+        .section-head h2 {
+            font-size:1.65rem; font-weight:700; color:var(--text-main);
+        }
+        .section-head::after {
+            content:''; flex:1; height:1px; background:var(--border);
+        }
+
+        /* ── OVERVIEW GRID ───────────────────────────── */
+        .overview-grid {
+            display:grid; grid-template-columns:1fr 1fr; gap:3rem; align-items:start;
+        }
+        .overview-copy p {
+            color:var(--text-muted); margin-bottom:1rem;
+            font-size:0.96rem; text-align:justify;
+        }
+
+        .kpi-row { display:flex; gap:1rem; margin-top:1.8rem; flex-wrap:wrap; }
+        .kpi {
+            background:var(--surface);
+            border:1px solid var(--border);
+            border-radius:var(--radius);
+            padding:0.9rem 1.3rem;
+            text-align:center; min-width:88px;
+            transition: border-color var(--tr), box-shadow var(--tr);
+        }
+        .kpi:hover { border-color:var(--teal-dim); box-shadow:0 0 16px var(--teal-glow); }
+        .kpi .num {
+            display:block; font-size:1.5rem; font-weight:700;
+            color:var(--teal); line-height:1;
+        }
+        .kpi .lbl {
+            display:block; font-size:0.68rem; text-transform:uppercase;
+            letter-spacing:0.1em; color:var(--text-muted); margin-top:5px;
+        }
+
+        /* device schematic panel */
+        .device-panel {
+            background:var(--surface);
+            border:1px solid var(--border);
+            border-radius:var(--radius);
+            padding:1.5rem;
+            display:flex; flex-direction:column; gap:1rem;
+        }
+        .device-panel .panel-label {
+            font-size:0.72rem; text-transform:uppercase; letter-spacing:0.14em;
+            color:var(--teal); font-weight:600;
+        }
+
+        /* SVG device schematic */
+        .device-svg { width:100%; }
+
+        /* ── CHALLENGE / APPROACH SPLIT ──────────────── */
+        .two-col { display:grid; grid-template-columns:1fr 1fr; gap:1.5rem; }
+
+        .info-card {
+            background:var(--surface); border:1px solid var(--border);
+            border-radius:var(--radius); padding:1.5rem 1.7rem;
+            transition: border-color var(--tr);
+        }
+        .info-card:hover { border-color:var(--border-bright); }
+        .info-card.accent-teal { border-top:2px solid var(--teal); }
+        .info-card.accent-gold { border-top:2px solid var(--gold); }
+
+        .info-card h4 {
+            font-size:0.92rem; font-weight:700; color:var(--text-main);
+            margin-bottom:1rem; display:flex; align-items:center; gap:0.5rem;
+        }
+        .info-card h4 i { color:var(--teal); font-size:0.85rem; }
+        .info-card h4 i.gold { color:var(--gold); }
+
+        .info-card ul { list-style:none; }
+        .info-card li {
+            font-size:0.88rem; color:var(--text-muted);
+            padding:0.45rem 0 0.45rem 1.3rem;
+            border-bottom:1px solid rgba(255,255,255,0.04);
+            position:relative;
+        }
+        .info-card li:last-child { border-bottom:none; }
+        .info-card li::before { content:'→'; position:absolute; left:0; color:var(--teal); font-size:0.8rem; }
+
+        /* ── MODELING CARDS ──────────────────────────── */
+        .cards-grid {
+            display:grid; grid-template-columns:repeat(auto-fill,minmax(345px,1fr));
+            gap:1.4rem;
+        }
+
+        .mcard {
+            background:var(--surface); border:1px solid var(--border);
+            border-radius:var(--radius); overflow:hidden;
+            display:flex; flex-direction:column;
+            transition: border-color var(--tr), transform var(--tr), box-shadow var(--tr);
+        }
+        .mcard:hover {
+            border-color:var(--teal-dim);
+            transform:translateY(-4px);
+            box-shadow:0 14px 36px rgba(0,0,0,0.45), 0 0 0 1px rgba(46,196,182,0.06);
+        }
+
+        /* schematic image area */
+        .mcard-visual {
+            width:100%; height:180px;
+            background:var(--surface2);
+            display:flex; align-items:center; justify-content:center;
+            overflow:hidden; position:relative;
+        }
+        .mcard-visual svg { width:100%; height:100%; }
+
+        .mcard-body { padding:1.3rem 1.5rem; flex:1; display:flex; flex-direction:column; }
+        .mcard-tag {
+            font-size:0.68rem; font-weight:600; letter-spacing:0.14em;
+            text-transform:uppercase; color:var(--teal); margin-bottom:0.5rem;
+        }
+        .mcard-body h4 {
+            font-size:1rem; font-weight:700; color:var(--text-main);
+            line-height:1.35; margin-bottom:0.75rem;
+        }
+        .mcard-body ul { list-style:none; flex:1; margin-bottom:1.2rem; }
+        .mcard-body li {
+            font-size:0.86rem; color:var(--text-muted);
+            padding:0.35rem 0 0.35rem 1.2rem;
+            position:relative; text-align:justify;
+        }
+        .mcard-body li::before { content:'•'; position:absolute; left:0; color:var(--teal); font-weight:700; }
+
+        .mcard-footer {
+            display:flex; align-items:center; justify-content:space-between;
+            padding-top:0.8rem;
+            border-top:1px solid var(--border);
+        }
+        .mcard-tools { display:flex; gap:0.4rem; flex-wrap:wrap; }
+        .tool-tag {
+            font-size:0.65rem; font-weight:600; letter-spacing:0.08em;
+            text-transform:uppercase; padding:2px 7px;
+            background:rgba(46,196,182,0.07);
+            border:1px solid rgba(46,196,182,0.18);
+            border-radius:3px; color:var(--teal);
+        }
+        .conf-lock {
+            font-size:0.68rem; color:var(--text-dim);
+            display:flex; align-items:center; gap:0.3rem;
+        }
+        .conf-lock i { font-size:0.6rem; color:var(--gold); }
+
+        /* ── PIPELINE / WORKFLOW ─────────────────────── */
+        .pipeline-wrap {
+            background:var(--surface);
+            border:1px solid var(--border);
+            border-radius:var(--radius);
+            padding:2rem 2.5rem;
+        }
+
+        .pipeline-steps {
+            display:flex; gap:0; overflow-x:auto;
+            padding-bottom:0.5rem;
+        }
+
+        .pstep {
+            flex:1; min-width:130px; text-align:center; position:relative;
+            padding:1.2rem 0.8rem;
+        }
+        .pstep::after {
+            content:'→';
+            position:absolute; right:-14px; top:50%;
+            transform:translateY(-50%);
+            color:var(--teal-dim); font-size:1.1rem;
+        }
+        .pstep:last-child::after { display:none; }
+
+        .pstep-icon {
+            width:52px; height:52px; border-radius:50%;
+            background:var(--teal-glow2);
+            border:1px solid var(--teal-dim);
+            display:flex; align-items:center; justify-content:center;
+            color:var(--teal); font-size:1.2rem;
+            margin:0 auto 0.75rem;
+            transition: background var(--tr), box-shadow var(--tr);
+        }
+        .pstep:hover .pstep-icon {
+            background:var(--teal-glow);
+            box-shadow:0 0 18px var(--teal-glow);
+        }
+        .pstep-num {
+            font-size:0.6rem; text-transform:uppercase; letter-spacing:0.12em;
+            color:var(--teal); font-weight:600; margin-bottom:0.3rem;
+        }
+        .pstep-title {
+            font-size:0.85rem; font-weight:600; color:var(--text-main);
+            margin-bottom:0.3rem;
+        }
+        .pstep-desc { font-size:0.75rem; color:var(--text-muted); line-height:1.5; }
+
+        /* ── KEY ACHIEVEMENTS ────────────────────────── */
+        .ach-list { display:flex; flex-direction:column; gap:0.9rem; }
+        .ach {
+            display:flex; gap:1.2rem; align-items:flex-start;
+            background:var(--surface); border:1px solid var(--border);
+            border-radius:var(--radius); padding:1.1rem 1.4rem;
+            transition: border-color var(--tr), transform var(--tr);
+        }
+        .ach:hover { border-color:var(--teal-dim); transform:translateX(4px); }
+        .ach-icon {
+            width:34px; height:34px; border-radius:50%; flex-shrink:0;
+            background:var(--teal-glow2); border:1px solid var(--teal-dim);
+            display:flex; align-items:center; justify-content:center;
+            color:var(--teal); font-size:0.85rem;
+        }
+        .ach-text strong { display:block; font-size:0.92rem; color:var(--text-main); margin-bottom:0.25rem; }
+        .ach-text span { font-size:0.84rem; color:var(--text-muted); }
+
+        /* ── SKILLS DEMONSTRATED ─────────────────────── */
+        .skills-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:1rem; }
+        .skill-chip {
+            background:var(--surface); border:1px solid var(--border);
+            border-radius:var(--radius); padding:1rem 1.2rem;
+            display:flex; gap:0.75rem; align-items:center;
+            transition: border-color var(--tr);
+        }
+        .skill-chip:hover { border-color:var(--teal-dim); }
+        .skill-chip i { color:var(--teal); font-size:1rem; flex-shrink:0; }
+        .skill-chip-text strong { display:block; font-size:0.85rem; color:var(--text-main); }
+        .skill-chip-text span { font-size:0.75rem; color:var(--text-muted); }
+
+        /* ── CONFIDENTIAL NOTICE ─────────────────────── */
+        .conf-box {
+            background:var(--surface); border:1px solid var(--border);
+            border-left:3px solid var(--gold);
+            border-radius:var(--radius); padding:1.5rem 2rem;
+        }
+        .conf-box p { font-size:0.9rem; color:var(--text-muted); }
+        .conf-box p + p { margin-top:0.6rem; }
+        .conf-box strong { color:var(--gold); }
+
+        /* ── COLLAB ──────────────────────────────────── */
+        .collab-box {
+            background:var(--surface); border:1px solid var(--border);
+            border-left:3px solid var(--teal);
+            border-radius:var(--radius); padding:2rem 2.5rem; margin-top:1rem;
+        }
+        .collab-box p { color:var(--text-muted); font-size:0.96rem; margin-bottom:1.4rem; }
+        .btn-teal {
+            display:inline-flex; align-items:center; gap:0.5rem;
+            padding:0.7rem 1.5rem; background:var(--teal);
+            color:#0b0f1a; border-radius:var(--radius);
+            text-decoration:none; font-weight:600; font-size:0.88rem;
+            transition: background var(--tr), transform var(--tr);
+        }
+        .btn-teal:hover { background:#3dd8ca; transform:translateY(-2px); }
+
+        /* ── FOOTER ──────────────────────────────────── */
+        footer {
+            background:var(--surface); border-top:1px solid var(--border);
+            padding:2.5rem 2rem; text-align:center;
+        }
+        .footer-inner { max-width:1200px; margin:0 auto; }
+        .footer-name { font-weight:700; font-size:1rem; color:var(--teal); margin-bottom:0.75rem; }
+        .footer-links { display:flex; justify-content:center; gap:1.5rem; flex-wrap:wrap; margin-bottom:1rem; }
+        .footer-links a {
+            color:var(--text-muted); text-decoration:none; font-size:0.86rem;
+            display:flex; align-items:center; gap:0.35rem; transition:color var(--tr);
+        }
+        .footer-links a:hover { color:var(--teal); }
+        .footer-copy { font-size:0.75rem; color:var(--text-dim); }
+
+        /* ── RESPONSIVE ──────────────────────────────── */
+        @media (max-width:820px) {
+            .overview-grid, .two-col { grid-template-columns:1fr; }
+            .section-head h2 { font-size:1.35rem; }
+            .cards-grid { grid-template-columns:1fr; }
+            .pipeline-steps { flex-direction:column; }
+            .pstep::after { content:'↓'; right:auto; left:50%; transform:translateX(-50%); top:auto; bottom:-20px; }
+            .pstep { min-width:unset; }
+        }
+        @media (max-width:480px) {
+            .page { padding:0 1rem 4rem; }
+            .collab-box, .pipeline-wrap { padding:1.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+    <div class="inner">
+        <div class="nav-brand">
+            <i class="fas fa-dna"></i> Ali Atyabi, Ph.D.
+        </div>
+        <a href="https://atyabia.github.io/index.html" class="nav-back">
+            <i class="fas fa-arrow-left"></i> Portfolio
+        </a>
+    </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+    <div class="hero-dots">
+        <span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span>
+    </div>
+    <div class="hero-eyebrow">Multiphysics CFD · ML Surrogate · Drug Delivery</div>
+    <h1>ML-Accelerated<br><em>Osmotic Pump</em> Optimization</h1>
+    <p class="hero-sub">2D CFD modeling, automated parametric optimization, and machine learning surrogate development for controlled drug release prediction in a co-delivery osmotic device.</p>
+    <span class="conf-badge"><i class="fas fa-lock"></i> Details restricted — industrial collaboration</span>
+</div>
+
+<!-- PAGE -->
+<div class="page">
+
+    <!-- 01 OVERVIEW -->
+    <div class="section-head">
+        <span class="pill">01</span>
+        <h2>Project Overview</h2>
+    </div>
+
+    <div class="overview-grid">
+        <div class="overview-copy">
+            <p>This project addresses a core industrial challenge: predicting and optimizing the release kinetics of a dual-drug osmotic pump device designed for sustained, localized therapy. The device co-delivers an active pharmaceutical ingredient and an osmotic agent through separate compartments, where the interplay of dissolution, convection, and diffusion governs therapeutic efficacy.</p>
+            <p>A 2D multiphysics CFD model was developed in COMSOL, tightly coupled to a Python automation layer that orchestrates parametric sweeps, evaluates model accuracy against experimental dissolution data, and feeds a machine learning surrogate pipeline — replacing computationally expensive finite-element runs with fast predictive models.</p>
+            <p>The work progressed through six iterative research phases, from baseline model development to identification of novel transport mechanisms, culminating in a Bayesian-guided smart optimization framework targeting sub-0.5 mg/day prediction error.</p>
+
+            <div class="kpi-row">
+                <div class="kpi"><span class="num">6</span><span class="lbl">Research Phases</span></div>
+                <div class="kpi"><span class="num">2D</span><span class="lbl">Multiphysics</span></div>
+                <div class="kpi"><span class="num">RMSE</span><span class="lbl">Guided Opt.</span></div>
+                <div class="kpi"><span class="num">ML</span><span class="lbl">Surrogate</span></div>
+            </div>
+        </div>
+
+        <!-- Device schematic -->
+        <div class="device-panel">
+            <div class="panel-label"><i class="fas fa-microchip" style="margin-right:0.4rem"></i>Device Architecture — Schematic</div>
+            <svg viewBox="0 0 420 220" class="device-svg" xmlns="http://www.w3.org/2000/svg">
+                <!-- outer tube -->
+                <rect x="10" y="70" width="400" height="80" rx="40" fill="#131826" stroke="#2e3a58" stroke-width="1.5"/>
+                <!-- semipermeable membrane zones -->
+                <rect x="10" y="70" width="400" height="80" rx="40" fill="none" stroke="#2ec4b6" stroke-width="0.5" stroke-dasharray="4,4" opacity="0.35"/>
+
+                <!-- osmotic region left -->
+                <rect x="14" y="74" width="115" height="72" rx="36" fill="#1a2035"/>
+                <text x="71" y="112" text-anchor="middle" fill="#8a96b0" font-size="9.5" font-family="Inter,sans-serif">Osmotic</text>
+                <text x="71" y="124" text-anchor="middle" fill="#566075" font-size="8" font-family="Inter,sans-serif">90% Urea · PEO</text>
+                <!-- urea particles -->
+                <circle cx="45" cy="100" r="5" fill="#2ec4b6" opacity="0.25"/>
+                <circle cx="60" cy="88" r="3.5" fill="#2ec4b6" opacity="0.2"/>
+                <circle cx="90" cy="105" r="4" fill="#2ec4b6" opacity="0.3"/>
+                <circle cx="75" cy="93" r="3" fill="#2ec4b6" opacity="0.18"/>
+                <circle cx="105" cy="95" r="3.5" fill="#2ec4b6" opacity="0.22"/>
+
+                <!-- active region centre -->
+                <rect x="145" y="74" width="130" height="72" fill="#131826" stroke="#232c44" stroke-width="1"/>
+                <text x="210" y="107" text-anchor="middle" fill="#8a96b0" font-size="9.5" font-family="Inter,sans-serif">Active Region</text>
+                <text x="210" y="119" text-anchor="middle" fill="#566075" font-size="8" font-family="Inter,sans-serif">80% Gem-HCl · 13% Urea</text>
+                <!-- gem particles -->
+                <circle cx="175" cy="96" r="4" fill="#c9a84c" opacity="0.3"/>
+                <circle cx="195" cy="108" r="3" fill="#c9a84c" opacity="0.25"/>
+                <circle cx="225" cy="93" r="4.5" fill="#c9a84c" opacity="0.2"/>
+                <circle cx="242" cy="107" r="3" fill="#c9a84c" opacity="0.28"/>
+
+                <!-- osmotic region right -->
+                <rect x="291" y="74" width="115" height="72" rx="36" fill="#1a2035"/>
+                <text x="349" y="112" text-anchor="middle" fill="#8a96b0" font-size="9.5" font-family="Inter,sans-serif">Osmotic</text>
+                <text x="349" y="124" text-anchor="middle" fill="#566075" font-size="8" font-family="Inter,sans-serif">90% Urea · PEO</text>
+                <circle cx="315" cy="99" r="4" fill="#2ec4b6" opacity="0.22"/>
+                <circle cx="335" cy="110" r="3.5" fill="#2ec4b6" opacity="0.3"/>
+                <circle cx="362" cy="96" r="3" fill="#2ec4b6" opacity="0.2"/>
+                <circle cx="382" cy="106" r="4.5" fill="#2ec4b6" opacity="0.25"/>
+
+                <!-- dividers -->
+                <line x1="145" y1="74" x2="145" y2="146" stroke="#2ec4b6" stroke-width="1" opacity="0.4"/>
+                <line x1="275" y1="74" x2="275" y2="146" stroke="#2ec4b6" stroke-width="1" opacity="0.4"/>
+
+                <!-- orifice -->
+                <rect x="203" y="146" width="14" height="22" rx="2" fill="#2ec4b6" opacity="0.7"/>
+                <text x="210" y="183" text-anchor="middle" fill="#2ec4b6" font-size="8" font-family="Inter,sans-serif">Orifice ⌀150µm</text>
+
+                <!-- water flux arrows -->
+                <defs>
+                    <marker id="arr" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+                        <path d="M0,0 L6,3 L0,6 Z" fill="#2ec4b6" opacity="0.7"/>
+                    </marker>
+                </defs>
+                <line x1="71" y1="55" x2="71" y2="68" stroke="#2ec4b6" stroke-width="1.2" marker-end="url(#arr)" opacity="0.6"/>
+                <line x1="349" y1="55" x2="349" y2="68" stroke="#2ec4b6" stroke-width="1.2" marker-end="url(#arr)" opacity="0.6"/>
+                <text x="71" y="50" text-anchor="middle" fill="#566075" font-size="8" font-family="Inter,sans-serif">Water influx</text>
+                <text x="349" y="50" text-anchor="middle" fill="#566075" font-size="8" font-family="Inter,sans-serif">Water influx</text>
+
+                <!-- membrane label -->
+                <text x="210" y="62" text-anchor="middle" fill="#566075" font-size="8" font-family="Inter,sans-serif">Semipermeable membrane (215 µm)</text>
+
+                <!-- gravity arrow -->
+                <line x1="395" y1="80" x2="395" y2="140" stroke="#566075" stroke-width="1" marker-end="url(#arr)"/>
+                <text x="408" y="112" fill="#566075" font-size="8" font-family="Inter,sans-serif" transform="rotate(90,408,112)">gravity</text>
+            </svg>
+
+            <div style="display:flex;gap:1rem;flex-wrap:wrap;margin-top:0.5rem;">
+                <span style="font-size:0.72rem;color:var(--text-dim);display:flex;align-items:center;gap:0.3rem;">
+                    <span style="width:8px;height:8px;border-radius:50%;background:var(--teal);opacity:0.6;display:inline-block"></span> Urea particles
+                </span>
+                <span style="font-size:0.72rem;color:var(--text-dim);display:flex;align-items:center;gap:0.3rem;">
+                    <span style="width:8px;height:8px;border-radius:50%;background:var(--gold);opacity:0.6;display:inline-block"></span> Gem-HCl particles
+                </span>
+                <span style="font-size:0.72rem;color:var(--text-dim);display:flex;align-items:center;gap:0.3rem;">
+                    <span style="width:10px;height:3px;background:var(--teal);opacity:0.5;display:inline-block"></span> Water flux
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 02 CHALLENGE & APPROACH -->
+    <div class="section-head">
+        <span class="pill">02</span>
+        <h2>Challenge &amp; Approach</h2>
+    </div>
+
+    <div class="two-col">
+        <div class="info-card accent-teal">
+            <h4><i class="fas fa-exclamation-circle"></i> Core Challenges</h4>
+            <ul>
+                <li>CFD model systematically underpredicted osmotic agent release, cascading into errors for the active drug prediction</li>
+                <li>Dynamic solid–liquid interface during dissolution creates a time-varying flow cross-section not captured by standard models</li>
+                <li>Drug solubility is a nonlinear function of pH, co-solute concentration, temperature, and polymer content — all varying with time</li>
+                <li>Parametric design space is large; exhaustive CFD sweeps are computationally prohibitive for industrial timescales</li>
+                <li>Particle density analysis contradicted industry's proposed solid-phase transport hypothesis — requiring new mechanistic explanations</li>
+            </ul>
+        </div>
+        <div class="info-card accent-gold">
+            <h4><i class="fas fa-lightbulb gold"></i> Methodological Approach</h4>
+            <ul>
+                <li>Built a 2D COMSOL model coupling Navier–Stokes, convection–diffusion, dissolution ODEs (PBM), and osmotic pressure physics</li>
+                <li>Identified S–L interface as a time-dependent convective modifier; derived and implemented a dynamic flux coefficient function</li>
+                <li>Introduced variable solubility models (function of concentration, pH, temperature) replacing fixed scalar assumptions</li>
+                <li>Automated full simulation pipeline via Python–COMSOL API: parameter selection → simulation → auto-save → RMSE evaluation</li>
+                <li>Designed Bayesian smart optimization loop (3-point initialization → adaptive sampling → convergence to target RMSE &lt; 0.5 mg/day)</li>
+                <li>Roadmapped ML surrogate layer (Random Forest + PINN) trained on CFD dataset to replace expensive parametric runs</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- 03 MODELING ACTIVITIES -->
+    <div class="section-head">
+        <span class="pill">03</span>
+        <h2>Modeling Activities</h2>
+    </div>
+
+    <div class="cards-grid">
+
+        <!-- CARD 1: CFD Model -->
+        <div class="mcard">
+            <div class="mcard-visual">
+                <svg viewBox="0 0 345 180" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="345" height="180" fill="#131826"/>
+                    <!-- mesh grid suggestion -->
+                    <g opacity="0.15" stroke="#2ec4b6" stroke-width="0.5">
+                        <line x1="50" y1="30" x2="295" y2="30"/><line x1="50" y1="60" x2="295" y2="60"/>
+                        <line x1="50" y1="90" x2="295" y2="90"/><line x1="50" y1="120" x2="295" y2="120"/>
+                        <line x1="50" y1="150" x2="295" y2="150"/>
+                        <line x1="80" y1="20" x2="80" y2="160"/><line x1="120" y1="20" x2="120" y2="160"/>
+                        <line x1="160" y1="20" x2="160" y2="160"/><line x1="200" y1="20" x2="200" y2="160"/>
+                        <line x1="240" y1="20" x2="240" y2="160"/><line x1="280" y1="20" x2="280" y2="160"/>
+                    </g>
+                    <!-- domain regions -->
+                    <rect x="50" y="30" width="90" height="120" fill="#1a2035" stroke="#2ec4b6" stroke-width="1" opacity="0.6"/>
+                    <rect x="140" y="30" width="115" height="120" fill="#131826" stroke="#c9a84c" stroke-width="1" opacity="0.5"/>
+                    <rect x="255" y="30" width="40" height="120" fill="#1a2035" stroke="#2ec4b6" stroke-width="1" opacity="0.6"/>
+                    <!-- concentration gradient colour fill -->
+                    <defs>
+                        <linearGradient id="concGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" stop-color="#2ec4b6" stop-opacity="0.4"/>
+                            <stop offset="50%" stop-color="#c9a84c" stop-opacity="0.25"/>
+                            <stop offset="100%" stop-color="#2ec4b6" stop-opacity="0.15"/>
+                        </linearGradient>
+                    </defs>
+                    <rect x="50" y="30" width="245" height="120" fill="url(#concGrad)" opacity="0.5"/>
+                    <!-- orifice -->
+                    <rect x="155" y="150" width="25" height="20" fill="#2ec4b6" opacity="0.5"/>
+                    <!-- labels -->
+                    <text x="95" y="95" text-anchor="middle" fill="#2ec4b6" font-size="9" font-family="Inter,sans-serif" opacity="0.8">Osmotic</text>
+                    <text x="197" y="90" text-anchor="middle" fill="#c9a84c" font-size="9" font-family="Inter,sans-serif" opacity="0.8">Active</text>
+                    <text x="275" y="95" text-anchor="middle" fill="#2ec4b6" font-size="8" font-family="Inter,sans-serif" opacity="0.7">Os.</text>
+                    <text x="167" y="165" text-anchor="middle" fill="#2ec4b6" font-size="8" font-family="Inter,sans-serif" opacity="0.7">Orifice</text>
+                    <text x="15" y="95" text-anchor="middle" fill="#566075" font-size="8" font-family="Inter,sans-serif" transform="rotate(-90,15,95)">y-axis</text>
+                    <text x="172" y="15" text-anchor="middle" fill="#566075" font-size="8" font-family="Inter,sans-serif">x-axis · L = 150 mm</text>
+                    <!-- mesh highlight -->
+                    <text x="172" y="180" text-anchor="middle" fill="#566075" font-size="7.5" font-family="Inter,sans-serif">2576 elements · refined at interfaces</text>
+                </svg>
+            </div>
+            <div class="mcard-body">
+                <div class="mcard-tag">COMSOL · CFD · PBM</div>
+                <h4>2D Multiphysics CFD Model</h4>
+                <ul>
+                    <li>Coupled Navier–Stokes, convection–diffusion transport, and Population Balance Model for particle dissolution and erosion</li>
+                    <li>Reduced 3D device geometry to a validated 2D representation with 2576 structured elements and interface-refined mesh</li>
+                    <li>Modeled transient osmotic pressure, water influx through semipermeable membrane, and Hagen–Poiseuille orifice flow</li>
+                </ul>
+                <div class="mcard-footer">
+                    <div class="mcard-tools">
+                        <span class="tool-tag">COMSOL</span>
+                        <span class="tool-tag">CFD</span>
+                        <span class="tool-tag">PBM</span>
+                    </div>
+                    <span class="conf-lock"><i class="fas fa-lock"></i> Confidential</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- CARD 2: S-L Interface Discovery -->
+        <div class="mcard">
+            <div class="mcard-visual">
+                <svg viewBox="0 0 345 180" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="345" height="180" fill="#131826"/>
+                    <!-- day 2 panel -->
+                    <rect x="20" y="20" width="140" height="140" rx="4" fill="#1a2035" stroke="#232c44" stroke-width="1"/>
+                    <text x="90" y="38" text-anchor="middle" fill="#566075" font-size="8" font-family="Inter,sans-serif">Day 2</text>
+                    <!-- solid block (large) -->
+                    <rect x="30" y="45" width="120" height="60" rx="2" fill="#2ec4b6" opacity="0.18"/>
+                    <rect x="30" y="45" width="120" height="60" rx="2" fill="none" stroke="#2ec4b6" stroke-width="1" opacity="0.5" stroke-dasharray="3,2"/>
+                    <text x="90" y="78" text-anchor="middle" fill="#2ec4b6" font-size="8.5" font-family="Inter,sans-serif" opacity="0.7">Solid phase</text>
+                    <!-- narrow fluid gap -->
+                    <rect x="30" y="107" width="120" height="18" rx="1" fill="#2ec4b6" opacity="0.35"/>
+                    <text x="90" y="121" text-anchor="middle" fill="#eef1f7" font-size="7.5" font-family="Inter,sans-serif">Fluid channel (narrow)</text>
+                    <!-- velocity arrow big -->
+                    <defs>
+                        <marker id="varr" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+                            <path d="M0,0 L6,3 L0,6 Z" fill="#c9a84c"/>
+                        </marker>
+                    </defs>
+                    <line x1="50" y1="140" x2="130" y2="140" stroke="#c9a84c" stroke-width="2" marker-end="url(#varr)"/>
+                    <text x="90" y="154" text-anchor="middle" fill="#c9a84c" font-size="7.5" font-family="Inter,sans-serif">High velocity → high convection</text>
+                    <!-- S-L label -->
+                    <text x="90" y="100" text-anchor="middle" fill="#8a96b0" font-size="7" font-family="Inter,sans-serif">S–L interface</text>
+
+                    <!-- day 3 panel -->
+                    <rect x="185" y="20" width="140" height="140" rx="4" fill="#1a2035" stroke="#232c44" stroke-width="1"/>
+                    <text x="255" y="38" text-anchor="middle" fill="#566075" font-size="8" font-family="Inter,sans-serif">Day 3</text>
+                    <!-- solid block (smaller) -->
+                    <rect x="195" y="45" width="120" height="35" rx="2" fill="#2ec4b6" opacity="0.12"/>
+                    <rect x="195" y="45" width="120" height="35" rx="2" fill="none" stroke="#2ec4b6" stroke-width="1" opacity="0.35" stroke-dasharray="3,2"/>
+                    <text x="255" y="65" text-anchor="middle" fill="#2ec4b6" font-size="8" font-family="Inter,sans-serif" opacity="0.6">Solid (reduced)</text>
+                    <!-- wider fluid region -->
+                    <rect x="195" y="82" width="120" height="45" rx="1" fill="#2ec4b6" opacity="0.2"/>
+                    <text x="255" y="108" text-anchor="middle" fill="#eef1f7" font-size="7.5" font-family="Inter,sans-serif">Wider fluid channel</text>
+                    <!-- velocity arrow small -->
+                    <line x1="215" y1="140" x2="275" y2="140" stroke="#c9a84c" stroke-width="1.2" marker-end="url(#varr)" opacity="0.6"/>
+                    <text x="255" y="154" text-anchor="middle" fill="#c9a84c" font-size="7.5" font-family="Inter,sans-serif">Lower velocity → less convection</text>
+
+                    <!-- centre arrow -->
+                    <text x="172" y="95" text-anchor="middle" fill="#566075" font-size="14" font-family="Inter,sans-serif">→</text>
+                    <text x="172" y="108" text-anchor="middle" fill="#566075" font-size="7" font-family="Inter,sans-serif">time</text>
+                </svg>
+            </div>
+            <div class="mcard-body">
+                <div class="mcard-tag">Novel Physics · Transport</div>
+                <h4>Solid–Liquid Interface Discovery</h4>
+                <ul>
+                    <li>Identified a previously unmodeled mechanism: dissolution progressively changes the fluid cross-section, dynamically altering convective flux</li>
+                    <li>Early-stage narrowing amplifies velocity and convective transport; later widening reduces it — a time-dependent modifier not in standard models</li>
+                    <li>Formulated and validated a dynamic convective flux coefficient as a function of time, significantly improving prediction accuracy</li>
+                </ul>
+                <div class="mcard-footer">
+                    <div class="mcard-tools">
+                        <span class="tool-tag">COMSOL</span>
+                        <span class="tool-tag">Physics</span>
+                    </div>
+                    <span class="conf-lock"><i class="fas fa-lock"></i> Confidential</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- CARD 3: Python Automation -->
+        <div class="mcard">
+            <div class="mcard-visual">
+                <svg viewBox="0 0 345 180" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="345" height="180" fill="#131826"/>
+                    <!-- code block style background -->
+                    <rect x="15" y="15" width="315" height="150" rx="6" fill="#0b0f1a" stroke="#232c44" stroke-width="1"/>
+                    <!-- line numbers -->
+                    <g fill="#566075" font-size="8" font-family="JetBrains Mono,monospace">
+                        <text x="25" y="38">01</text><text x="25" y="53">02</text>
+                        <text x="25" y="68">03</text><text x="25" y="83">04</text>
+                        <text x="25" y="98">05</text><text x="25" y="113">06</text>
+                        <text x="25" y="128">07</text><text x="25" y="143">08</text>
+                    </g>
+                    <!-- code lines -->
+                    <g font-size="8" font-family="JetBrains Mono,monospace">
+                        <text x="50" y="38" fill="#566075"># Python → COMSOL parametric sweep</text>
+                        <text x="50" y="53"><tspan fill="#2ec4b6">import</tspan><tspan fill="#8a96b0"> mph, numpy </tspan><tspan fill="#2ec4b6">as</tspan><tspan fill="#8a96b0"> np</tspan></text>
+                        <text x="50" y="68" fill="#8a96b0">client = mph.<tspan fill="#c9a84c">Client</tspan>()</text>
+                        <text x="50" y="83" fill="#8a96b0">model  = client.<tspan fill="#c9a84c">load</tspan>(<tspan fill="#2ec4b6">'tar200.mph'</tspan>)</text>
+                        <text x="50" y="98" fill="#566075"># loop over parameter space</text>
+                        <text x="50" y="113"><tspan fill="#2ec4b6">for</tspan><tspan fill="#8a96b0"> D_gem </tspan><tspan fill="#2ec4b6">in</tspan><tspan fill="#8a96b0"> param_space:</tspan></text>
+                        <text x="50" y="128" fill="#8a96b0">    model.<tspan fill="#c9a84c">param</tspan>(<tspan fill="#2ec4b6">'D_gem'</tspan>, D_gem)</text>
+                        <text x="50" y="143" fill="#8a96b0">    rmse = <tspan fill="#c9a84c">evaluate</tspan>(model, exp_data)</text>
+                    </g>
+                    <!-- cursor blink -->
+                    <rect x="232" y="136" width="6" height="9" fill="#2ec4b6" opacity="0.8">
+                        <animate attributeName="opacity" values="0.8;0;0.8" dur="1.2s" repeatCount="indefinite"/>
+                    </rect>
+                </svg>
+            </div>
+            <div class="mcard-body">
+                <div class="mcard-tag">Python · COMSOL API · Automation</div>
+                <h4>Fully Automated Parametric Pipeline</h4>
+                <ul>
+                    <li>Built a Python–COMSOL API bridge via Jupyter Notebook enabling fully automated simulation execution, file management, and result extraction</li>
+                    <li>Parametric sweeps run over lists or ranges of inputs (diffusion coefficients, solubility, erosion rates, particle sizes) without manual intervention</li>
+                    <li>RMSE vs. experimental dissolution data computed automatically at each iteration; results and .mph files saved for traceability</li>
+                </ul>
+                <div class="mcard-footer">
+                    <div class="mcard-tools">
+                        <span class="tool-tag">Python</span>
+                        <span class="tool-tag">Jupyter</span>
+                        <span class="tool-tag">API</span>
+                    </div>
+                    <span class="conf-lock"><i class="fas fa-lock"></i> Confidential</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- CARD 4: Variable Solubility -->
+        <div class="mcard">
+            <div class="mcard-visual">
+                <svg viewBox="0 0 345 180" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="345" height="180" fill="#131826"/>
+                    <!-- axes -->
+                    <line x1="40" y1="20" x2="40" y2="150" stroke="#2e3a58" stroke-width="1"/>
+                    <line x1="40" y1="150" x2="320" y2="150" stroke="#2e3a58" stroke-width="1"/>
+                    <!-- axis labels -->
+                    <text x="180" y="170" text-anchor="middle" fill="#566075" font-size="8.5" font-family="Inter,sans-serif">Time (days)</text>
+                    <text x="12" y="90" text-anchor="middle" fill="#566075" font-size="8.5" font-family="Inter,sans-serif" transform="rotate(-90,12,90)">Release Rate (mg/day)</text>
+                    <!-- x ticks -->
+                    <g fill="#566075" font-size="7.5" font-family="Inter,sans-serif" text-anchor="middle">
+                        <text x="80" y="162">2</text><text x="130" y="162">4</text>
+                        <text x="180" y="162">7</text><text x="230" y="162">14</text>
+                        <text x="290" y="162">21</text>
+                    </g>
+                    <!-- Exp data dots -->
+                    <g fill="#eef1f7" opacity="0.85">
+                        <circle cx="80" cy="55" r="3.5"/><circle cx="130" cy="80" r="3.5"/>
+                        <circle cx="180" cy="95" r="3.5"/><circle cx="230" cy="120" r="3.5"/>
+                        <circle cx="290" cy="140" r="3.5"/>
+                    </g>
+                    <!-- CFD constant (worse) line -->
+                    <polyline points="40,145 80,70 130,90 180,108 230,128 290,145" fill="none" stroke="#566075" stroke-width="1.5" stroke-dasharray="4,3"/>
+                    <!-- CFD variable (better) line -->
+                    <polyline points="40,143 80,58 130,82 180,97 230,122 290,140" fill="none" stroke="#2ec4b6" stroke-width="2"/>
+                    <!-- RMSE labels -->
+                    <text x="310" y="105" fill="#566075" font-size="7.5" font-family="Inter,sans-serif">Const.</text>
+                    <text x="305" y="115" fill="#566075" font-size="7.5" font-family="Inter,sans-serif">solubility</text>
+                    <text x="310" y="78" fill="#2ec4b6" font-size="7.5" font-family="Inter,sans-serif">Variable</text>
+                    <text x="310" y="88" fill="#2ec4b6" font-size="7.5" font-family="Inter,sans-serif">solubility</text>
+                    <!-- legend -->
+                    <circle cx="55" cy="175" r="3" fill="#eef1f7" opacity="0.7"/>
+                    <text x="62" y="178" fill="#8a96b0" font-size="7.5" font-family="Inter,sans-serif">Exp. data</text>
+                    <line x1="110" y1="175" x2="128" y2="175" stroke="#2ec4b6" stroke-width="2"/>
+                    <text x="132" y="178" fill="#8a96b0" font-size="7.5" font-family="Inter,sans-serif">CFD (variable S)</text>
+                    <line x1="220" y1="175" x2="238" y2="175" stroke="#566075" stroke-width="1.5" stroke-dasharray="3,2"/>
+                    <text x="242" y="178" fill="#8a96b0" font-size="7.5" font-family="Inter,sans-serif">CFD (const. S)</text>
+                </svg>
+            </div>
+            <div class="mcard-body">
+                <div class="mcard-tag">Solubility Modeling · RMSE</div>
+                <h4>Variable Solubility &amp; RMSE Validation</h4>
+                <ul>
+                    <li>Replaced fixed scalar solubility assumptions with dynamic functions: Urea solubility as a function of local concentration, Gem-HCl as a function of pH and Urea mass fraction</li>
+                    <li>Variable solubility model achieved lower RMSE for both drug and osmotic agent release profiles against experimental dissolution data</li>
+                    <li>Closed the mass balance for the osmotic agent, previously showing 35 mg overestimation in the constant-solubility model</li>
+                </ul>
+                <div class="mcard-footer">
+                    <div class="mcard-tools">
+                        <span class="tool-tag">COMSOL</span>
+                        <span class="tool-tag">Python</span>
+                        <span class="tool-tag">RMSE</span>
+                    </div>
+                    <span class="conf-lock"><i class="fas fa-lock"></i> Confidential</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- CARD 5: Force / Particle Analysis -->
+        <div class="mcard">
+            <div class="mcard-visual">
+                <svg viewBox="0 0 345 180" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="345" height="180" fill="#131826"/>
+                    <!-- particle in tube cross-section -->
+                    <rect x="60" y="40" width="225" height="100" rx="50" fill="#1a2035" stroke="#2e3a58" stroke-width="1.5"/>
+                    <!-- fluid -->
+                    <rect x="64" y="44" width="217" height="92" rx="46" fill="#0b0f1a" opacity="0.6"/>
+                    <!-- urea particle (settling) -->
+                    <circle cx="172" cy="110" r="16" fill="#2ec4b6" opacity="0.2"/>
+                    <circle cx="172" cy="110" r="16" fill="none" stroke="#2ec4b6" stroke-width="1.2" opacity="0.6"/>
+                    <text x="172" y="114" text-anchor="middle" fill="#2ec4b6" font-size="8" font-family="Inter,sans-serif">Urea</text>
+                    <!-- force arrows -->
+                    <defs>
+                        <marker id="farr" markerWidth="5" markerHeight="5" refX="5" refY="2.5" orient="auto">
+                            <path d="M0,0 L5,2.5 L0,5 Z" fill="#c9a84c"/>
+                        </marker>
+                        <marker id="farr2" markerWidth="5" markerHeight="5" refX="5" refY="2.5" orient="auto">
+                            <path d="M0,0 L5,2.5 L0,5 Z" fill="#566075"/>
+                        </marker>
+                        <marker id="farrp" markerWidth="5" markerHeight="5" refX="5" refY="2.5" orient="auto">
+                            <path d="M0,0 L5,2.5 L0,5 Z" fill="#2ec4b6"/>
+                        </marker>
+                    </defs>
+                    <!-- gravity (down, bigger) -->
+                    <line x1="172" y1="128" x2="172" y2="148" stroke="#c9a84c" stroke-width="2.2" marker-end="url(#farr)"/>
+                    <text x="178" y="144" fill="#c9a84c" font-size="7.5" font-family="Inter,sans-serif">F_g</text>
+                    <!-- buoyancy (up, smaller) -->
+                    <line x1="155" y1="96" x2="155" y2="78" stroke="#566075" stroke-width="1.5" marker-end="url(#farr2)"/>
+                    <text x="135" y="76" fill="#566075" font-size="7.5" font-family="Inter,sans-serif">F_b &lt; F_g</text>
+                    <!-- pressure (right) -->
+                    <line x1="188" y1="110" x2="218" y2="110" stroke="#2ec4b6" stroke-width="1.8" marker-end="url(#farrp)"/>
+                    <text x="220" y="108" fill="#2ec4b6" font-size="7.5" font-family="Inter,sans-serif">F_p</text>
+                    <!-- ΔP label -->
+                    <text x="172" y="168" text-anchor="middle" fill="#566075" font-size="8" font-family="Inter,sans-serif">ρ_particle = 1320 kg/m³ &gt; ρ_fluid = 1160 kg/m³</text>
+                    <text x="172" y="178" text-anchor="middle" fill="#566075" font-size="7.5" font-family="Inter,sans-serif">→ Non-buoyant: gravity dominates, particle settles downward</text>
+                    <!-- top wall -->
+                    <text x="172" y="32" text-anchor="middle" fill="#566075" font-size="8" font-family="Inter,sans-serif">Tube wall</text>
+                    <text x="172" y="56" text-anchor="middle" fill="#566075" font-size="7.5" font-family="Inter,sans-serif">Pressure-driven ejection (ΔP = 65 Pa) dominates at orifice</text>
+                </svg>
+            </div>
+            <div class="mcard-body">
+                <div class="mcard-tag">Force Analysis · Hypothesis Testing</div>
+                <h4>Particle Transport &amp; Hypothesis Validation</h4>
+                <ul>
+                    <li>Rigorously evaluated the industry hypothesis that solid particles exit the device through the orifice as a transport mechanism</li>
+                    <li>Force balance (gravity, buoyancy, pressure-driven drag) showed osmotic agent particles are non-buoyant — gravity exceeds buoyancy, contradicting the proposed mechanism</li>
+                    <li>Pressure-driven convective flow identified as the dominant ejection mechanism; findings redirected modeling effort to convective flux improvements</li>
+                </ul>
+                <div class="mcard-footer">
+                    <div class="mcard-tools">
+                        <span class="tool-tag">Physics</span>
+                        <span class="tool-tag">COMSOL</span>
+                        <span class="tool-tag">Python</span>
+                    </div>
+                    <span class="conf-lock"><i class="fas fa-lock"></i> Confidential</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- CARD 6: ML Surrogate -->
+        <div class="mcard">
+            <div class="mcard-visual">
+                <svg viewBox="0 0 345 180" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="345" height="180" fill="#131826"/>
+                    <!-- neural net schematic -->
+                    <!-- input layer -->
+                    <g>
+                        <circle cx="50" cy="50" r="10" fill="#1a2035" stroke="#2ec4b6" stroke-width="1.2" opacity="0.8"/>
+                        <circle cx="50" cy="90" r="10" fill="#1a2035" stroke="#2ec4b6" stroke-width="1.2" opacity="0.8"/>
+                        <circle cx="50" cy="130" r="10" fill="#1a2035" stroke="#2ec4b6" stroke-width="1.2" opacity="0.8"/>
+                        <text x="50" y="170" text-anchor="middle" fill="#566075" font-size="7.5" font-family="Inter,sans-serif">Inputs</text>
+                        <text x="15" y="52" fill="#566075" font-size="6.5" font-family="Inter,sans-serif">D_gem</text>
+                        <text x="15" y="92" fill="#566075" font-size="6.5" font-family="Inter,sans-serif">S_urea</text>
+                        <text x="12" y="132" fill="#566075" font-size="6.5" font-family="Inter,sans-serif">erosion</text>
+                    </g>
+                    <!-- hidden layer 1 -->
+                    <g>
+                        <circle cx="130" cy="35" r="10" fill="#1a2035" stroke="#2ec4b6" stroke-width="1" opacity="0.6"/>
+                        <circle cx="130" cy="70" r="10" fill="#1a2035" stroke="#2ec4b6" stroke-width="1" opacity="0.6"/>
+                        <circle cx="130" cy="105" r="10" fill="#1a2035" stroke="#2ec4b6" stroke-width="1" opacity="0.6"/>
+                        <circle cx="130" cy="140" r="10" fill="#1a2035" stroke="#2ec4b6" stroke-width="1" opacity="0.6"/>
+                    </g>
+                    <!-- hidden layer 2 -->
+                    <g>
+                        <circle cx="210" cy="50" r="10" fill="#1a2035" stroke="#c9a84c" stroke-width="1" opacity="0.6"/>
+                        <circle cx="210" cy="90" r="10" fill="#1a2035" stroke="#c9a84c" stroke-width="1" opacity="0.6"/>
+                        <circle cx="210" cy="130" r="10" fill="#1a2035" stroke="#c9a84c" stroke-width="1" opacity="0.6"/>
+                    </g>
+                    <!-- output layer -->
+                    <circle cx="295" cy="70" r="12" fill="#2ec4b6" opacity="0.25" stroke="#2ec4b6" stroke-width="1.5"/>
+                    <circle cx="295" cy="110" r="12" fill="#c9a84c" opacity="0.2" stroke="#c9a84c" stroke-width="1.5"/>
+                    <text x="295" y="170" text-anchor="middle" fill="#566075" font-size="7.5" font-family="Inter,sans-serif">Output</text>
+                    <text x="318" y="72" fill="#2ec4b6" font-size="6.5" font-family="Inter,sans-serif">Gem</text>
+                    <text x="318" y="82" fill="#2ec4b6" font-size="6.5" font-family="Inter,sans-serif">release</text>
+                    <text x="318" y="112" fill="#c9a84c" font-size="6.5" font-family="Inter,sans-serif">Urea</text>
+                    <text x="318" y="122" fill="#c9a84c" font-size="6.5" font-family="Inter,sans-serif">release</text>
+                    <!-- connections (selected) -->
+                    <g stroke="#2e3a58" stroke-width="0.7" opacity="0.5">
+                        <line x1="60" y1="50" x2="120" y2="35"/><line x1="60" y1="50" x2="120" y2="70"/>
+                        <line x1="60" y1="90" x2="120" y2="70"/><line x1="60" y1="90" x2="120" y2="105"/>
+                        <line x1="60" y1="130" x2="120" y2="105"/><line x1="60" y1="130" x2="120" y2="140"/>
+                        <line x1="140" y1="35" x2="200" y2="50"/><line x1="140" y1="70" x2="200" y2="50"/>
+                        <line x1="140" y1="70" x2="200" y2="90"/><line x1="140" y1="105" x2="200" y2="90"/>
+                        <line x1="140" y1="105" x2="200" y2="130"/><line x1="140" y1="140" x2="200" y2="130"/>
+                        <line x1="220" y1="50" x2="283" y2="70"/><line x1="220" y1="90" x2="283" y2="70"/>
+                        <line x1="220" y1="90" x2="283" y2="110"/><line x1="220" y1="130" x2="283" y2="110"/>
+                    </g>
+                    <!-- CFD → dataset label -->
+                    <text x="172" y="175" text-anchor="middle" fill="#566075" font-size="7.5" font-family="Inter,sans-serif">CFD-generated training data → RF + PINN surrogate</text>
+                </svg>
+            </div>
+            <div class="mcard-body">
+                <div class="mcard-tag">ML · Surrogate · Random Forest · PINN</div>
+                <h4>ML Surrogate for CFD Acceleration</h4>
+                <ul>
+                    <li>Designed a training pipeline where CFD parametric sweep outputs serve as the labeled dataset for supervised learning</li>
+                    <li>Random Forest architecture captures nonlinear input–output relationships; Physics-Informed Neural Networks (PINNs) embed governing equations as loss constraints</li>
+                    <li>Surrogate models replace expensive finite-element runs in the optimization loop, enabling real-time design space exploration</li>
+                </ul>
+                <div class="mcard-footer">
+                    <div class="mcard-tools">
+                        <span class="tool-tag">Scikit-Learn</span>
+                        <span class="tool-tag">TensorFlow</span>
+                        <span class="tool-tag">PINN</span>
+                    </div>
+                    <span class="conf-lock"><i class="fas fa-lock"></i> Confidential</span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- 04 OPTIMIZATION PIPELINE -->
+    <div class="section-head">
+        <span class="pill">04</span>
+        <h2>Smart Optimization Pipeline</h2>
+    </div>
+
+    <div class="pipeline-wrap">
+        <p style="color:var(--text-muted);font-size:0.9rem;margin-bottom:2rem;">An end-to-end automated framework bridging CFD physics with machine learning — from parameter selection to convergence on a target release profile.</p>
+        <div class="pipeline-steps">
+            <div class="pstep">
+                <div class="pstep-icon"><i class="fas fa-sliders-h"></i></div>
+                <div class="pstep-num">Step 01</div>
+                <div class="pstep-title">Parameter Space</div>
+                <div class="pstep-desc">Define sweep ranges for diffusion coefficients, solubility, erosion rates, and geometry</div>
+            </div>
+            <div class="pstep">
+                <div class="pstep-icon"><i class="fas fa-plug"></i></div>
+                <div class="pstep-num">Step 02</div>
+                <div class="pstep-title">Python → COMSOL</div>
+                <div class="pstep-desc">API bridge executes simulations automatically, no manual intervention required</div>
+            </div>
+            <div class="pstep">
+                <div class="pstep-icon"><i class="fas fa-brain"></i></div>
+                <div class="pstep-num">Step 03</div>
+                <div class="pstep-title">Smart Sampling</div>
+                <div class="pstep-desc">Bayesian optimizer selects next simulation point based on current RMSE landscape</div>
+            </div>
+            <div class="pstep">
+                <div class="pstep-icon"><i class="fas fa-chart-line"></i></div>
+                <div class="pstep-num">Step 04</div>
+                <div class="pstep-title">RMSE Evaluation</div>
+                <div class="pstep-desc">CFD output vs. experimental dissolution data — target &lt; 0.5 mg/day error</div>
+            </div>
+            <div class="pstep">
+                <div class="pstep-icon"><i class="fas fa-robot"></i></div>
+                <div class="pstep-num">Step 05</div>
+                <div class="pstep-title">ML Surrogate</div>
+                <div class="pstep-desc">Random Forest + PINN trained on CFD outputs to replace heavy FEM runs</div>
+            </div>
+            <div class="pstep">
+                <div class="pstep-icon"><i class="fas fa-check-circle"></i></div>
+                <div class="pstep-num">Step 06</div>
+                <div class="pstep-title">Convergence</div>
+                <div class="pstep-desc">Optimal parameter set saved with full .mph files, plots, and iteration history</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 05 KEY ACHIEVEMENTS -->
+    <div class="section-head">
+        <span class="pill">05</span>
+        <h2>Key Achievements</h2>
+    </div>
+
+    <div class="ach-list">
+        <div class="ach">
+            <div class="ach-icon"><i class="fas fa-project-diagram"></i></div>
+            <div class="ach-text">
+                <strong>2D Multiphysics Model — Full Physics Coupling</strong>
+                <span>Delivered a validated 2D CFD model coupling Navier–Stokes, convection–diffusion, Population Balance dissolution ODEs, and osmotic pressure physics for a complex dual-compartment device with 2576 structured mesh elements.</span>
+            </div>
+        </div>
+        <div class="ach">
+            <div class="ach-icon"><i class="fas fa-lightbulb"></i></div>
+            <div class="ach-text">
+                <strong>Novel Mechanism Identified — Dynamic S–L Interface</strong>
+                <span>Discovered and formulated a previously unmodeled time-dependent convective flux modifier arising from the evolving solid–liquid interface during dissolution — resolving systematic underprediction that persisted across all prior modeling attempts.</span>
+            </div>
+        </div>
+        <div class="ach">
+            <div class="ach-icon"><i class="fas fa-code"></i></div>
+            <div class="ach-text">
+                <strong>Fully Automated CFD Pipeline — Zero Manual Intervention</strong>
+                <span>Built a Python–COMSOL API integration in Jupyter Notebook enabling automated parametric sweeps over arbitrary parameter lists or ranges, with automatic RMSE evaluation and .mph file archiving after every run.</span>
+            </div>
+        </div>
+        <div class="ach">
+            <div class="ach-icon"><i class="fas fa-flask"></i></div>
+            <div class="ach-text">
+                <strong>Hypothesis Tested &amp; Resolved — Particle Transport Mechanism</strong>
+                <span>Performed a complete force balance analysis (gravity, buoyancy, pressure-driven drag) on solid particles, rigorously disproving the industry's proposed solid-phase transport hypothesis and redirecting the modeling effort toward the correct convective mechanism.</span>
+            </div>
+        </div>
+        <div class="ach">
+            <div class="ach-icon"><i class="fas fa-robot"></i></div>
+            <div class="ach-text">
+                <strong>ML Surrogate Architecture Designed &amp; Roadmapped</strong>
+                <span>Architected a two-tier surrogate system (Random Forest + PINN) using CFD-generated parametric datasets as training data, targeting replacement of computationally expensive finite-element sweeps with fast predictive inference models.</span>
+            </div>
+        </div>
+        <div class="ach">
+            <div class="ach-icon"><i class="fas fa-balance-scale"></i></div>
+            <div class="ach-text">
+                <strong>Mass Balance Closure — Variable Solubility Model</strong>
+                <span>Implemented dynamic solubility functions (Urea as f(concentration), Gem-HCl as f(pH, Urea mass fraction)) replacing fixed scalar inputs — closing the osmotic agent mass balance and reducing RMSE for both drug and agent release profiles simultaneously.</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 06 SKILLS DEMONSTRATED -->
+    <div class="section-head">
+        <span class="pill">06</span>
+        <h2>Skills Demonstrated</h2>
+    </div>
+
+    <div class="skills-grid">
+        <div class="skill-chip"><i class="fas fa-water"></i><div class="skill-chip-text"><strong>Multiphysics CFD</strong><span>COMSOL · Navier–Stokes · PBM</span></div></div>
+        <div class="skill-chip"><i class="fas fa-code"></i><div class="skill-chip-text"><strong>Python Automation</strong><span>Jupyter · COMSOL API · Parametric</span></div></div>
+        <div class="skill-chip"><i class="fas fa-robot"></i><div class="skill-chip-text"><strong>ML Surrogate Modeling</strong><span>Random Forest · PINN · TensorFlow</span></div></div>
+        <div class="skill-chip"><i class="fas fa-brain"></i><div class="skill-chip-text"><strong>Bayesian Optimization</strong><span>Adaptive sampling · RMSE targeting</span></div></div>
+        <div class="skill-chip"><i class="fas fa-atom"></i><div class="skill-chip-text"><strong>Transport Phenomena</strong><span>Diffusion · Convection · Osmosis</span></div></div>
+        <div class="skill-chip"><i class="fas fa-chart-bar"></i><div class="skill-chip-text"><strong>Data Analysis</strong><span>RMSE · Mass balance · Validation</span></div></div>
+        <div class="skill-chip"><i class="fas fa-microscope"></i><div class="skill-chip-text"><strong>Physics Hypothesis Testing</strong><span>Force balance · Mechanism analysis</span></div></div>
+        <div class="skill-chip"><i class="fas fa-drafting-compass"></i><div class="skill-chip-text"><strong>Model Reduction</strong><span>3D → 2D · Mesh design · BCs</span></div></div>
+    </div>
+
+    <!-- CONFIDENTIALITY NOTICE -->
+    <div class="section-head" style="margin-top:4rem;">
+        <span class="pill">Note</span>
+        <h2>Confidentiality</h2>
+    </div>
+
+    <div class="conf-box">
+        <p>This project was conducted under an industrial collaboration agreement. <strong>All simulation files, experimental datasets, quantitative results, device specifications, and proprietary modeling parameters are confidential</strong> and cannot be publicly disclosed.</p>
+        <p>This page demonstrates the methodological framework, computational capabilities, and scientific contributions developed during the project. For detailed technical discussion, please reach out directly.</p>
+    </div>
+
+    <!-- 07 COLLABORATION -->
+    <div class="section-head">
+        <span class="pill">07</span>
+        <h2>Collaboration</h2>
+    </div>
+
+    <div class="collab-box">
+        <p>I am open to collaboration in CFD-ML integration, surrogate-accelerated optimization, drug delivery simulation, and multiphysics modeling for pharmaceutical and biomedical applications.</p>
+        <a href="mailto:atyabi902@gmail.com" class="btn-teal"><i class="far fa-envelope"></i> Email Me</a>
+    </div>
+
+</div>
+
+<!-- FOOTER -->
+<footer>
+    <div class="footer-inner">
+        <div class="footer-name">Ali Atyabi, Ph.D.</div>
+        <div class="footer-links">
+            <a href="mailto:atyabi902@gmail.com"><i class="far fa-envelope"></i> Email</a>
+            <a href="https://linkedin.com/in/s-ali-atyabi" target="_blank"><i class="fab fa-linkedin-in"></i> LinkedIn</a>
+            <a href="https://scholar.google.com/citations?user=MytiTgsAAAAJ" target="_blank"><i class="fas fa-graduation-cap"></i> Google Scholar</a>
+        </div>
+        <div class="footer-copy">© 2026 Ali Atyabi · All rights reserved</div>
+    </div>
+</footer>
+
+</body>
+</html>
+HTMLEOF
