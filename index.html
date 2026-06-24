@@ -403,17 +403,16 @@
                         <img src="projects/ml_drug_delivery.jpg" alt="ML Drug Delivery" style="max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;" onerror="this.style.display='none';this.parentElement.style.background='linear-gradient(135deg, #E8F1F5 0%, #d0e4ec 100%)';this.nextElementSibling.style.display='flex';">
                         <div style="display:none;flex-direction:column;align-items:center;color:var(--accent-gold);"><i class="fas fa-brain" style="font-size:3.5rem;opacity:0.4;"></i><p style="margin-top:0.5rem;font-weight:500;font-size:0.9rem;color:var(--accent-gold);">ML Drug Delivery</p></div>
                     </div>
-                    <h3 style="margin-top:0;">ML-Accelerated Osmotic Pump Drug Delivery Prediction</h3>
+                    <h3 style="margin-top:0;">ML-Accelerated Osmotic Pump Drug Delivery Optimization</h3>
                     <p><strong>Duration:</strong> 2024 – Present | <strong>Institution:</strong> KU Leuven, Belgium</p>
-                    
+                
                     <div style="margin:1.2rem 0; font-size: 0.95rem; line-height: 1.6; color: inherit;">
-                        <p style="margin: 0.4rem 0;"><strong>• Challenge:</strong> Time-intensive CFD parametric loops slow down the structural design search space for multi-compartment co-delivery osmotic devices.</p>
-                        <p style="margin: 0.4rem 0;"><strong>• Method:</strong> Implemented Random Forest architectures integrated with automated Python data pipelines and Physics-Informed Neural Network (PINN) models.</p>
-                        <p style="margin: 0.4rem 0;"><strong>• Achievement:</strong> Successfully replaced heavy finite-element calculation matrices with surrogate networks, drastically cutting down total computational search timelines.</p>
+                        <p style="margin: 0.4rem 0;"><strong>• Challenge:</strong> Systematic underprediction of drug and osmotic agent release rates in a dual-compartment co-delivery device, driven by a time-varying solid–liquid interface and nonlinear solubility dependencies not captured by standard CFD models.</p>
+                        <p style="margin: 0.4rem 0;"><strong>• Method:</strong> Built a 2D multiphysics COMSOL model coupling Navier–Stokes, convection–diffusion, and Population Balance dissolution ODEs. Automated parametric sweeps via a Python–COMSOL API pipeline with RMSE-guided Bayesian optimization, then trained Random Forest and PINN surrogate models on the CFD-generated dataset.</p>
+                        <p style="margin: 0.4rem 0;"><strong>• Achievement:</strong> Identified and formulated a novel dynamic convective flux mechanism, closed the osmotic agent mass balance, and replaced computationally expensive finite-element parametric runs with fast ML surrogates — drastically reducing design-space search time.</p>
                     </div>
-
-                    <p><strong><i class="fas fa-tools"></i> Tools:</strong> COMSOL, Python, TensorFlow, Scikit-Learn</p>
-                    <p><strong><i class='fas fa-chart-line'></i> Key Results:</strong> Surrogate models replacing time-intensive CFD parametric sweeps</p>
+                    <p><strong><i class="fas fa-tools"></i> Tools:</strong> COMSOL, Python, TensorFlow, Scikit-Learn, Jupyter</p>
+                    <p><strong><i class="fas fa-chart-line"></i> Key Results:</strong> Novel S–L interface mechanism identified; RMSE-guided surrogate pipeline targeting &lt;0.5 mg/day prediction error</p>
                     <div class="btn-group" style="margin-top:1.5rem;">
                         <a href="Webpages/ml_drug_delivery.html" class="btn btn-primary"><i class="fas fa-info-circle"></i> View Details</a>
                     </div>
