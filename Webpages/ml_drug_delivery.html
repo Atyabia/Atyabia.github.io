@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TAR-200 CFD & ML Optimization | Ali Atyabi, Ph.D.</title>
+    <title>TAR-200 CFD & AI-driven Optimization | Ali Atyabi, Ph.D.</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -174,9 +174,9 @@
 <!-- HERO -->
 <div class="hero">
     <div class="eyebrow">Multiphysics CFD · Python Automation · ML Surrogate</div>
-    <h1>TAR-200 Device<br><em>CFD &amp; ML Optimization</em></h1>
-    <p class="hero-sub">2D multiphysics modeling, automated parametric optimization, and machine learning surrogate development for controlled release prediction in the TAR-200 osmotic device.</p>
-    <span class="badge"><i class="fas fa-lock"></i> Industrial collaboration — results confidential</span>
+    <h1>Osmotic pump device<br><em>CFD &amp; ML Optimization</em></h1>
+    <p class="hero-sub">2D multiphysics CFD modeling, automated parametric optimization, and machine learning surrogate development for controlled release prediction in the osmotic pump drug delivery device fro medical applications.</p>
+    <span class="badge"><i class="fas fa-lock"></i> Industrial collaboration: Johnson & Johnson</span>
 </div>
 
 <div class="page">
@@ -186,9 +186,9 @@
 
     <div class="ov-grid">
         <div class="ov-copy">
-            <p>The TAR-200 is a dual-compartment osmotic device in which release kinetics are governed by the interplay of osmotic pressure, dissolution, convective transport, and diffusion across two distinct internal regions connected by a precision orifice.</p>
-            <p>A 2D multiphysics CFD model was developed in COMSOL and coupled to a Python automation layer — enabling systematic parametric studies, RMSE-based accuracy evaluation against experimental data, and a Bayesian smart optimization loop that feeds a machine learning surrogate pipeline.</p>
-            <p>The work spanned six iterative research phases, culminating in the identification of a novel transport mechanism and a fully automated CFD-to-ML framework.</p>
+            <p>The osmsotic pump device is a drug delivery device in which release kinetics are governed by the interplay of osmotic pressure, dissolution, convective and diffusion mass transport, across two distinct internal regions connected by an orifice.</p>
+            <p>A 2D multiphysics CFD model was developed in COMSOL and coupled to a Python automation (mph library), enabling systematic parametric studies, RMSE-based accuracy evaluation against experimental data, and a Bayesian smart optimization loop that feeds a machine learning surrogate pipeline (RFR and GBR).</p>
+            <p>The work spanned six iterative research phases, culminating in the identification of a  transport mechanism and a fully automated CFD-to-ML framework.</p>
             <div class="kpis">
                 <div class="kpi"><span class="n">6</span><span class="l">Phases</span></div>
                 <div class="kpi"><span class="n">2D</span><span class="l">CFD Model</span></div>
@@ -271,10 +271,10 @@
             <h4><i class="fas fa-lightbulb g"></i> Approach</h4>
             <ul>
                 <li>Built a 2D COMSOL model coupling Navier–Stokes, convection–diffusion, dissolution ODEs, and osmotic pressure</li>
-                <li>Derived a time-dependent convective flux modifier from the evolving S–L interface — resolving systematic underprediction</li>
+                <li>Derived a time-dependent convective flux modifier from the evolving solid-liquid interface</li>
                 <li>Introduced dynamic property functions replacing fixed scalar assumptions</li>
                 <li>Automated full simulation pipeline via Python–COMSOL API with RMSE evaluation at each iteration</li>
-                <li>Designed Bayesian optimization loop → ML surrogate layer (Random Forest + PINN) to replace expensive FEM runs</li>
+                <li>Designed Bayesian optimization loop → ML surrogate layer (Random Forest ) to replace expensive CFD runs</li>
             </ul>
         </div>
     </div>
@@ -648,7 +648,6 @@
     <div class="sh" style="margin-top:3.5rem"><span class="pill" style="color:var(--gold);border-color:var(--gold-dim);background:rgba(201,168,76,.06)">Note</span><h2>Confidentiality</h2></div>
     <div class="cbox">
         <p>This project was conducted under an industrial collaboration agreement. <strong>All simulation files, experimental datasets, quantitative results, and device specifications are confidential</strong> and cannot be publicly disclosed.</p>
-        <p>This page presents only the methodological framework and computational approach. For technical discussion, please reach out directly.</p>
     </div>
 
     <!-- COLLAB -->
